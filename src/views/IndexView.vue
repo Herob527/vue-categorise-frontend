@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-const count = ref(0)
-
-const increment = () => {
-  count.value++
-}
+import FormTest from '@/components/FormTest.vue';
+import FileInput from '@/components/FileInput.vue';
+import FileShow from '@/components/FileShow.vue';
 </script>
 <template>
-  <button @click="increment">{{ count }}</button>
+  <FileInput />
+  <FileShow />
 </template>

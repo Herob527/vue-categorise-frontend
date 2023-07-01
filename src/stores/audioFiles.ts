@@ -1,27 +1,31 @@
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
 
-export const useAudioFilesStore = defineStore('files', () => {
-  const files: Ref<File[]> = ref([]);
+type fileEntry = {
+  file: File;
+  id: string;
+};
 
-  const add = (file: File) => {
-    const isFileThere = !!files.value.find(
-      (fileEntry) => file.name === fileEntry.name,
-    );
-    if (isFileThere) return;
-    files.value.push(file);
+export const useAudioFilesStore = defineStore('files', () => {
+  const files: Ref<fileEntry[]> = ref([]);
+
+  const add = (file: File, id: string) => {
+    const isFileThere = !!files.value.find((fileEntry) => id === fileEntry.id);
+    if (isFileThere) return false;
+    files.value.push({ file, id });
+    return true;
   };
 
-  const remove = (file: File) => {
-    files.value = files.value.filter((entry) => entry.name === file.name);
+  const remove = (id: string) => {
+    files.value = files.value.filter((entry) => entry.id === id);
   };
 
   const purge = () => (files.value = []);
 
   const getAll = () => files.value;
 
-  const getSpecificFile = (name: string) =>
-    files.value.filter((entry) => entry.name === name);
+  const getSpecificFile = (id: string) =>
+    files.value.filter((entry) => entry.id === id);
 
   return {
     add,

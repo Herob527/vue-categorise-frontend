@@ -36,15 +36,14 @@ export const useCategoriesStore = defineStore('categories', () => {
   const queryClient = useQueryClient();
 
   const useAddCategory = () => {
-    const { data, isLoading, isSuccess, isError, mutate, mutateAsync } =
-      useMutation({
-        mutationKey: ['addCategory'],
-        mutationFn: (name: string) => addCategory(name),
-        onSuccess: () => {
-          queryClient.invalidateQueries(['getCategories']);
-        },
-      });
-    return { data, isLoading, isSuccess, isError, mutate, mutateAsync };
+    const { data, isLoading, isSuccess, isError, mutate, error } = useMutation({
+      mutationKey: ['addCategory'],
+      mutationFn: (name: string) => addCategory(name),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getCategories']);
+      },
+    });
+    return { data, isLoading, isSuccess, isError, mutate, error };
   };
   const useGetAllCategories = () => {
     const { data, isLoading, isSuccess, isError } = useQuery({
@@ -53,12 +52,15 @@ export const useCategoriesStore = defineStore('categories', () => {
     });
     return { data, isLoading, isSuccess, isError };
   };
-  const useRemoveCategory = (name: string) => {
-    const { data, isLoading, isSuccess, isError } = useMutation({
+  const useRemoveCategory = () => {
+    const { data, isLoading, isSuccess, isError, mutate } = useMutation({
       mutationKey: ['removeCategory'],
-      mutationFn: async () => await removeCategory(name),
+      mutationFn: (name: string) => removeCategory(name),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getCategories']);
+      },
     });
-    return { data, isLoading, isSuccess, isError };
+    return { data, isLoading, isSuccess, isError, mutate };
   };
 
   const useUpdateCategory = (category: string, newName: string) => {

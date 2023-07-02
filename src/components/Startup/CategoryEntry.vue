@@ -6,7 +6,7 @@ import { ref } from 'vue';
 
 const store = useAudioFilesStore();
 
-const { getFilesByCategory, add } = store;
+const { getFilesByCategory, add, remove } = store;
 
 type categoryProps = {
   category: {
@@ -18,7 +18,7 @@ type categoryProps = {
 const prop = defineProps<categoryProps>();
 const allFilesInCategory = ref<fileEntry[]>([]);
 
-store.$subscribe((mutation, state) => {
+store.$subscribe(() => {
   allFilesInCategory.value = getFilesByCategory(prop.category.name) || [];
 });
 const fileInputRef = ref<HTMLInputElement>();
@@ -39,6 +39,12 @@ const handleFileInput = (payload: FileEvent) => {
     add(file, `${file.name}-${file.lastModified}`, prop.category.name),
   );
 };
+
+const handleClear = () => {
+  allFilesInCategory.value.forEach((file) => {
+    remove(file.id);
+  });
+};
 </script>
 <template>
   <input
@@ -49,7 +55,7 @@ const handleFileInput = (payload: FileEvent) => {
     ref="fileInputRef"
     multiple
   />
-  <div class="p-8 bg-gray-200 rounded-xl">
+  <div class="p-4 bg-gray-200 rounded-xl">
     <div class="flex flex-row gap-2 items-center">
       <button
         @click="handleClick"
@@ -58,10 +64,23 @@ const handleFileInput = (payload: FileEvent) => {
       >
         <i>+</i>
       </button>
+      <button
+        @click="handleClear"
+        class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
+      >
+        <i class="not-italic">🗑</i>
+      </button>
       <span>{{ category.name }}</span>
     </div>
-    <div v-for="audio in allFilesInCategory" :key="audio.id">
-      <FileEntry />
+    <div
+      v-if="allFilesInCategory.length > 0"
+      class="p-4 mt-4 bg-white rounded-md"
+    >
+      <FileEntry
+        v-for="audio in allFilesInCategory"
+        :key="audio.id"
+        :audio="audio"
+      />
     </div>
   </div>
 </template>

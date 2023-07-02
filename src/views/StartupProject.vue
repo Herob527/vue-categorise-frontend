@@ -8,10 +8,13 @@ const { data, isLoading, isSuccess } = useGetAllCategories();
 <template>
   <div v-if="isLoading">Loading...</div>
   <div v-else-if="isSuccess" class="container mx-auto">
-    <div class="flex flex-col gap-4">
+    <div v-if="data.length > 0" class="flex flex-col gap-4">
       <div v-for="category in data" :key="category.name">
         <CategoryEntry :category="category" />
       </div>
+    </div>
+    <div v-else class="p-4 mx-auto bg-gray-200 rounded-xl text-slate-500">
+      <span>No categories there</span>
     </div>
     <CreateCategory />
   </div>

@@ -35,11 +35,11 @@ const handleClick = async (e: Event) => {
     <button
       @click="handleClick"
       type="button"
-      class="p-2 rounded-xl border-2 bg-slate-300 border-slate-400"
-      :class="errorRef.length > 0 ? 'border-red-400' : ''"
+      class="p-2 text-white bg-blue-500 rounded-xl border-2 transition-colors hover:bg-blue-600"
+      :class="errorRef.length > 0 ? 'border-red-600' : ''"
     >
       <span>Create category</span>
     </button>
-    <span v-if="errorRef" class="text-red-400">{{ errorRef }} </span>
+    <span v-if="errorRef" class="text-red-700">{{ errorRef }} </span>
   </div>
 </template>

@@ -65,26 +65,26 @@ const handleRemoveCategory = () => {
     ref="fileInputRef"
     multiple
   />
-  <div class="p-4 bg-gray-200 rounded-xl">
+  <div class="p-4 bg-gray-300 rounded-xl">
     <div class="flex flex-row gap-2 items-center">
       <button
         @click="handleClick"
         title="Add files to category"
         type="button"
-        class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
+        class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
       >
         <i>+</i>
       </button>
       <button
         @click="handleClear"
-        class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
+        class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
         title="Clear category"
       >
         <i class="not-italic">🗑</i>
       </button>
       <button
         @click="handleRemoveCategory"
-        class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
+        class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
         title="Remove category"
       >
         <i class="not-italic">-</i>

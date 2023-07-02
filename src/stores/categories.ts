@@ -5,8 +5,13 @@ import { v4 } from 'uuid';
 
 const addCategory = async (name: string) => {
   const id = v4();
-  const res = await axiosApi.post('categories', {
-    body: JSON.stringify({ id, category: name }),
+  const formData = new FormData();
+  formData.set('id', id);
+  formData.set('category', name);
+  const res = await axiosApi.post('categories', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
   return res.data;
 };
@@ -29,15 +34,17 @@ const removeCategory = async (name: string) => {
 };
 export const useCategoriesStore = defineStore('categories', () => {
   const queryClient = useQueryClient();
-  const useAddCategory = (name: string) => {
-    const { data, isLoading, isSuccess, isError } = useMutation({
-      mutationKey: ['addCategory'],
-      mutationFn: async () => await addCategory(name),
-      onMutate: () => {
-        queryClient.invalidateQueries({ queryKey: ['getCategories'] });
-      },
-    });
-    return { data, isLoading, isSuccess, isError };
+
+  const useAddCategory = () => {
+    const { data, isLoading, isSuccess, isError, mutate, mutateAsync } =
+      useMutation({
+        mutationKey: ['addCategory'],
+        mutationFn: (name: string) => addCategory(name),
+        onSuccess: () => {
+          queryClient.invalidateQueries(['getCategories']);
+        },
+      });
+    return { data, isLoading, isSuccess, isError, mutate, mutateAsync };
   };
   const useGetAllCategories = () => {
     const { data, isLoading, isSuccess, isError } = useQuery({

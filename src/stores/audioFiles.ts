@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
 
-type fileEntry = {
+export type fileEntry = {
   file: File;
   id: string;
   category: string;
@@ -28,11 +28,16 @@ export const useAudioFilesStore = defineStore('files', () => {
   const getSpecificFile = (id: string) =>
     files.value.filter((entry) => entry.id === id);
 
+  const getFilesByCategory = (category: string) =>
+    files.value.filter((file) => file.category === category);
+
   return {
     add,
     remove,
     purge,
     getAll,
     getSpecificFile,
+    getFilesByCategory,
+    files,
   };
 });

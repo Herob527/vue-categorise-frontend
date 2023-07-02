@@ -9,16 +9,19 @@ export type fileEntry = {
 
 export const useAudioFilesStore = defineStore('files', () => {
   const files: Ref<fileEntry[]> = ref([]);
-
   const add = (file: File, id: string, category: string = 'Unknown') => {
     const isFileThere = !!files.value.find((fileEntry) => id === fileEntry.id);
     if (isFileThere) return false;
     files.value.push({ file, id, category });
+
     return true;
   };
 
   const remove = (id: string) => {
-    files.value = files.value.filter((entry) => entry.id === id);
+    const filteredValues = files.value.filter((entry) => {
+      return entry.id !== id;
+    });
+    files.value = filteredValues;
   };
 
   const purge = () => (files.value = []);

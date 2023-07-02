@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { fileEntry } from '@/stores/audioFiles';
 
-console.log('hejo');
 type propTypes = {
   audio: fileEntry;
 };

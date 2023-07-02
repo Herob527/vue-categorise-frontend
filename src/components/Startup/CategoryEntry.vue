@@ -2,10 +2,12 @@
 import FileEntry from './FileEntry.vue';
 import { useAudioFilesStore } from '@/stores/audioFiles';
 import type { fileEntry } from '@/stores/audioFiles';
+import { useCategoriesStore } from '@/stores/categories';
 import { ref } from 'vue';
 
 const store = useAudioFilesStore();
-
+const { useRemoveCategory } = useCategoriesStore();
+const { mutate } = useRemoveCategory();
 const { getFilesByCategory, add, remove } = store;
 
 type categoryProps = {
@@ -45,6 +47,14 @@ const handleClear = () => {
     remove(file.id);
   });
 };
+
+const handleRemoveCategory = () => {
+  mutate(prop.category.name, {
+    onSuccess: () => {
+      handleClear();
+    },
+  });
+};
 </script>
 <template>
   <input
@@ -59,6 +69,7 @@ const handleClear = () => {
     <div class="flex flex-row gap-2 items-center">
       <button
         @click="handleClick"
+        title="Add files to category"
         type="button"
         class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
       >
@@ -67,8 +78,16 @@ const handleClear = () => {
       <button
         @click="handleClear"
         class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
+        title="Clear category"
       >
         <i class="not-italic">🗑</i>
+      </button>
+      <button
+        @click="handleRemoveCategory"
+        class="flex flex-col justify-center items-center p-1 w-8 h-8 rounded-md border-2 hover:text-white bg-slate-300 border-slate-400 hover:bg-slate-500"
+        title="Remove category"
+      >
+        <i class="not-italic">-</i>
       </button>
       <span>{{ category.name }}</span>
     </div>

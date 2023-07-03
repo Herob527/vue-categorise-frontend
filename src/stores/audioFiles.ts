@@ -11,7 +11,7 @@ export const useAudioFilesStore = defineStore('files', () => {
   const files: Ref<fileEntry[]> = ref([]);
   const add = (file: File, id: string, category: string = 'Unknown') => {
     const isFileThere = !!files.value.find((fileEntry) => id === fileEntry.id);
-    if (isFileThere) return false;
+    if (isFileThere || !file.type.includes('audio')) return false;
     files.value.push({ file, id, category });
 
     return true;

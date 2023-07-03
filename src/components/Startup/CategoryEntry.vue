@@ -7,7 +7,7 @@ import { ref } from 'vue';
 
 const store = useAudioFilesStore();
 const { useRemoveCategory } = useCategoriesStore();
-const { mutate, isLoading } = useRemoveCategory();
+const { mutate } = useRemoveCategory();
 const { getFilesByCategory, add, remove } = store;
 
 type categoryProps = {
@@ -95,7 +95,7 @@ const handleRemoveCategory = () => {
     </div>
     <div
       v-if="allFilesInCategory.length > 0"
-      class="p-4 mt-4 bg-white rounded-md"
+      class="flex flex-col gap-4 p-4 mt-4 bg-white rounded-md"
     >
       <FileEntry
         v-for="audio in allFilesInCategory"

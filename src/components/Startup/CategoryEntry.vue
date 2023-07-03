@@ -48,12 +48,14 @@ const handleClear = () => {
   allFilesInCategory.value.forEach((file) => {
     remove(file.id);
   });
+  isHidden.value = false;
 };
 
 const handleRemoveCategory = () => {
   mutate(prop.category.name, {
     onSuccess: () => {
       handleClear();
+      isHidden.value = false;
     },
   });
 };
@@ -99,6 +101,9 @@ const handleRemoveCategory = () => {
         <font-awesome-icon icon="fa-xmark" />
       </button>
       <span>{{ category.name }}</span>
+      <span>{{
+        allFilesInCategory.length > 0 ? allFilesInCategory.length : ''
+      }}</span>
     </div>
     <div
       v-if="allFilesInCategory.length > 0"
@@ -117,13 +122,17 @@ const handleRemoveCategory = () => {
     <button
       type="button"
       @click="isHidden = !isHidden"
-      :class="`${allFilesInCategory.length === 0 ? 'hidden' : ''}`"
+      :class="`w-full ${
+        allFilesInCategory.length === 0
+          ? 'hidden'
+          : 'flex flex-col items-center justify-end'
+      } ${isHidden ? 'absolute ' : ''}`"
     >
       <font-awesome-icon
         icon="fa-solid fa-arrow-up-short-wide"
         :class="`transition-transform ${
-          allFilesInCategory.length > 0 ? 'absolute inset-x-1/2' : 'hidden'
-        } ${isHidden ? 'rotate-180' : 'rotate-[360deg]'}`"
+          allFilesInCategory.length > 0 ? 'translate-y-3' : 'hidden'
+        } ${isHidden ? 'rotate-180 origin-center -translate-y-5' : 'rotate-0'}`"
       />
     </button>
   </div>

@@ -10,6 +10,8 @@ const { useRemoveCategory } = useCategoriesStore();
 const { mutate } = useRemoveCategory();
 const { getFilesByCategory, add, remove } = store;
 
+const isHidden = ref(false);
+
 type categoryProps = {
   category: {
     id: string;
@@ -65,7 +67,12 @@ const handleRemoveCategory = () => {
     ref="fileInputRef"
     multiple
   />
-  <div class="p-4 bg-gray-300 rounded-xl">
+
+  <div
+    :class="`relative p-4 ${
+      allFilesInCategory.length > 0 && !isHidden ? 'pb-6' : ''
+    } bg-gray-300 rounded-xl`"
+  >
     <div class="flex flex-row gap-2 items-center">
       <button
         @click="handleClick"
@@ -95,7 +102,11 @@ const handleRemoveCategory = () => {
     </div>
     <div
       v-if="allFilesInCategory.length > 0"
-      class="flex flex-col gap-4 p-4 mt-4 bg-white rounded-md"
+      :class="`flex flex-col gap-4 bg-white rounded-md transition-[max-height] ${
+        isHidden
+          ? 'max-h-0 overflow-hidden'
+          : 'max-h-96 overflow-y-scroll p-4 mt-4'
+      } `"
     >
       <FileEntry
         v-for="audio in allFilesInCategory"
@@ -103,5 +114,17 @@ const handleRemoveCategory = () => {
         :audio="audio"
       />
     </div>
+    <button
+      type="button"
+      @click="isHidden = !isHidden"
+      :class="`${allFilesInCategory.length === 0 ? 'hidden' : ''}`"
+    >
+      <font-awesome-icon
+        icon="fa-solid fa-arrow-up-short-wide"
+        :class="`transition-transform ${
+          allFilesInCategory.length > 0 ? 'absolute inset-x-1/2' : 'hidden'
+        } ${isHidden ? 'rotate-180' : 'rotate-[360deg]'}`"
+      />
+    </button>
   </div>
 </template>

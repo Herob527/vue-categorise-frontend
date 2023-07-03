@@ -13,7 +13,9 @@ const handleRemoveAudio = () => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-5 gap-2 text-center">
+  <div
+    class="grid grid-cols-5 gap-2 justify-items-center items-center text-center"
+  >
     <span>{{ audio.file.name }}</span>
     <span>{{ bestUnit }}</span>
 

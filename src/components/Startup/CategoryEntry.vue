@@ -113,6 +113,11 @@ const handleRemoveCategory = () => {
           : 'max-h-96 overflow-y-scroll p-4 mt-4'
       } `"
     >
+      <div class="grid grid-cols-5 text-center">
+        <span> File name </span>
+        <span> File size </span>
+        <span> File status </span>
+      </div>
       <FileEntry
         v-for="audio in allFilesInCategory"
         :key="audio.id"

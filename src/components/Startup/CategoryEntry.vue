@@ -7,7 +7,7 @@ import { ref } from 'vue';
 
 const store = useAudioFilesStore();
 const { useRemoveCategory } = useCategoriesStore();
-const { mutate } = useRemoveCategory();
+const { mutate, isLoading } = useRemoveCategory();
 const { getFilesByCategory, add, remove } = store;
 
 type categoryProps = {
@@ -80,14 +80,16 @@ const handleRemoveCategory = () => {
         class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
         title="Clear category"
       >
-        <i class="not-italic">🗑</i>
+        <!-- Add Icons using String format -->
+
+        <font-awesome-icon icon="fa-trash-can" />
       </button>
       <button
-        @click="handleRemoveCategory"
-        class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
-        title="Remove category"
+        @dblclick="handleRemoveCategory"
+        class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-red-500 rounded-md hover:bg-red-700"
+        title="Remove category (click two times)"
       >
-        <i class="not-italic">-</i>
+        <font-awesome-icon icon="fa-xmark" />
       </button>
       <span>{{ category.name }}</span>
     </div>

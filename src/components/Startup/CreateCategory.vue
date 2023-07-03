@@ -10,7 +10,7 @@ const { mutate } = useAddCategory();
 const handleClick = async (e: Event) => {
   const { value } = category;
   if (!value) return;
-  const res = mutate(value, {
+  mutate(value, {
     onError: (error) => {
       errorRef.value = error.response.data.detail;
     },
@@ -27,7 +27,7 @@ const handleClick = async (e: Event) => {
       <input
         type="text"
         v-model="category"
-        class="p-2 rounded-xl"
+        class="p-2 rounded-xl outline-none focus:border-blue-400 focus:outline-blue-400"
         required
         @input="() => (errorRef = '')"
       />

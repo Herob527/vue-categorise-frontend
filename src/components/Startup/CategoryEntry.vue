@@ -19,11 +19,20 @@ type categoryProps = {
   };
 };
 
-const prop = defineProps<categoryProps>();
-const allFilesInCategory = ref<fileEntry[]>([]);
+interface FileEvent extends Event {
+  target: HTMLInputElement & { files: File[] };
+}
 
-store.$subscribe(() => {
-  allFilesInCategory.value = getFilesByCategory(prop.category.name) || [];
+const prop = defineProps<categoryProps>();
+
+let allFilesInCategory = ref(new Map<string, fileEntry>());
+
+store.$subscribe((mutation, state) => {
+  allFilesInCategory.value.clear();
+  const newAllFilesInCategory = getFilesByCategory(prop.category.name);
+  [...newAllFilesInCategory.entries()].forEach(([id, file]) => {
+    allFilesInCategory.value.set(id, file);
+  });
 });
 const fileInputRef = ref<HTMLInputElement>();
 
@@ -31,10 +40,6 @@ const handleClick = () => {
   if (!fileInputRef.value) return;
   fileInputRef.value.click();
 };
-
-interface FileEvent extends Event {
-  target: HTMLInputElement & { files: File[] };
-}
 
 const handleFileInput = (payload: FileEvent) => {
   if (!payload.target) return;
@@ -45,8 +50,8 @@ const handleFileInput = (payload: FileEvent) => {
 };
 
 const handleClear = () => {
-  allFilesInCategory.value.forEach((file) => {
-    remove(file.id);
+  [...allFilesInCategory.value.keys()].forEach((file) => {
+    remove(file);
   });
   isHidden.value = false;
 };
@@ -72,7 +77,7 @@ const handleRemoveCategory = () => {
 
   <div
     :class="`relative p-4 ${
-      allFilesInCategory.length > 0 && !isHidden ? 'pb-6' : ''
+      allFilesInCategory.size > 0 && !isHidden ? 'pb-6' : ''
     } bg-gray-300 rounded-xl`"
   >
     <div class="flex flex-row gap-2 items-center">
@@ -102,11 +107,11 @@ const handleRemoveCategory = () => {
       </button>
       <span>{{ category.name }}</span>
       <span>{{
-        allFilesInCategory.length > 0 ? allFilesInCategory.length : ''
+        allFilesInCategory.size > 0 ? allFilesInCategory.size : ''
       }}</span>
     </div>
     <div
-      v-if="allFilesInCategory.length > 0"
+      v-if="allFilesInCategory.size > 0"
       :class="`flex flex-col gap-4 bg-white rounded-md transition-[max-height] ${
         isHidden
           ? 'max-h-0 overflow-hidden'
@@ -119,8 +124,9 @@ const handleRemoveCategory = () => {
         <span> File status </span>
       </div>
       <FileEntry
-        v-for="audio in allFilesInCategory"
-        :key="audio.id"
+        v-for="[id, audio] in allFilesInCategory.entries()"
+        :key="id"
+        :id="id"
         :audio="audio"
       />
     </div>
@@ -128,7 +134,7 @@ const handleRemoveCategory = () => {
       type="button"
       @click="isHidden = !isHidden"
       :class="`w-full ${
-        allFilesInCategory.length === 0
+        allFilesInCategory.size === 0
           ? 'hidden'
           : 'flex flex-col items-center justify-end'
       } ${isHidden ? 'absolute ' : ''}`"
@@ -136,7 +142,7 @@ const handleRemoveCategory = () => {
       <font-awesome-icon
         icon="fa-solid fa-arrow-up-short-wide"
         :class="`transition-transform ${
-          allFilesInCategory.length > 0 ? 'translate-y-3' : 'hidden'
+          allFilesInCategory.size > 0 ? 'translate-y-3' : 'hidden'
         } ${isHidden ? 'rotate-180 origin-center -translate-y-5' : 'rotate-0'}`"
       />
     </button>

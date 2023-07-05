@@ -1,38 +1,38 @@
 import { defineStore } from 'pinia';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 
 export type fileEntry = {
   file: File;
-  id: string;
   category: string;
 };
 
 export const useAudioFilesStore = defineStore('files', () => {
-  const files: Ref<fileEntry[]> = ref([]);
-  const add = (file: File, id: string, category: string = 'Unknown') => {
-    const isFileThere = !!files.value.find((fileEntry) => id === fileEntry.id);
-    if (isFileThere || !file.type.includes('audio')) return false;
-    files.value.push({ file, id, category });
+  const filesMap = ref(new Map<string, fileEntry>());
 
+  const add = (file: File, id: string, category: string = 'Unknown') => {
+    const isFileThere = filesMap.value.has(id);
+    const isFileAudio = file.type.includes('audio');
+    if (isFileThere || !isFileAudio) return false;
+    filesMap.value.set(id, { category, file });
     return true;
   };
 
   const remove = (id: string) => {
-    const filteredValues = files.value.filter((entry) => {
-      return entry.id !== id;
-    });
-    files.value = filteredValues;
+    filesMap.value.delete(id);
   };
 
-  const purge = () => (files.value = []);
+  const purge = () => filesMap.value.clear();
 
-  const getAll = () => files.value;
+  const getAll = () => filesMap;
 
-  const getSpecificFile = (id: string) =>
-    files.value.filter((entry) => entry.id === id);
+  const getSpecificFile = (id: string) => filesMap.value.get(id);
 
-  const getFilesByCategory = (category: string) =>
-    files.value.filter((file) => file.category === category);
+  const getFilesByCategory = (category: string) => {
+    const filteredEntries = [...filesMap.value.entries()].filter(
+      ([key, value]) => value.category === category,
+    );
+    return new Map(filteredEntries);
+  };
 
   return {
     add,
@@ -41,6 +41,6 @@ export const useAudioFilesStore = defineStore('files', () => {
     getAll,
     getSpecificFile,
     getFilesByCategory,
-    files,
+    filesMap,
   };
 });

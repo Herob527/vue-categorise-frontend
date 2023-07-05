@@ -4,13 +4,16 @@ import { convert } from 'convert';
 
 type propTypes = {
   audio: fileEntry;
+  id: string;
 };
 const props = defineProps<propTypes>();
 const bestUnit = convert(props.audio.file.size, 'B').to('best').toString(2);
 const { remove } = useAudioFilesStore();
+
 const handleRemoveAudio = () => {
-  remove(props.audio.id);
+  remove(props.id);
 };
+
 const status = 'Pending';
 </script>
 <template>

@@ -142,7 +142,11 @@ const handleRemoveCategory = () => {
       <font-awesome-icon
         icon="fa-solid fa-arrow-up-short-wide"
         :class="`transition-transform ${
-          allFilesInCategory.size > 0 ? 'translate-y-3' : 'hidden'
+          allFilesInCategory.size > 0
+            ? isHidden
+              ? ''
+              : 'translate-y-3'
+            : 'hidden'
         } ${isHidden ? 'rotate-180 origin-center -translate-y-5' : 'rotate-0'}`"
       />
     </button>

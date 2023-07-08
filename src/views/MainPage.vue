@@ -1,32 +1,48 @@
 <script setup lang="ts">
 import { axiosApi } from '@/axiosConfig';
 import { API_URL } from '@/constants';
-import router from '@/router';
 import { useQuery } from '@tanstack/vue-query';
-import { onUpdated } from 'vue';
 
 const queryFn = async () => {
   const res = await axiosApi.get(`${API_URL}/bindings/count`);
   return res.data;
 };
 
-const { data, isLoading, isError } = useQuery({
+const { data } = useQuery({
   queryKey: ['bindingsCount'],
   queryFn,
-});
-
-onUpdated(() => {
-  const count = data.value;
-  if (count === 0) {
-    router.replace('/startup');
-  } else if (count > 0) {
-    router.replace('/transcription');
-  }
 });
 </script>
 
 <template>
-  <span v-if="isLoading">Loading...</span>
-  <span v-else-if="isError">Error!</span>
-  <span v-else>{{ data }}</span>
+  <div class="flex flex-row flex-wrap gap-4 justify-center">
+    <router-link to="/startup">
+      <p
+        class="flex flex-col flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
+      >
+        Go to startup
+      </p>
+    </router-link>
+    <router-link :to="data > 0 ? '/transcript' : ''">
+      <p
+        class="flex flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
+      >
+        Go to transcript
+      </p>
+    </router-link>
+    <router-link :to="data > 0 ? '/finalise' : ''">
+      <p
+        class="flex flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
+      >
+        Go to finalisation
+      </p>
+    </router-link>
+    <router-link :to="data > 0 ? '/configuration' : ''">
+      <p
+        class="flex flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
+      >
+        Go to configuration
+      </p>
+    </router-link>
+  </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useBindings } from '@/hooks/useBindings';
 import { useAudioFilesStore } from '@/stores/audioFiles';
+import type { AxiosError } from 'axios';
 import { ref } from 'vue';
 
 const error = ref<string[]>([]);
@@ -10,11 +11,18 @@ const { getAll } = useAudioFilesStore();
 
 const { usePostBinding } = useBindings();
 
-const { mutate, isError } = usePostBinding();
+const { mutateAsync, isError } = usePostBinding();
 
 const handleClick = async () => {
   const promises = [...getAll().value.values()].map((value) =>
-    mutate({ category: value.category, audio: value.file }),
+    mutateAsync(
+      { category: value.category, audio: value.file },
+      {
+        onError: (err: AxiosError) => {
+          err.message;
+        },
+      },
+    ),
   );
   const settledPromises = await Promise.allSettled(promises);
   console.log(settledPromises);

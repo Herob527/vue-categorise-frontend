@@ -14,13 +14,14 @@ const handleClick = async (e: Event) => {
     onError: (error) => {
       errorRef.value = error.response.data.detail;
     },
+    onSettled: () => (category.value = ''),
   });
 };
 </script>
 
 <template>
   <div
-    class="container inline-flex flex-col gap-4 justify-center items-center p-4 mx-auto mt-4 bg-gray-200 rounded-xl"
+    class="container inline-flex flex-col gap-4 justify-center items-center p-4 mx-auto bg-gray-200 rounded-xl"
   >
     <div class="flex flex-col flex-wrap justify-center items-center">
       <label> Provide name for category: </label>

@@ -106,9 +106,10 @@ const handleRemoveCategory = () => {
         <font-awesome-icon icon="fa-xmark" />
       </button>
       <span>{{ category.name }}</span>
-      <span>{{
-        allFilesInCategory.size > 0 ? allFilesInCategory.size : ''
-      }}</span>
+      <span class="flex-1 text-right">
+        Files in category:
+        {{ allFilesInCategory.size > 0 ? allFilesInCategory.size : 0 }}</span
+      >
     </div>
     <div
       v-if="allFilesInCategory.size > 0"
@@ -121,6 +122,8 @@ const handleRemoveCategory = () => {
       <div class="grid grid-cols-5 text-center">
         <span> File name </span>
         <span> File size </span>
+        <span></span>
+        <span></span>
         <span> File status </span>
       </div>
       <FileEntry

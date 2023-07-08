@@ -6,15 +6,15 @@ type propTypes = {
   audio: fileEntry;
   id: string;
 };
+
 const props = defineProps<propTypes>();
 const bestUnit = convert(props.audio.file.size, 'B').to('best').toString(2);
+
 const { remove } = useAudioFilesStore();
 
 const handleRemoveAudio = () => {
   remove(props.id);
 };
-
-const status = 'Pending';
 </script>
 <template>
   <div
@@ -22,10 +22,7 @@ const status = 'Pending';
   >
     <span> {{ audio.file.name }}</span>
     <span>{{ bestUnit }}</span>
-    <span class="flex flex-row gap-1 justify-center items-center">
-      <font-awesome-icon icon="circle" class="text-blue-500" />
-      <span>{{ status }} </span>
-    </span>
+    <span></span>
     <div
       class="flex flex-row col-start-5 col-end-5 gap-2 justify-end items-end"
     >

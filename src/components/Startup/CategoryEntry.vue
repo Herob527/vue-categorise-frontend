@@ -77,7 +77,7 @@ const handleRemoveCategory = () => {
 
   <div
     :class="`relative p-4 ${
-      allFilesInCategory.size > 0 && !isHidden ? 'pb-6' : ''
+      allFilesInCategory.size > 0 && !isHidden ? 'pb-10' : ''
     } bg-gray-300 rounded-xl`"
   >
     <div class="flex flex-row gap-2 items-center">
@@ -133,11 +133,11 @@ const handleRemoveCategory = () => {
     <button
       type="button"
       @click="isHidden = !isHidden"
-      :class="`w-full ${
+      :class="`w-full absolute ${
         allFilesInCategory.size === 0
           ? 'hidden'
           : 'flex flex-col items-center justify-end'
-      } ${isHidden ? 'absolute ' : ''}`"
+      }`"
     >
       <font-awesome-icon
         icon="fa-solid fa-arrow-up-short-wide"

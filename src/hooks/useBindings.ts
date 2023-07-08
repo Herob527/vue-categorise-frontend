@@ -1,5 +1,5 @@
 import { axiosApi } from '@/axiosConfig';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import type { AxiosError } from 'axios';
 
 type postBindingType = {
@@ -15,6 +15,12 @@ const postBinding = async ({ audio, category }: postBindingType) => {
   return res.data;
 };
 
+const getAllBindings = async () => {
+  const res = await axiosApi.get('bindings/all');
+  console.log(res.data);
+  return res.data;
+};
+
 const useBindings = () => {
   const queryClient = useQueryClient();
 
@@ -26,8 +32,12 @@ const useBindings = () => {
         return err;
       },
     });
-
-  return { usePostBinding };
+  const useGetAllBindings = () =>
+    useQuery({
+      queryFn: () => getAllBindings(),
+      queryKey: ['getAllBindings'],
+    });
+  return { usePostBinding, useGetAllBindings };
 };
 
 export { useBindings };

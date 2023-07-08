@@ -3,8 +3,16 @@ import CategoryEntry from '@/components/Startup/CategoryEntry.vue';
 import CreateCategory from '@/components/Startup/CreateCategory.vue';
 import AddToDb from '@/components/Startup/AddToDb.vue';
 import { useCategoriesStore } from '@/stores/categories';
+import { useBindings } from '@/hooks/useBindings';
+import { onUpdated } from 'vue';
+
 const { useGetAllCategories } = useCategoriesStore();
 const { data, isLoading, isSuccess } = useGetAllCategories();
+const { useGetAllBindings } = useBindings();
+const { data: bindings } = useGetAllBindings();
+onUpdated(() => {
+  console.log(bindings.value);
+});
 </script>
 <template>
   <div v-if="isLoading">Loading...</div>

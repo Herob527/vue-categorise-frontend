@@ -1,5 +1,6 @@
 import { axiosApi } from '@/axiosConfig';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import type { AxiosError } from 'axios';
 
 type postBindingType = {
   audio: File;
@@ -18,10 +19,12 @@ const useBindings = () => {
   const queryClient = useQueryClient();
 
   const usePostBinding = () =>
-    useMutation({
-      mutationFn: ({ audio, category }: postBindingType) =>
-        postBinding({ audio, category }),
+    useMutation<unknown, AxiosError, postBindingType>({
+      mutationFn: ({ audio, category }) => postBinding({ audio, category }),
       mutationKey: ['postBinding'],
+      onError: (err) => {
+        return err;
+      },
     });
 
   return { usePostBinding };

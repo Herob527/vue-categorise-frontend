@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { useBindings } from '@/hooks/useBindings';
 import { useAudioFilesStore } from '@/stores/audioFiles';
-import type { AxiosError } from 'axios';
-import { ref } from 'vue';
+import { generateId } from '@/utils/generateId';
 
-const error = ref<string[]>([]);
-const success = ref<string[]>([]);
-
-const { getAll } = useAudioFilesStore();
+const { getAll, updateStatus } = useAudioFilesStore();
 
 const { usePostBinding } = useBindings();
 
@@ -17,16 +13,31 @@ const handleClick = async () => {
   const promises = [...getAll().value.values()].map(
     (value) =>
       value.status !== 'onServer' &&
+      value.status !== 'done' &&
       mutateAsync(
         { category: value.category, audio: value.file },
         {
-          onError: (err) => {
-            err.message;
+          onError: (err, variables) => {
+            const { audio } = variables;
+            const fileId = generateId(audio);
+            updateStatus(fileId, 'error');
+          },
+          onSuccess: (data, variables) => {
+            const { audio } = variables;
+            const fileId = generateId(audio);
+            updateStatus(fileId, 'done');
           },
         },
       ),
   );
   const settledPromises = await Promise.allSettled(promises);
+  console.group('[Settled promises]');
+  settledPromises
+    .filter((el) => el.status === 'fulfilled')
+    .forEach((el) => {
+      console.log(el);
+    });
+  console.groupEnd();
   console.log(settledPromises);
 };
 </script>

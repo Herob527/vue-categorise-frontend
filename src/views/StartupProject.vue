@@ -4,10 +4,10 @@ import CreateCategory from '@/components/Startup/CreateCategory.vue';
 import AddToDb from '@/components/Startup/AddToDb.vue';
 import { useCategoriesStore } from '@/stores/categories';
 import { useBindings } from '@/hooks/useBindings';
-import { useAudioFilesStore, type fileEntry } from '@/stores/audioFiles';
+import { useAudioFilesStore } from '@/stores/audioFiles';
 import { onUpdated } from 'vue';
 import axios from 'axios';
-import { axiosApi } from '@/axiosConfig';
+import { generateId } from '@/utils/generateId';
 
 const { useGetAllCategories } = useCategoriesStore();
 const { add } = useAudioFilesStore();
@@ -29,7 +29,6 @@ onUpdated(async () => {
   const mappedData = (bindings.value as any[]).map(async (b) => {
     const { Bindings, Categories, Audios } = b;
     const audio = await getAudio(Audios.url);
-    console.log(audio.data.type);
     const audioFile = new File([audio.data], Audios.file_name, {
       type: audio.data.type,
     });
@@ -39,7 +38,7 @@ onUpdated(async () => {
   });
   const resolved = await Promise.all(mappedData);
   resolved.forEach((el) => {
-    const id = `${el.audioFile.name}-${el.audioFile.lastModified}`;
+    const id = generateId(el.audioFile);
     add(el.audioFile, id, el.category, 'onServer');
   });
 });

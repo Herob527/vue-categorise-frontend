@@ -16,14 +16,13 @@ export const useAudioFilesStore = defineStore('files', () => {
     category: string = 'Unknown',
     status: fileEntry['status'] = 'pending',
   ) => {
-    console.group('[add]');
-    console.log(file);
-    console.log(id);
-    console.log(category);
-    console.log(status);
-    console.groupEnd();
     const isFileThere = filesMap.value.has(id);
     const isFileAudio = file.type.includes('audio');
+    console.group('[add]');
+    console.log(isFileThere);
+    console.log(isFileAudio);
+    console.log(file);
+    console.groupEnd();
     if (isFileThere || !isFileAudio) return false;
     filesMap.value.set(id, { category, file, status });
     return true;
@@ -43,9 +42,15 @@ export const useAudioFilesStore = defineStore('files', () => {
     const filteredEntries = [...filesMap.value.entries()].filter(
       ([key, value]) => value.category === category,
     );
+
     return new Map(filteredEntries);
   };
-
+  const updateStatus = (id: string, newStatus: fileEntry['status']) => {
+    const currentFile = getSpecificFile(id);
+    if (currentFile === undefined)
+      throw new Error(`File entry with id '${id}' not found`);
+    filesMap.value.set(id, { ...currentFile, status: newStatus });
+  };
   return {
     add,
     remove,
@@ -54,5 +59,6 @@ export const useAudioFilesStore = defineStore('files', () => {
     getSpecificFile,
     getFilesByCategory,
     filesMap,
+    updateStatus,
   };
 });

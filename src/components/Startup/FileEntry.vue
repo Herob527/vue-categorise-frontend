@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAudioFilesStore, type fileEntry } from '@/stores/audioFiles';
+import StatusIndicator from './StatusIndicator.vue';
 import { convert } from 'convert';
 
 type propTypes = {
@@ -20,9 +21,9 @@ const handleRemoveAudio = () => {
   <div
     class="grid grid-cols-5 gap-2 justify-items-center items-center text-center"
   >
-    <span> {{ audio.file.name }}</span>
-    <span>{{ bestUnit }}</span>
-    <span></span>
+    <span> {{ audio.file.name }} </span>
+    <span> {{ bestUnit }} </span>
+    <span> <StatusIndicator :status="props.audio.status" /> </span>
     <div
       class="flex flex-row col-start-5 col-end-5 gap-2 justify-end items-end"
     >

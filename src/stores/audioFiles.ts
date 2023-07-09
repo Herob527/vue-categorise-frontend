@@ -4,16 +4,28 @@ import { ref } from 'vue';
 export type fileEntry = {
   file: File;
   category: string;
+  status: 'pending' | 'processing' | 'done' | 'error' | 'onServer';
 };
 
 export const useAudioFilesStore = defineStore('files', () => {
   const filesMap = ref(new Map<string, fileEntry>());
 
-  const add = (file: File, id: string, category: string = 'Unknown') => {
+  const add = (
+    file: File,
+    id: string,
+    category: string = 'Unknown',
+    status: fileEntry['status'] = 'pending',
+  ) => {
+    console.group('[add]');
+    console.log(file);
+    console.log(id);
+    console.log(category);
+    console.log(status);
+    console.groupEnd();
     const isFileThere = filesMap.value.has(id);
     const isFileAudio = file.type.includes('audio');
     if (isFileThere || !isFileAudio) return false;
-    filesMap.value.set(id, { category, file });
+    filesMap.value.set(id, { category, file, status });
     return true;
   };
 

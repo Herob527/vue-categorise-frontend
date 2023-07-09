@@ -26,10 +26,10 @@ interface FileEvent extends Event {
 const prop = defineProps<categoryProps>();
 
 let allFilesInCategory = ref(new Map<string, fileEntry>());
-
 store.$subscribe((mutation, state) => {
   allFilesInCategory.value.clear();
   const newAllFilesInCategory = getFilesByCategory(prop.category.name);
+  console.log(newAllFilesInCategory);
   [...newAllFilesInCategory.entries()].forEach(([id, file]) => {
     allFilesInCategory.value.set(id, file);
   });
@@ -122,9 +122,9 @@ const handleRemoveCategory = () => {
       <div class="grid grid-cols-5 text-center">
         <span> File name </span>
         <span> File size </span>
+        <span> Status </span>
         <span></span>
-        <span></span>
-        <span> File status </span>
+        <span> Actions </span>
       </div>
       <FileEntry
         v-for="[id, audio] in allFilesInCategory.entries()"

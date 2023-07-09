@@ -17,7 +17,6 @@ const postBinding = async ({ audio, category }: postBindingType) => {
 
 const getAllBindings = async () => {
   const res = await axiosApi.get('bindings/all');
-  console.log(res.data);
   return res.data;
 };
 

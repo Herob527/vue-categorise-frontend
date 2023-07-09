@@ -11,18 +11,20 @@ const { getAll } = useAudioFilesStore();
 
 const { usePostBinding } = useBindings();
 
-const { mutateAsync, isError } = usePostBinding();
+const { mutateAsync } = usePostBinding();
 
 const handleClick = async () => {
-  const promises = [...getAll().value.values()].map((value) =>
-    mutateAsync(
-      { category: value.category, audio: value.file },
-      {
-        onError: (err: AxiosError) => {
-          err.message;
+  const promises = [...getAll().value.values()].map(
+    (value) =>
+      value.status !== 'onServer' &&
+      mutateAsync(
+        { category: value.category, audio: value.file },
+        {
+          onError: (err) => {
+            err.message;
+          },
         },
-      },
-    ),
+      ),
   );
   const settledPromises = await Promise.allSettled(promises);
   console.log(settledPromises);

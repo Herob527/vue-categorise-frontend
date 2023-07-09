@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import FileEntry from './FileEntry.vue';
 import { useAudioFilesStore } from '@/stores/audioFiles';
-import type { fileEntry } from '@/stores/audioFiles';
 import { useCategoriesStore } from '@/stores/categories';
+import { generateId } from '@/utils/generateId';
 import { ref } from 'vue';
 
 const store = useAudioFilesStore();
 const { useRemoveCategory } = useCategoriesStore();
 const { mutate } = useRemoveCategory();
-const { getFilesByCategory, add, remove } = store;
 
+const { getFilesByCategory, add, remove } = store;
 const isHidden = ref(false);
 
 type categoryProps = {
@@ -25,15 +25,12 @@ interface FileEvent extends Event {
 
 const prop = defineProps<categoryProps>();
 
-let allFilesInCategory = ref(new Map<string, fileEntry>());
-store.$subscribe((mutation, state) => {
-  allFilesInCategory.value.clear();
-  const newAllFilesInCategory = getFilesByCategory(prop.category.name);
-  console.log(newAllFilesInCategory);
-  [...newAllFilesInCategory.entries()].forEach(([id, file]) => {
-    allFilesInCategory.value.set(id, file);
-  });
+let allFilesInCategory = ref(getFilesByCategory(prop.category.name));
+
+store.$subscribe(() => {
+  allFilesInCategory.value = getFilesByCategory(prop.category.name);
 });
+
 const fileInputRef = ref<HTMLInputElement>();
 
 const handleClick = () => {
@@ -44,11 +41,10 @@ const handleClick = () => {
 const handleFileInput = (payload: FileEvent) => {
   if (!payload.target) return;
   const { files } = payload.target;
-  [...files].forEach((file) =>
-    add(file, `${file.name}-${file.lastModified}`, prop.category.name),
-  );
+  [...files].forEach((file) => add(file, generateId(file), prop.category.name));
 };
 
+console.log('hejo');
 const handleClear = () => {
   [...allFilesInCategory.value.keys()].forEach((file) => {
     remove(file);

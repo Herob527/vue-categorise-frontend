@@ -2,6 +2,7 @@
 import { useBindings } from '@/hooks/useBindings';
 import { useAudioFilesStore } from '@/stores/audioFiles';
 import { generateId } from '@/utils/generateId';
+import { ref } from 'vue';
 
 const { getAll, updateStatus } = useAudioFilesStore();
 
@@ -12,33 +13,32 @@ const { mutateAsync } = usePostBinding();
 const handleClick = async () => {
   const promises = [...getAll().value.values()].map(
     (value) =>
-      value.status !== 'onServer' &&
-      value.status !== 'done' &&
-      mutateAsync(
-        { category: value.category, audio: value.file },
-        {
-          onError: (err, variables) => {
-            const { audio } = variables;
-            const fileId = generateId(audio);
-            updateStatus(fileId, 'error');
-          },
-          onSuccess: (data, variables) => {
-            const { audio } = variables;
-            const fileId = generateId(audio);
-            updateStatus(fileId, 'done');
-          },
-        },
-      ),
+      value.status === 'pending' &&
+      mutateAsync({ category: value.category, audio: value.file }),
   );
   const settledPromises = await Promise.allSettled(promises);
-  console.group('[Settled promises]');
-  settledPromises
-    .filter((el) => el.status === 'fulfilled')
-    .forEach((el) => {
-      console.log(el);
-    });
-  console.groupEnd();
-  console.log(settledPromises);
+
+  const failedPromises = settledPromises.filter(
+    (el) => el.status === 'rejected',
+  ) as PromiseRejectedResult[];
+  const resolvedPromises = settledPromises.filter(
+    (el) => el.status === 'fulfilled',
+  ) as PromiseFulfilledResult<unknown>[];
+
+  failedPromises.forEach((el) => {
+    const data: File = el.reason.config.data.get('audio');
+    const id = generateId(data);
+    updateStatus(id, 'error');
+  });
+  resolvedPromises.forEach(() => {
+    const filesWithoutError = [...getAll().value.values()];
+    filesWithoutError
+      .filter((el) => el.status === 'pending')
+      .forEach((el) => {
+        const id = generateId(el.file);
+        updateStatus(id, 'done');
+      });
+  });
 };
 </script>
 

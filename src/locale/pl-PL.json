@@ -1,0 +1,7 @@
+{
+  "done": "Przesłane",
+  "onServer": "Na serwerze",
+  "processing": "Przetwarzanie",
+  "error": "Błąd",
+  "pending": "Oczekiwanie"
+}

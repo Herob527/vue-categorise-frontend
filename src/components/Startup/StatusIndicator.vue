@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { type fileEntry } from '@/stores/audioFiles';
-import { ref } from 'vue';
+
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 
 type propTypes = {
   status: fileEntry['status'];
@@ -20,6 +24,6 @@ const colors: Record<(typeof props)['status'], string> = {
       :class="colors[status]"
       class="inline-block w-4 h-4 rounded-full"
     ></span>
-    <span>{{ status }}</span>
+    <span>{{ t(status) }}</span>
   </div>
 </template>

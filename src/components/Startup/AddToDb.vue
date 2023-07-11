@@ -2,7 +2,6 @@
 import { useBindings } from '@/hooks/useBindings';
 import { useAudioFilesStore } from '@/stores/audioFiles';
 import { generateId } from '@/utils/generateId';
-import { ref } from 'vue';
 
 const { getAll, updateStatus } = useAudioFilesStore();
 
@@ -11,11 +10,13 @@ const { usePostBinding } = useBindings();
 const { mutateAsync } = usePostBinding();
 
 const handleClick = async () => {
-  const promises = [...getAll().value.values()].map(
-    (value) =>
-      value.status === 'pending' &&
-      mutateAsync({ category: value.category, audio: value.file }),
-  );
+  const promises = [...getAll().value.values()].map((value) => {
+    const allowedValues = ['pending', 'processing'];
+    if (!allowedValues.includes(value.status)) return;
+    const id = generateId(value.file);
+    updateStatus(id, 'processing');
+    return mutateAsync({ category: value.category, audio: value.file });
+  });
   const settledPromises = await Promise.allSettled(promises);
 
   const failedPromises = settledPromises.filter(
@@ -33,7 +34,7 @@ const handleClick = async () => {
   resolvedPromises.forEach(() => {
     const filesWithoutError = [...getAll().value.values()];
     filesWithoutError
-      .filter((el) => el.status === 'pending')
+      .filter((el) => el.status === 'processing')
       .forEach((el) => {
         const id = generateId(el.file);
         updateStatus(id, 'done');

@@ -18,11 +18,6 @@ export const useAudioFilesStore = defineStore('files', () => {
   ) => {
     const isFileThere = filesMap.value.has(id);
     const isFileAudio = file.type.includes('audio');
-    console.group('[add]');
-    console.log(isFileThere);
-    console.log(isFileAudio);
-    console.log(file);
-    console.groupEnd();
     if (isFileThere || !isFileAudio) return false;
     filesMap.value.set(id, { category, file, status });
     return true;
@@ -46,6 +41,7 @@ export const useAudioFilesStore = defineStore('files', () => {
     return new Map(filteredEntries);
   };
   const updateStatus = (id: string, newStatus: fileEntry['status']) => {
+    console.log(newStatus);
     const currentFile = getSpecificFile(id);
     if (currentFile === undefined)
       throw new Error(`File entry with id '${id}' not found`);

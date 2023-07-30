@@ -83,7 +83,7 @@ const handleRemoveCategory = () => {
         type="button"
         class="flex flex-col justify-center items-center p-1 w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
       >
-        <i>+</i>
+        <font-awesome-icon icon="plus" />
       </button>
       <button
         @click="handleClear"

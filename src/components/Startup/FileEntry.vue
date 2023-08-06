@@ -2,7 +2,7 @@
 import { useAudioFilesStore, type fileEntry } from '@/stores/audioFiles';
 import StatusIndicator from './StatusIndicator.vue';
 import { convert } from 'convert';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 type propTypes = {
   audio: fileEntry;
@@ -11,14 +11,10 @@ type propTypes = {
 
 const props = defineProps<propTypes>();
 
-const bestUnit = ref();
-
-watch(
-  () => props.audio,
-  () => {
-    bestUnit.value = convert(props.audio.file.size, 'B').to('best').toString(2);
-  },
+const bestUnit = computed(() =>
+  convert(props.audio.file.size, 'B').to('best').toString(2),
 );
+
 const { remove } = useAudioFilesStore();
 
 const handleRemoveAudio = () => {

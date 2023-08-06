@@ -5,6 +5,7 @@ import {
   getAll,
   getOne,
   post,
+  getPaginated,
   type UUID,
   type postBindingType,
 } from '@/actions/bindings';
@@ -33,6 +34,13 @@ const useBindings = () => {
       },
     });
 
+  const usePaginated = () =>
+    useQuery({
+      queryFn: ({ page, pageSize }: { page: number; pageSize: number }) =>
+        getPaginated({ page, pageSize }),
+      queryKey: ['paginatedBindings'],
+    });
+
   const useGetAll = () =>
     useQuery({
       queryFn: () => getAll(),
@@ -42,7 +50,7 @@ const useBindings = () => {
   const useGetOne = ({ id }: { id: UUID }) =>
     useQuery({ queryKey: ['getBinding', id], queryFn: () => getOne({ id }) });
 
-  return { usePost, useGetAll, useDelete, useGetOne };
+  return { usePost, useGetAll, useDelete, useGetOne, usePaginated };
 };
 
 export { useBindings };

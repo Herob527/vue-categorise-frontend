@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useCategoriesStore } from '@/stores/categories';
+import { useCategories } from '@/hooks/useCategories';
 
-const { useGetAllCategories } = useCategoriesStore();
-const { data, isSuccess } = useGetAllCategories();
+const { useGetAll } = useCategories();
+const { data, isSuccess } = useGetAll();
 </script>
 
 <template>

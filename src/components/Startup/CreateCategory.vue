@@ -1,21 +1,29 @@
 <script setup lang="ts">
-import { useCategoriesStore } from '@/stores/categories';
+import { useCategories } from '@/hooks/useCategories';
 import { ref } from 'vue';
+import { v4 } from 'uuid';
+
 const category = ref('');
 const errorRef = ref('');
-const { useAddCategory } = useCategoriesStore();
+const { usePost: useAddCategory } = useCategories();
 
 const { mutate } = useAddCategory();
 
-const handleClick = async (e: Event) => {
+const handleClick = async () => {
   const { value } = category;
   if (!value) return;
-  mutate(value, {
-    onError: (error) => {
-      errorRef.value = error.response.data.detail;
+  mutate(
+    {
+      id: v4(),
+      name: value,
     },
-    onSettled: () => (category.value = ''),
-  });
+    {
+      onError: (error) => {
+        errorRef.value = error?.response?.data.detail;
+      },
+      onSettled: () => (category.value = ''),
+    },
+  );
 };
 </script>
 

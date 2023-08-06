@@ -20,8 +20,8 @@ export const useCategories = () => {
       },
     });
   const useDeleteOne = () =>
-    useMutation<unknown, AxiosError, { id: string }>({
-      mutationFn: async ({ id }) => deleteOne({ id }),
+    useMutation<unknown, AxiosError, { name: string }>({
+      mutationFn: async ({ name }) => deleteOne({ name }),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['categories'] });
       },

@@ -5,7 +5,7 @@ import { generateId } from '@/utils/generateId';
 
 const { getAll, updateStatus } = useAudioFilesStore();
 
-const { usePostBinding } = useBindings();
+const { usePost: usePostBinding } = useBindings();
 
 const { mutateAsync } = usePostBinding();
 

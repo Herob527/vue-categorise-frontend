@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { useCategories } from '@/hooks/useCategories';
 import FileEntry from './FileEntry.vue';
 import { useAudioFilesStore } from '@/stores/audioFiles';
-import { useCategoriesStore } from '@/stores/categories';
 import { generateId } from '@/utils/generateId';
 import { ref } from 'vue';
 
 const store = useAudioFilesStore();
-const { useRemoveCategory } = useCategoriesStore();
+const { useDeleteOne: useRemoveCategory } = useCategories();
 const { mutate } = useRemoveCategory();
 
 const { getFilesByCategory, add, remove } = store;
@@ -53,12 +53,15 @@ const handleClear = () => {
 };
 
 const handleRemoveCategory = () => {
-  mutate(prop.category.name, {
-    onSuccess: () => {
-      handleClear();
-      isHidden.value = false;
+  mutate(
+    { name: prop.category.name },
+    {
+      onSuccess: () => {
+        handleClear();
+        isHidden.value = false;
+      },
     },
-  });
+  );
 };
 </script>
 <template>

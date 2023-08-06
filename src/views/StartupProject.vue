@@ -2,20 +2,22 @@
 import CategoryEntry from '@/components/Startup/CategoryEntry.vue';
 import CreateCategory from '@/components/Startup/CreateCategory.vue';
 import AddToDb from '@/components/Startup/AddToDb.vue';
-import { useCategoriesStore } from '@/stores/categories';
 import { useBindings } from '@/hooks/useBindings';
+import { useCategories } from '@/hooks/useCategories';
 import { useAudioFilesStore } from '@/stores/audioFiles';
 import { onUpdated } from 'vue';
 import axios from 'axios';
 import { generateId } from '@/utils/generateId';
 
-const { useGetAllCategories } = useCategoriesStore();
 const { add } = useAudioFilesStore();
-const { data, isLoading, isSuccess } = useGetAllCategories();
-const { useGetAllBindings } = useBindings();
-const { data: bindings } = useGetAllBindings();
 
-const getAudio = async (url) => {
+const { useGetAll: useGetCategories } = useCategories();
+const { useGetAll } = useBindings();
+
+const { data, isLoading, isSuccess } = useGetCategories();
+const { data: bindings } = useGetAll();
+
+const getAudio = async (url: string) => {
   const response = await axios.get(`http://localhost:8000/${url}`, {
     headers: {
       'Content-Type': 'audio/*',

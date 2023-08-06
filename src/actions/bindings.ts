@@ -20,6 +20,17 @@ export const getAll = async () => {
   return res.data;
 };
 
+export const getPaginated = async ({
+  page,
+  pageSize,
+}: {
+  page: number;
+  pageSize: number;
+}) => {
+  const res = await axiosApi.get(`bindings?page=${page}&per_page=${pageSize}`);
+  return res.data;
+};
+
 export const getOne = async ({ id }: { id: UUID }) => {
   const res = await axiosApi.get(`bindings/${id}`);
   return res.data;

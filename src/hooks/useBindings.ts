@@ -7,7 +7,7 @@ import {
   post,
   type UUID,
   type postBindingType,
-} from './actions/bindings';
+} from '@/actions/bindings';
 
 const useBindings = () => {
   const queryClient = useQueryClient();

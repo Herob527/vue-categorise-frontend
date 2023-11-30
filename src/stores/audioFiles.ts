@@ -17,9 +17,15 @@ export const useAudioFilesStore = defineStore('files', () => {
     status: fileEntry['status'] = 'pending',
   ) => {
     const isFileThere = filesMap.value.has(id);
-    const isFileAudio = file.type.includes('audio');
+
+    const isFileNull = file.type.includes('null');
+    const isFileAudio = file.type.includes('audio') || isFileNull;
     if (isFileThere || !isFileAudio) return false;
-    filesMap.value.set(id, { category, file, status });
+    filesMap.value.set(id, {
+      category,
+      file,
+      status: isFileNull ? 'error' : status,
+    });
     return true;
   };
 

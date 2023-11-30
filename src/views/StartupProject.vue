@@ -30,23 +30,25 @@ onUpdated(async () => {
   if (!bindings.value) return;
   try {
     const mappedData = (bindings.value as any[]).map(async (b) => {
+      const { Bindings, Categories, Audios } = b;
+
+      const bindingsId: string = Bindings.id;
+      const category: string = Categories.name;
+
       try {
-        const { Bindings, Categories, Audios } = b;
         const audio = await getAudio(Audios.url);
         const audioFile = new File([audio.data], Audios.file_name, {
           type: audio.data.type,
         });
-        const bindingsId: string = Bindings.id;
-        const category: string = Categories.name;
         return { audioFile, category, bindingsId };
       } catch (e) {
         console.error(e);
         return {
-          audioFile: new File([], '', {
+          audioFile: new File([''], Audios.file_name, {
             type: 'null',
           }),
-          category: '',
-          bindingsId: null,
+          category,
+          bindingsId,
         };
       }
     });

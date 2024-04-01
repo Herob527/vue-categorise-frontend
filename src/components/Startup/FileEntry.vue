@@ -3,8 +3,10 @@ import { useAudioFilesStore, type fileEntry } from '@/stores/audioFiles';
 import StatusIndicator from './StatusIndicator.vue';
 import { convert } from 'convert';
 import { computed, ref, watch } from 'vue';
+import { useBindings } from '@/hooks/useBindings';
 
 type propTypes = {
+  name: string;
   audio: fileEntry;
   id: string;
 };
@@ -17,8 +19,19 @@ const bestUnit = computed(() =>
 
 const { remove } = useAudioFilesStore();
 
+const { usePost } = useBindings();
+
+const { mutate, isError } = usePost();
+
 const handleRemoveAudio = () => {
   remove(props.id);
+};
+
+const handlePost = () => {
+  mutate({
+    audio: props.audio.file,
+    category: props.name,
+  });
 };
 </script>
 <template>
@@ -38,6 +51,15 @@ const handleRemoveAudio = () => {
         title="Remove audio"
       >
         <font-awesome-icon icon="fa-xmark" />
+      </button>
+      <button
+        type="button"
+        @click="handlePost"
+        class="flex flex-col justify-center items-center w-8 h-8 text-white bg-blue-500 rounded-md hover:bg-blue-700"
+        title="Remove audio"
+      >
+        <font-awesome-icon icon="rotate-right" v-if="isError" />
+        <font-awesome-icon icon="plus" v-if="!isError" />
       </button>
     </div>
   </div>

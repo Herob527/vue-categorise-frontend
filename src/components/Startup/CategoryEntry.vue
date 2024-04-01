@@ -130,6 +130,7 @@ const handleRemoveCategory = () => {
         :key="id"
         :id="id"
         :audio="audio"
+        :name="prop.name"
       />
     </div>
     <button

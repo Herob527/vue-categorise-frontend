@@ -1,4 +1,12 @@
 import { axiosApi } from '@/axiosConfig';
+import { BindingsApi } from '@/types/generated';
+
+const bindingsApi = new BindingsApi(
+  {
+    isJsonMime: (mime: string) => mime === 'application/json',
+  },
+  'http://localhost:8000',
+);
 
 export type postBindingType = {
   audio: File;
@@ -16,8 +24,8 @@ export const post = async ({ audio, category }: postBindingType) => {
 };
 
 export const getAll = async () => {
-  const res = await axiosApi.get('bindings/all');
-  return res.data;
+  const { data } = await bindingsApi.getAllBindingsBindingsAllGet();
+  return data;
 };
 
 export const getPaginated = async ({

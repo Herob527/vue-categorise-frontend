@@ -11,6 +11,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "generate": "openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-axios -o src/types/generated",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
+    "@openapitools/openapi-generator-cli": "^2.13.1",
     "@tanstack/vue-query": "^5.28.9",
     "@vue/typescript-plugin": "^2.0.7",
     "axios": "^1.6.8",

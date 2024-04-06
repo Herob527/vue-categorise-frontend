@@ -1,6 +1,6 @@
 export enum statuses {
-  PENDING,
-  PROCESSING,
-  IN_DB,
-  ERROR,
+  PENDING = 'pending',
+  PROCESSING = 'processing',
+  IN_DB = 'inDatabase',
+  ERROR = 'error',
 }

@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { getAll } from '@/actions/bindings';
-import { useQuery } from '@tanstack/vue-query';
+import { useBindingsStore } from '@/stores/bindingsStore';
+import { onMounted } from 'vue';
 
-const { data } = useQuery({
-  queryKey: ['bindings'],
-  queryFn: async () => getAll(),
+const store = useBindingsStore();
+
+onMounted(() => {
+  store.synchronise();
 });
 </script>
 
 <template>
-  <ol v-for="item in data" v-bind:key="item.bindings.id">
-    <li>{{ item.categories }}</li>
+  <ol v-for="item in store.entries" v-bind:key="item.id">
+    <li>
+      <span>{{ item.filename }}</span>
+      <span>{{ item.duration }}</span>
+      <span> {{ item.status }} </span>
+    </li>
   </ol>
 </template>

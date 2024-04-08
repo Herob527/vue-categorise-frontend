@@ -19,10 +19,10 @@ onMounted(() => {
     class="text-center border-collapse border-spacing-2"
   >
     <tr v-if="index === 0" class="bg-gray-100">
-      <td class="py-2 px-4">Title</td>
-      <td class="py-2 px-4">Duration (s)</td>
-      <td class="py-2 px-4">Status</td>
-      <td class="py-2 px-4">Actions</td>
+      <th class="py-2 px-4">Title</th>
+      <th class="py-2 px-4">Duration (s)</th>
+      <th class="py-2 px-4">Status</th>
+      <th class="py-2 px-4">Actions</th>
     </tr>
     <tr>
       <td class="py-2 px-4">{{ item.filename }}</td>

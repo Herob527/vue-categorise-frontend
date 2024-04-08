@@ -25,7 +25,13 @@ onMounted(() => {
       <th class="py-2 px-4">Actions</th>
     </tr>
     <tr>
-      <td class="py-2 px-4">{{ item.filename }}</td>
+      <td class="py-2 px-4" :title="item.filename">
+        {{
+          item.filename.length > 15
+            ? item.filename.slice(0, 15) + '...'
+            : item.filename
+        }}
+      </td>
       <td class="py-2 px-4">{{ item.duration }}</td>
       <td class="relative py-2 px-4"><StatusIcon status="inDatabase" /></td>
       <td class="flex flex-row gap-2 justify-center items-center py-2 px-4">

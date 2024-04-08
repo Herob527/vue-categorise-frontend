@@ -16,7 +16,7 @@ onMounted(() => {
   <table
     v-for="[index, item] in store.entries.entries()"
     v-bind:key="item.id"
-    class="text-center border-collapse border-spacing-2"
+    class="container mx-auto w-full text-center border-collapse border-spacing-2"
   >
     <tr v-if="index === 0" class="bg-gray-100">
       <th class="py-2 px-4">Title</th>
@@ -28,7 +28,7 @@ onMounted(() => {
       <td class="py-2 px-4">{{ item.filename }}</td>
       <td class="py-2 px-4">{{ item.duration }}</td>
       <td class="relative py-2 px-4"><StatusIcon status="inDatabase" /></td>
-      <td class="flex flex-row gap-2 py-2 px-4">
+      <td class="flex flex-row gap-2 justify-center items-center py-2 px-4">
         <ActionButton
           :on-click="() => console.log('clicked')"
           class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700"

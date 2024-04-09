@@ -58,12 +58,25 @@ onMounted(() => {
         </ActionButton>
 
         <ActionButton
+          v-if="item.status !== 'inDatabase'"
           :on-click="() => console.log('clicked')"
           class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
           label="Add"
         >
           <FontAwesomeIcon
             icon="fa-solid fa-plus"
+            class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
+          />
+        </ActionButton>
+
+        <ActionButton
+          v-if="item.status === 'error'"
+          :on-click="() => console.log('clicked')"
+          class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
+          label="Retry"
+        >
+          <FontAwesomeIcon
+            icon="fa-solid fa-rotate-right"
             class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
           />
         </ActionButton>

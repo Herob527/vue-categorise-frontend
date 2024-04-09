@@ -15,6 +15,9 @@ export const useBindingsStore = defineStore('bindings', {
     getAll: (state) => state.entries,
   },
   actions: {
+    getAvailableStatuses() {
+      return new Set(this.entries.map((e) => e.status));
+    },
     async synchronise() {
       const data = await getAll();
       this.$state.entries =

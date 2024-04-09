@@ -14,7 +14,17 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
       <ActionButton
         :on-click="() => console.log('clicked')"
         class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
-        label="Add all"
+        label="Add item(s)"
+      >
+        <FontAwesomeIcon
+          icon="fa-solid fa-file"
+          class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
+        />
+      </ActionButton>
+      <ActionButton
+        :on-click="() => console.log('clicked')"
+        class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
+        label="Submit all"
       >
         <FontAwesomeIcon
           icon="fa-solid fa-plus"

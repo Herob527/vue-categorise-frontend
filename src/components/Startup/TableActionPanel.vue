@@ -1,6 +1,26 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
+import { useBindingsStore } from '@/stores/bindingsStore';
+import { statuses } from '@/types/shared';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { onMounted, ref } from 'vue';
+
+const inputFileRef = ref<HTMLInputElement | null>(null);
+
+const { getAvailableStatuses } = useBindingsStore();
+const availableStatuses = getAvailableStatuses();
+
+const nothingToSend =
+  availableStatuses.size === 1 && availableStatuses.has(statuses.IN_DB);
+
+const handleFileUpload = (event: Event) => {
+  const files = (event.target as HTMLInputElement)?.files;
+  if (!files) return;
+  console.log(files);
+};
+onMounted(() => {
+  console.log(availableStatuses, nothingToSend);
+});
 </script>
 
 <template>
@@ -12,10 +32,17 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     </div>
     <div class="flex flex-row gap-2 p-2 w-full">
       <ActionButton
-        :on-click="() => console.log('clicked')"
+        :on-click="() => inputFileRef?.click()"
         class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
         label="Add item(s)"
       >
+        <input
+          type="file"
+          class="hidden"
+          ref="inputFileRef"
+          multiple
+          @change="handleFileUpload"
+        />
         <FontAwesomeIcon
           icon="fa-solid fa-file"
           class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
@@ -23,7 +50,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
       </ActionButton>
       <ActionButton
         :on-click="() => console.log('clicked')"
-        class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
+        :class-name="`${nothingToSend ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-700 cursor-pointer'} text-white px-4 py-4 relative rounded-md`"
+        :disabled="nothingToSend"
         label="Submit all"
       >
         <FontAwesomeIcon

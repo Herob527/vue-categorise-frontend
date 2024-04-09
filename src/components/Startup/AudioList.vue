@@ -29,7 +29,7 @@ onMounted(() => {
     <div class="flex justify-between">
       <div class="flex flex-col flex-1 justify-center items-center py-2 px-4">
         <span
-          class="py-1 px-2 bg-gray-200 cursor-text hover:bg-gray-300"
+          class="py-1 px-2 bg-gray-200 rounded-lg cursor-text hover:bg-gray-300"
           :title="item.filename"
         >
           {{

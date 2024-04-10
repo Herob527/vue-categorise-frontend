@@ -1,26 +1,22 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
 import { useBindingsStore } from '@/stores/bindingsStore';
-import { statuses } from '@/types/shared';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const inputFileRef = ref<HTMLInputElement | null>(null);
 
-const { getAvailableStatuses } = useBindingsStore();
-const availableStatuses = getAvailableStatuses();
-
-const nothingToSend =
-  availableStatuses.size === 1 && availableStatuses.has(statuses.IN_DB);
+const { addLocalFiles, submitAll } = useBindingsStore();
 
 const handleFileUpload = (event: Event) => {
   const files = (event.target as HTMLInputElement)?.files;
   if (!files) return;
-  console.log(files);
+  addLocalFiles(files);
 };
-onMounted(() => {
-  console.log(availableStatuses, nothingToSend);
-});
+
+const handleSubmitAll = () => {
+  submitAll();
+};
 </script>
 
 <template>
@@ -49,9 +45,8 @@ onMounted(() => {
         />
       </ActionButton>
       <ActionButton
-        :on-click="() => console.log('clicked')"
-        :class-name="`${nothingToSend ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-700 cursor-pointer'} text-white px-4 py-4 relative rounded-md`"
-        :disabled="nothingToSend"
+        :on-click="handleSubmitAll"
+        :class-name="`${'bg-blue-500 hover:bg-blue-700 cursor-pointer'} text-white px-4 py-4 relative rounded-md`"
         label="Submit all"
       >
         <FontAwesomeIcon

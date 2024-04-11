@@ -1,15 +1,7 @@
 import { defineStore } from 'pinia';
-import { getAll, post } from '@/actions/bindings';
-import { statuses } from '@/types/shared';
+import { deleteOne, getAll, post } from '@/actions/bindings';
+import { statuses, type Entry } from '@/types/shared';
 import { v4 } from 'uuid';
-
-type Entry = {
-  id: string;
-  duration?: number | null;
-  status: statuses;
-  filename: string;
-  file: File;
-};
 
 export const useBindingsStore = defineStore('bindings', {
   state: () => ({
@@ -59,6 +51,15 @@ export const useBindingsStore = defineStore('bindings', {
           status: statuses.IN_DB,
           file: new File([], entry.audios.file_name),
         })) || [];
+    },
+    async delete(id: string) {
+      const item = this.entries.find((entry) => entry.id == id);
+      if (!item)
+        throw new Error(`Item with id ${id} not found in store somehow`);
+      if (item.status === statuses.IN_DB) {
+        await deleteOne({ id });
+      }
+      this.entries = this.entries.filter((entry) => entry.id !== id);
     },
   },
 });

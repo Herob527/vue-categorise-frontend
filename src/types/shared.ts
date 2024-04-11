@@ -4,3 +4,11 @@ export enum statuses {
   IN_DB = 'inDatabase',
   ERROR = 'error',
 }
+
+export type Entry = {
+  id: string;
+  duration?: number | null;
+  status: statuses;
+  filename: string;
+  file: File;
+};

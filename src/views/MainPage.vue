@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/vue-query';
 const queryFn = async () => {
   try {
     const res = await axiosApi.get(`${API_URL}/bindings/count`);
-    console.log(res.data);
     return res.data;
   } catch (e) {
     return null;
@@ -21,10 +20,10 @@ const { data } = useQuery({
 
 <template>
   <div
-    class="mb-4 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen w-screen bg-gray-500 bg-opacity-50 flex flex-col items-center justify-center"
+    class="flex absolute top-1/2 left-1/2 flex-col justify-center items-center mb-4 w-screen h-screen text-center bg-gray-500 bg-opacity-50 -translate-x-1/2 -translate-y-1/2"
     v-if="data === null"
   >
-    <p class="text-red-500 bg-gray-300 px-8 py-4 font-bold">
+    <p class="py-4 px-8 font-bold text-red-500 bg-gray-300">
       There was error while fetching bindings count.
     </p>
   </div>

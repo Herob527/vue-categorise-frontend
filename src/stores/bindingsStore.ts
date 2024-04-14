@@ -26,6 +26,24 @@ export const useBindingsStore = defineStore('bindings', {
         });
       }
     },
+    submit(id: string) {
+      const toSubmit = this.entries
+        .filter(
+          (e) => e.status === statuses.PENDING || e.status === statuses.ERROR,
+        )
+        .filter((e) => e.id === id);
+      toSubmit.forEach(async (entry) => {
+        try {
+          entry.status = statuses.PROCESSING;
+          await post({ audio: entry.file, category: 'unassigned' });
+          console.log("[submit - 'after-post']", 'after-post');
+          this.synchronise();
+        } catch (e) {
+          console.error(e);
+          entry.status = statuses.ERROR;
+        }
+      });
+    },
     submitAll() {
       const toSubmit = this.entries.filter(
         (e) => e.status === statuses.PENDING || e.status === statuses.ERROR,
@@ -51,6 +69,12 @@ export const useBindingsStore = defineStore('bindings', {
           status: statuses.IN_DB,
           file: new File([], entry.audios.file_name),
         })) || [];
+    },
+    async deleteAll() {
+      for await (const entry of this.entries) {
+        await deleteOne({ id: entry.id });
+      }
+      this.entries = [];
     },
     async delete(id: string) {
       const item = this.entries.find((entry) => entry.id == id);

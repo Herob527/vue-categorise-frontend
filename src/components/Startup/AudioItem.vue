@@ -57,7 +57,7 @@ const store = useBindingsStore();
 
         <ActionButton
           v-if="status === statuses.PENDING"
-          :on-click="() => console.log('clicked')"
+          :on-click="() => store.submit(id)"
           class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
           label="Add"
         >
@@ -68,8 +68,8 @@ const store = useBindingsStore();
         </ActionButton>
 
         <ActionButton
-          v-if="status === 'error'"
-          :on-click="() => console.log('clicked')"
+          v-if="status === statuses.ERROR"
+          :on-click="() => store.submit(id)"
           class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
           label="Retry"
         >

@@ -6,7 +6,7 @@ import { ref } from 'vue';
 
 const inputFileRef = ref<HTMLInputElement | null>(null);
 
-const { addLocalFiles, submitAll } = useBindingsStore();
+const { addLocalFiles, submitAll, deleteAll } = useBindingsStore();
 
 const handleFileUpload = (event: Event) => {
   const files = (event.target as HTMLInputElement)?.files;
@@ -55,7 +55,7 @@ const handleSubmitAll = () => {
         />
       </ActionButton>
       <ActionButton
-        :on-click="() => console.log('clicked')"
+        :on-click="() => deleteAll()"
         class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700"
         label="Delete all"
       >

@@ -10,7 +10,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import VueVirtualScroller from 'vue-virtual-scroller';
 import { createI18n } from 'vue-i18n';
 import enUs from './locale/en-US.json';
-import plPl from './locale/pl-PL.json';
 import type { MessageSchema } from './locale/schema';
 
 const app = createApp(App);
@@ -21,7 +20,6 @@ const i18n = createI18n<{
   legacy: false,
   messages: {
     'en-US': enUs,
-    'pl-PL': plPl,
   },
 });
 

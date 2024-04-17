@@ -80,7 +80,7 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
       <template v-slot:heading>
-        <p>Pending</p>
+        <p>In database</p>
       </template>
     </DataTable>
   </div>

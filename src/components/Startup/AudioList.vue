@@ -2,9 +2,9 @@
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import AudioItem from './AudioItem.vue';
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import { statuses } from '@/types/shared';
 import { computed, onMounted } from 'vue';
+import DataTable from '../DataTable.vue';
 
 const store = useBindingsStore();
 
@@ -15,36 +15,52 @@ onMounted(() => {
 const pendingEntries = computed(() =>
   store.getFieldsByStatus(statuses.PENDING),
 );
+
+const processingEntried = computed(() =>
+  store.getFieldsByStatus(statuses.PROCESSING),
+);
+
 const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
 </script>
 
 <template>
-  <div
-    class="container mx-auto rounded-lg border-2 border-gray-400 overflow-clip"
-  >
-    <div v-if="pendingEntries.length === 0" class="p-4">
-      <p>Enter something pal</p>
-    </div>
-    <DynamicScroller :items="pendingEntries" :min-item-size="75" vue-else>
-      <template v-slot="{ item, index, active }">
-        <DynamicScrollerItem :item="item" :data-index="index" :active="active">
-          <AudioItem :key="item.id" :index="index" :entry="item"></AudioItem>
-        </DynamicScrollerItem>
+  <div class="container flex flex-col gap-2 mx-auto">
+    <DataTable :data="pendingEntries">
+      <template v-slot:fallback>
+        <span class="p-4 rounded-xl border-2 border-gray-400"
+          >Add some data pal</span
+        >
       </template>
-    </DynamicScroller>
-  </div>
-  <div
-    class="container mx-auto mt-4 rounded-lg border-2 border-gray-400 overflow-clip"
-  >
-    <div v-if="entriesInDB.length === 0" class="p-4">
-      <p>Nothing in DB pal</p>
-    </div>
-    <DynamicScroller :items="entriesInDB" :min-item-size="75" v-else>
-      <template v-slot="{ item, index, active }">
-        <DynamicScrollerItem :item="item" :data-index="index" :active="active">
-          <AudioItem :key="item.id" :index="index" :entry="item"></AudioItem>
-        </DynamicScrollerItem>
+      <template v-slot:item="{ index, entry }">
+        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
-    </DynamicScroller>
+    </DataTable>
+
+    <DataTable :data="processingEntried">
+      <template v-slot:fallback>
+        <span class="p-4 rounded-xl border-2 border-gray-400"
+          >Submit some data pal</span
+        >
+      </template>
+      <template v-slot:item="{ index, entry }">
+        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+      </template>
+    </DataTable>
+
+    <DataTable
+      :data="entriesInDB"
+      :class-name="
+        entriesInDB.length > 0 ? `rounded-xl border-2 border-gray-400` : ``
+      "
+    >
+      <template v-slot:fallback>
+        <span class="p-4 rounded-xl border-2 border-gray-400"
+          >Nothing in DB pal</span
+        >
+      </template>
+      <template v-slot:item="{ index, entry }">
+        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+      </template>
+    </DataTable>
   </div>
 </template>

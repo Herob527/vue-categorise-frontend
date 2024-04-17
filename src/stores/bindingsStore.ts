@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import { deleteOne, getAll, post } from '@/actions/bindings';
 import { statuses, type Entry } from '@/types/shared';
 import { v4 } from 'uuid';
@@ -6,25 +6,32 @@ import { v4 } from 'uuid';
 export const useBindingsStore = defineStore('bindings', {
   state: () => ({
     entries: [] as Entry[],
-    isInitialised: false,
   }),
   getters: {
-    getAll: (state) => state.entries,
+    getAll: ({ entries }) => entries,
+    getAvailableStatuses: ({ entries }) =>
+      new Set(entries.map((e) => e.status)),
+    getFieldsByStatus:
+      ({ entries }) =>
+      (status: statuses) => {
+        const filtered = entries.filter((e) => e.status === status);
+        console.log(`${status} - ${filtered}`);
+        return filtered;
+      },
   },
   actions: {
-    getAvailableStatuses() {
-      return new Set(this.entries.map((e) => e.status));
-    },
     addLocalFiles(files: FileList) {
-      for (const file of files) {
-        this.entries.push({
-          id: v4(),
-          status: statuses.PENDING,
-          filename: file.name,
-          duration: null,
-          file,
-        });
-      }
+      const newFiles = [...files].map((f) => ({
+        file: f,
+        status: statuses.PENDING,
+        id: v4(),
+        filename: f.name,
+        duration: null,
+      }));
+      console.log('[addLocalFiles - newFiles]', newFiles);
+      this.$patch({
+        entries: [...newFiles, ...this.entries],
+      });
     },
     submit(id: string) {
       const toSubmit = this.entries
@@ -61,14 +68,16 @@ export const useBindingsStore = defineStore('bindings', {
     },
     async synchronise() {
       const data = await getAll();
-      this.$state.entries =
-        data?.map((entry) => ({
-          id: entry.bindings.id,
-          duration: entry.audios.audio_length,
-          filename: entry.audios.file_name,
-          status: statuses.IN_DB,
-          file: new File([], entry.audios.file_name),
-        })) || [];
+      this.$patch({
+        entries:
+          data?.map((entry) => ({
+            id: entry.bindings.id,
+            duration: entry.audios.audio_length,
+            filename: entry.audios.file_name,
+            status: statuses.IN_DB,
+            file: new File([], entry.audios.file_name),
+          })) || [],
+      });
     },
     async deleteAll() {
       for await (const entry of this.entries) {
@@ -87,3 +96,7 @@ export const useBindingsStore = defineStore('bindings', {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useBindingsStore, import.meta.hot));
+}

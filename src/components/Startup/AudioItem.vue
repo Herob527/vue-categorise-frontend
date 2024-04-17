@@ -19,14 +19,6 @@ const store = useBindingsStore();
   <div
     :class="`w-full text-center ${index % 2 == 0 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'}`"
   >
-    <div v-if="index === 0" class="bg-gray-100">
-      <div class="flex justify-between text-xl font-bold">
-        <div class="flex-1 py-2 px-4">Title</div>
-        <div class="flex-1 py-2 px-4">Duration (s)</div>
-        <div class="flex-1 py-2 px-4">Status</div>
-        <div class="flex-1 py-2 px-4">Actions</div>
-      </div>
-    </div>
     <div class="flex justify-between">
       <div class="flex flex-col flex-1 justify-center items-center py-2 px-4">
         <span

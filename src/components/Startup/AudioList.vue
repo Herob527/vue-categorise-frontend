@@ -25,7 +25,12 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
 
 <template>
   <div class="container flex flex-col gap-2 mx-auto">
-    <DataTable :data="pendingEntries">
+    <DataTable
+      :data="pendingEntries"
+      :class-name="
+        pendingEntries.length > 0 ? `rounded-xl border-2 border-gray-400` : ``
+      "
+    >
       <template v-slot:fallback>
         <span class="p-4 rounded-xl border-2 border-gray-400"
           >Add some data pal</span
@@ -34,9 +39,19 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
+      <template v-slot:heading>
+        <p>Pending</p>
+      </template>
     </DataTable>
 
-    <DataTable :data="processingEntried">
+    <DataTable
+      :data="processingEntried"
+      :class-name="
+        processingEntried.length > 0
+          ? `rounded-xl border-2 border-gray-400`
+          : ``
+      "
+    >
       <template v-slot:fallback>
         <span class="p-4 rounded-xl border-2 border-gray-400"
           >Submit some data pal</span
@@ -44,6 +59,9 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
       </template>
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+      </template>
+      <template v-slot:heading>
+        <p>Pending</p>
       </template>
     </DataTable>
 
@@ -60,6 +78,9 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
       </template>
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+      </template>
+      <template v-slot:heading>
+        <p>Pending</p>
       </template>
     </DataTable>
   </div>

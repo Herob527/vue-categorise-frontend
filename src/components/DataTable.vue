@@ -16,6 +16,7 @@ const props = defineProps<{ data: T[]; className?: string }>();
         :active="active"
         v-if="typeof index === 'number'"
       >
+        <slot name="heading" v-if="index === 0" />
         <slot name="item" :key="item.id" :index="index" :entry="item" />
       </DynamicScrollerItem>
     </template>

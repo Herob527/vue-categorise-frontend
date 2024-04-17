@@ -4,7 +4,7 @@ import { useBindingsStore } from '@/stores/bindingsStore';
 import AudioItem from './AudioItem.vue';
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import { statuses } from '@/types/shared';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 
 const store = useBindingsStore();
 
@@ -12,8 +12,10 @@ onMounted(() => {
   store.synchronise();
 });
 
-const pendingEntries = store.getFieldsByStatus(statuses.PENDING);
-const entriesInDB = store.getFieldsByStatus(statuses.IN_DB);
+const pendingEntries = computed(() =>
+  store.getFieldsByStatus(statuses.PENDING),
+);
+const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
 </script>
 
 <template>
@@ -23,11 +25,7 @@ const entriesInDB = store.getFieldsByStatus(statuses.IN_DB);
     <div v-if="pendingEntries.length === 0" class="p-4">
       <p>Enter something pal</p>
     </div>
-    <DynamicScroller
-      :items="pendingEntries"
-      :min-item-size="75"
-      v-if="pendingEntries.length > 0"
-    >
+    <DynamicScroller :items="pendingEntries" :min-item-size="75" vue-else>
       <template v-slot="{ item, index, active }">
         <DynamicScrollerItem :item="item" :data-index="index" :active="active">
           <AudioItem :key="item.id" :index="index" :entry="item"></AudioItem>
@@ -41,11 +39,7 @@ const entriesInDB = store.getFieldsByStatus(statuses.IN_DB);
     <div v-if="entriesInDB.length === 0" class="p-4">
       <p>Nothing in DB pal</p>
     </div>
-    <DynamicScroller
-      :items="entriesInDB"
-      :min-item-size="75"
-      v-if="entriesInDB.length > 0"
-    >
+    <DynamicScroller :items="entriesInDB" :min-item-size="75" v-else>
       <template v-slot="{ item, index, active }">
         <DynamicScrollerItem :item="item" :data-index="index" :active="active">
           <AudioItem :key="item.id" :index="index" :entry="item"></AudioItem>

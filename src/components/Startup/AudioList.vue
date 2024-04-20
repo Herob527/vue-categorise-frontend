@@ -22,7 +22,7 @@ const processingEntried = computed(() =>
 
 const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
 
-const fields = ['File name', 'Duration', 'Actions'];
+const fields = ['File name', 'Duration', 'Actions'] as const;
 </script>
 
 <template>

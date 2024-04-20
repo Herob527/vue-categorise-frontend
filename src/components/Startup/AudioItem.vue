@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import StatusIcon from '../StatusIcon.vue';
 import { type Entry, statuses } from '@/types/shared';
 
 import { useBindingsStore } from '@/stores/bindingsStore';
@@ -29,9 +28,6 @@ const store = useBindingsStore();
         </span>
       </div>
       <div class="flex-1 py-2 px-4">{{ duration ?? '-' }}</div>
-      <div class="relative flex-1 py-2 px-4">
-        <StatusIcon :status="status" />
-      </div>
       <div
         class="flex flex-row flex-1 gap-2 justify-center items-center py-2 px-4"
       >

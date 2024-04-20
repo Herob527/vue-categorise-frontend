@@ -3,7 +3,7 @@ const props = defineProps<{
   data: T[];
   className?: string;
   title?: string;
-  itemKeys?: string[];
+  itemKeys?: string[] | readonly string[];
 }>();
 </script>
 <template>

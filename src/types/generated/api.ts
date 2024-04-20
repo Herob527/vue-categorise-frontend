@@ -26,124 +26,124 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
- * @interface AudiosModel
+ * @interface AudioModel
  */
-export interface AudiosModel {
-    /**
-     * 
-     * @type {number}
-     * @memberof AudiosModel
-     */
-    'channels': number;
+export interface AudioModel {
     /**
      * 
      * @type {string}
-     * @memberof AudiosModel
+     * @memberof AudioModel
      */
     'id': string;
     /**
      * 
-     * @type {number}
-     * @memberof AudiosModel
+     * @type {string}
+     * @memberof AudioModel
      */
-    'audio_length': number;
+    'url': string;
     /**
      * 
      * @type {string}
-     * @memberof AudiosModel
+     * @memberof AudioModel
      */
     'file_name': string;
     /**
      * 
      * @type {number}
-     * @memberof AudiosModel
+     * @memberof AudioModel
+     */
+    'channels': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AudioModel
      */
     'frequency': number;
     /**
      * 
-     * @type {string}
-     * @memberof AudiosModel
+     * @type {number}
+     * @memberof AudioModel
      */
-    'url': string;
+    'audio_length': number;
 }
 /**
  * 
  * @export
- * @interface BindingsModel
+ * @interface BindingEntry
  */
-export interface BindingsModel {
+export interface BindingEntry {
     /**
      * 
      * @type {string}
-     * @memberof BindingsModel
+     * @memberof BindingEntry
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof BindingsModel
-     */
-    'text_id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BindingsModel
+     * @memberof BindingEntry
      */
     'category_id': string;
     /**
      * 
      * @type {string}
-     * @memberof BindingsModel
+     * @memberof BindingEntry
      */
     'audio_id': string;
-}
-/**
- * 
- * @export
- * @interface BindingsResponse
- */
-export interface BindingsResponse {
-    /**
-     * 
-     * @type {BindingsModel}
-     * @memberof BindingsResponse
-     */
-    'bindings': BindingsModel;
-    /**
-     * 
-     * @type {CategoriesModel}
-     * @memberof BindingsResponse
-     */
-    'categories': CategoriesModel;
-    /**
-     * 
-     * @type {AudiosModel}
-     * @memberof BindingsResponse
-     */
-    'audios': AudiosModel;
-    /**
-     * 
-     * @type {TextsModel}
-     * @memberof BindingsResponse
-     */
-    'texts': TextsModel;
-}
-/**
- * 
- * @export
- * @interface CategoriesModel
- */
-export interface CategoriesModel {
     /**
      * 
      * @type {string}
-     * @memberof CategoriesModel
+     * @memberof BindingEntry
+     */
+    'text_id': string;
+}
+/**
+ * 
+ * @export
+ * @interface BindingModel
+ */
+export interface BindingModel {
+    /**
+     * 
+     * @type {BindingEntry}
+     * @memberof BindingModel
+     */
+    'binding': BindingEntry;
+    /**
+     * 
+     * @type {CategoryModel}
+     * @memberof BindingModel
+     */
+    'category': CategoryModel;
+    /**
+     * 
+     * @type {AudioModel}
+     * @memberof BindingModel
+     */
+    'audio': AudioModel;
+    /**
+     * 
+     * @type {TextModel}
+     * @memberof BindingModel
+     */
+    'text': TextModel;
+}
+/**
+ * 
+ * @export
+ * @interface CategoryModel
+ */
+export interface CategoryModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryModel
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof CategoriesModel
+     * @memberof CategoryModel
      */
     'name': string;
 }
@@ -170,21 +170,21 @@ export interface LocationInner {
 /**
  * 
  * @export
- * @interface TextsModel
+ * @interface TextModel
  */
-export interface TextsModel {
+export interface TextModel {
     /**
      * 
      * @type {string}
-     * @memberof TextsModel
-     */
-    'text': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TextsModel
+     * @memberof TextModel
      */
     'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TextModel
+     */
+    'text': string;
 }
 /**
  * 
@@ -803,7 +803,7 @@ export const BindingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllBindingsBindingsAllGet(category?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BindingsResponse>>> {
+        async getAllBindingsBindingsAllGet(category?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BindingModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllBindingsBindingsAllGet(category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.getAllBindingsBindingsAllGet']?.[localVarOperationServerIndex]?.url;
@@ -816,7 +816,7 @@ export const BindingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getBindingBindingsBindingIdGet(bindingId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getBindingBindingsBindingIdGet(bindingId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BindingModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getBindingBindingsBindingIdGet(bindingId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.getBindingBindingsBindingIdGet']?.[localVarOperationServerIndex]?.url;
@@ -842,7 +842,7 @@ export const BindingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BindingModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getPaginatedBindingsBindingsGet(page, perPage, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.getPaginatedBindingsBindingsGet']?.[localVarOperationServerIndex]?.url;
@@ -889,7 +889,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllBindingsBindingsAllGet(category?: string, options?: any): AxiosPromise<Array<BindingsResponse>> {
+        getAllBindingsBindingsAllGet(category?: string, options?: any): AxiosPromise<Array<BindingModel>> {
             return localVarFp.getAllBindingsBindingsAllGet(category, options).then((request) => request(axios, basePath));
         },
         /**
@@ -899,7 +899,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBindingBindingsBindingIdGet(bindingId: string, options?: any): AxiosPromise<any> {
+        getBindingBindingsBindingIdGet(bindingId: string, options?: any): AxiosPromise<BindingModel> {
             return localVarFp.getBindingBindingsBindingIdGet(bindingId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -919,7 +919,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: any): AxiosPromise<any> {
+        getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: any): AxiosPromise<Array<BindingModel>> {
             return localVarFp.getPaginatedBindingsBindingsGet(page, perPage, options).then((request) => request(axios, basePath));
         },
         /**

@@ -16,17 +16,17 @@ const router = createRouter({
     {
       path: '/transcript',
       name: 'transcript',
-      component: () => import('../views/Transcript.vue'),
+      component: () => import('../views/TranscriptPage.vue'),
     },
     {
       path: '/finalise',
       name: 'finalise',
-      component: () => import('../views/Finalise.vue'),
+      component: () => import('../views/FinalisePage.vue'),
     },
     {
       path: '/configuration',
       name: 'configuration',
-      component: () => import('../views/Configuration.vue'),
+      component: () => import('../views/ConfigurationPage.vue'),
     },
   ],
 });

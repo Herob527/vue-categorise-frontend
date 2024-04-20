@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
-import AudioList from '@/components/Startup/AudioList.vue';
-import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
+import TranscriptList from '@/components/Transcript/TranscriptList.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -21,7 +20,6 @@ const handleClick = () => {
     </ActionButton>
   </nav>
   <main class="mb-4">
-    <TableActionPanel />
-    <AudioList />
+    <TranscriptList />
   </main>
 </template>

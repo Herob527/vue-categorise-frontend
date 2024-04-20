@@ -19,6 +19,8 @@ const handleClick = () => {
       Go home
     </ActionButton>
   </nav>
-  <TableActionPanel />
-  <AudioList />
+  <main class="mb-4">
+    <TableActionPanel />
+    <AudioList />
+  </main>
 </template>

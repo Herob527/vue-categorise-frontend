@@ -53,6 +53,9 @@ dependencies:
   vue-virtual-scroller:
     specifier: 2.0.0-beta.8
     version: 2.0.0-beta.8(vue@3.4.23)
+  wavesurfer.js:
+    specifier: ^7.7.11
+    version: 7.7.11
 
 devDependencies:
   '@rushstack/eslint-patch':
@@ -4978,6 +4981,10 @@ packages:
     dependencies:
       xml-name-validator: 5.0.0
     dev: true
+
+  /wavesurfer.js@7.7.11:
+    resolution: {integrity: sha512-27otJlDBcUSbMh/YkxEZN0yXTHINQNYSOl5aJplYlIaHw2u3BrABUzOmUZV3dKIy8udOLJXS/67y5pOIzgAg+w==}
+    dev: false
 
   /wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}

@@ -30,7 +30,8 @@
     "vue": "^3.4.23",
     "vue-i18n": "^9.13.0",
     "vue-router": "^4.3.1",
-    "vue-virtual-scroller": "2.0.0-beta.8"
+    "vue-virtual-scroller": "2.0.0-beta.8",
+    "wavesurfer.js": "^7.7.11"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.2",

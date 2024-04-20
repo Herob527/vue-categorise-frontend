@@ -21,6 +21,8 @@ const processingEntried = computed(() =>
 );
 
 const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
+
+const fields = ['File name', 'Duration', 'Actions'];
 </script>
 
 <template>
@@ -28,19 +30,18 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
     <DataTable
       :data="pendingEntries"
       :class-name="
-        pendingEntries.length > 0 ? `rounded-xl border-2 border-gray-400` : ``
+        pendingEntries.length > 0
+          ? `rounded-xl border-2 border-primary-500`
+          : ``
       "
+      :item-keys="fields"
+      title="Pending"
     >
       <template v-slot:fallback>
-        <span class="p-4 rounded-xl border-2 border-gray-400"
-          >Add some data pal</span
-        >
+        <span class="p-4 bg-white">Add some data pal</span>
       </template>
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
-      </template>
-      <template v-slot:heading>
-        <p>Pending</p>
       </template>
     </DataTable>
 
@@ -48,39 +49,34 @@ const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
       :data="processingEntried"
       :class-name="
         processingEntried.length > 0
-          ? `rounded-xl border-2 border-gray-400`
+          ? `rounded-xl border-2 border-primary-500`
           : ``
       "
+      :item-keys="fields"
+      title="Processing"
     >
       <template v-slot:fallback>
-        <span class="p-4 rounded-xl border-2 border-gray-400"
-          >Submit some data pal</span
-        >
+        <span class="p-4 bg-white">Submit some data pal</span>
       </template>
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
-      </template>
-      <template v-slot:heading>
-        <p>Pending</p>
       </template>
     </DataTable>
 
     <DataTable
       :data="entriesInDB"
       :class-name="
-        entriesInDB.length > 0 ? `rounded-xl border-2 border-gray-400` : ``
+        entriesInDB.length > 0 ? `rounded-xl border-2 border-primary-500` : ``
       "
+      :item-keys="fields"
+      title="In DB"
     >
       <template v-slot:fallback>
-        <span class="p-4 rounded-xl border-2 border-gray-400"
-          >Nothing in DB pal</span
-        >
+        <span class="p-4">Nothing in DB pal</span>
       </template>
+
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
-      </template>
-      <template v-slot:heading>
-        <p>In database</p>
       </template>
     </DataTable>
   </div>

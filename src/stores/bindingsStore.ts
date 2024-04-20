@@ -28,7 +28,6 @@ export const useBindingsStore = defineStore('bindings', {
         filename: f.name,
         duration: null,
       }));
-      console.log('[addLocalFiles - newFiles]', newFiles);
       this.$patch({
         entries: [...newFiles, ...this.entries],
       });
@@ -43,7 +42,6 @@ export const useBindingsStore = defineStore('bindings', {
         try {
           entry.status = statuses.PROCESSING;
           await post({ audio: entry.file, category: 'unassigned' });
-          console.log("[submit - 'after-post']", 'after-post');
           this.synchronise();
         } catch (e) {
           console.error(e);
@@ -71,11 +69,11 @@ export const useBindingsStore = defineStore('bindings', {
       this.$patch({
         entries:
           data?.map((entry) => ({
-            id: entry.bindings.id,
-            duration: entry.audios.audio_length,
-            filename: entry.audios.file_name,
+            id: entry.binding.id,
+            duration: entry.audio.audio_length,
+            filename: entry.audio.file_name,
             status: statuses.IN_DB,
-            file: new File([], entry.audios.file_name),
+            file: new File([], entry.audio.file_name),
           })) || [],
       });
     },

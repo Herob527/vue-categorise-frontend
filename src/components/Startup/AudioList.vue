@@ -20,6 +20,8 @@ const processingEntried = computed(() =>
   store.getFieldsByStatus(statuses.PROCESSING),
 );
 
+const errorEntries = computed(() => store.getFieldsByStatus(statuses.ERROR));
+
 const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
 
 const fields = ['File name', 'Duration', 'Actions'] as const;
@@ -73,6 +75,21 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
     >
       <template v-slot:fallback>
         <span class="p-4">Nothing in DB pal</span>
+      </template>
+
+      <template v-slot:item="{ index, entry }">
+        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+      </template>
+    </DataTable>
+    <DataTable
+      :data="errorEntries"
+      :class-name="`rounded-xl border-2 border-primary-500`"
+      :item-keys="fields"
+      title="Errored"
+      v-if="errorEntries.length > 0"
+    >
+      <template v-slot:fallback>
+        <span class="p-4">Everything going just fine for now pal</span>
       </template>
 
       <template v-slot:item="{ index, entry }">

@@ -38,8 +38,11 @@ export const getPaginated = async ({
   page: number;
   pageSize: number;
 }) => {
-  const res = await axiosApi.get(`bindings?page=${page}&per_page=${pageSize}`);
-  return res.data;
+  const { data } = await bindingsApi.getPaginatedBindingsBindingsGet(
+    page,
+    pageSize,
+  );
+  return data;
 };
 
 export const getOne = async ({ id }: { id: UUID }) => {

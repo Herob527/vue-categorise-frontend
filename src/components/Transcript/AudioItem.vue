@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
+import { type AudioModel } from '@/types/generated';
 
-const props = defineProps<{ fullUrl: string }>();
+const { audioData } = defineProps<{ audioData: AudioModel }>();
 
+const splitUrl = audioData.url.split('/').slice(1).join('/');
+
+const fullUrl = `http://localhost:8000/static/${splitUrl}`;
 const wsInstance = ref<WaveSurfer | null>(null);
 const wsContainer = ref(null);
 
@@ -13,7 +17,7 @@ const init = () => {
     container: wsContainer.value,
     waveColor: 'rgb(200, 0, 200)',
     progressColor: 'rgb(100, 0, 100)',
-    url: props.fullUrl,
+    url: fullUrl,
   });
 
   wavesurfer.on('click', () => {
@@ -27,5 +31,5 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div ref="wsContainer" class="w-64 h-64"></div>
+  <div ref="wsContainer" class="w-64"></div>
 </template>

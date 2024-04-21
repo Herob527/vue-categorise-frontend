@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import AudioItem from './AudioItem.vue';
+import CategoryItem from './CategoryItem.vue';
+import TextItem from './TextItem.vue';
+import { type BindingModel } from '@/types/generated';
 
-const props = defineProps<{
-  fileName: string;
-  audioId: string;
-  duration: number;
-  dataUrl: string;
+defineProps<{
+  entry: BindingModel;
 }>();
-
-const fullUrl = `http://localhost:8000/static/${props.dataUrl.replace('audios/', '')}`;
 </script>
 <template>
   <div class="flex flex-row gap-2">
-    <span>{{ fileName }}</span>
-    <AudioItem :full-url="fullUrl" />
+    <span>{{ entry.audio.file_name }}</span>
+    <AudioItem :audioData="entry.audio" />
+    <TextItem :textData="entry.text" />
+    <CategoryItem :categoryData="entry.category" />
   </div>
 </template>

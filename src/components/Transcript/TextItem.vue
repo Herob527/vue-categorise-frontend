@@ -1,0 +1,28 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { type TextModel } from '@/types/generated';
+import { updateOne } from '@/actions/texts';
+import { useMutation } from '@tanstack/vue-query';
+import { debounce } from '@/utils/debounceWrapper';
+
+const { textData } = defineProps<{ textData: TextModel }>();
+
+const { mutate } = useMutation({
+  mutationFn: async (newText: string) => {
+    updateOne({ id: textData.id, text: newText });
+  },
+});
+
+const [debounceMutation] = debounce((newText: string) => {
+  mutate(newText);
+}, 500);
+
+const handleInput = (event: Event) => {
+  const newText = (event.currentTarget as HTMLTextAreaElement).value;
+  debounceMutation(newText);
+};
+</script>
+
+<template>
+  <textarea @input="handleInput" :value="textData.text"> </textarea>
+</template>

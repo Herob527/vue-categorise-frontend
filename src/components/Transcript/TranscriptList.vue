@@ -17,9 +17,6 @@ const { data, refetch } = useQuery({
   <TranscriptItem
     v-for="entry in data"
     :key="entry.binding.id"
-    :file-name="entry.audio.file_name"
-    :audio-id="entry.audio.id"
-    :duration="entry.audio.audio_length"
-    :data-url="entry.audio.url"
+    :entry="entry"
   />
 </template>

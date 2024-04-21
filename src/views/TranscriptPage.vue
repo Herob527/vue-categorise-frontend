@@ -19,7 +19,7 @@ const handleClick = () => {
       Go home
     </ActionButton>
   </nav>
-  <main class="mb-4">
+  <main class="flex flex-col flex-1 gap-3 px-2 mx-auto mb-4">
     <TranscriptList />
   </main>
 </template>

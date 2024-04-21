@@ -5,7 +5,7 @@ import { updateOne } from '@/actions/texts';
 import { useMutation } from '@tanstack/vue-query';
 import { debounce } from '@/utils/debounceWrapper';
 
-const { textData } = defineProps<{ textData: TextModel }>();
+const { textData } = defineProps<{ textData: TextModel; className?: string }>();
 
 const { mutate } = useMutation({
   mutationFn: async (newText: string) => {
@@ -24,5 +24,6 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <textarea @input="handleInput" :value="textData.text"> </textarea>
+  <textarea @input="handleInput" :value="textData.text" :class="className">
+  </textarea>
 </template>

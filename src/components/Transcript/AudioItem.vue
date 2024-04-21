@@ -3,7 +3,10 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import { type AudioModel } from '@/types/generated';
 
-const { audioData } = defineProps<{ audioData: AudioModel }>();
+const { audioData } = defineProps<{
+  audioData: AudioModel;
+  className?: string;
+}>();
 
 const splitUrl = audioData.url.split('/').slice(1).join('/');
 
@@ -31,5 +34,5 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div ref="wsContainer" class="w-64"></div>
+  <div ref="wsContainer" :class="`w-64 ${className}`"></div>
 </template>

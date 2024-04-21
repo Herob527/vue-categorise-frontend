@@ -2,7 +2,10 @@
 import { type CategoryModel } from '@/types/generated';
 import { useQuery } from '@tanstack/vue-query';
 import { getAll } from '@/actions/categories';
-const props = defineProps<{ categoryData: CategoryModel }>();
+defineProps<{
+  categoryData: CategoryModel;
+  className?: string;
+}>();
 
 const { data } = useQuery({
   queryKey: ['category', 'get'],
@@ -10,7 +13,7 @@ const { data } = useQuery({
 });
 </script>
 <template>
-  <select>
+  <select :class="className">
     <option
       v-for="entry in data"
       :key="entry.id"

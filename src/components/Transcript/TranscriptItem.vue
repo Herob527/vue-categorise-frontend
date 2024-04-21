@@ -10,9 +10,9 @@ defineProps<{
 </script>
 <template>
   <div class="flex flex-row gap-2">
-    <span>{{ entry.audio.file_name }}</span>
-    <AudioItem :audioData="entry.audio" />
-    <TextItem :textData="entry.text" />
-    <CategoryItem :categoryData="entry.category" />
+    <span class="flex-1">{{ entry.audio.file_name }}</span>
+    <AudioItem :audioData="entry.audio" class="flex-1" />
+    <TextItem :textData="entry.text" class="flex-1" />
+    <CategoryItem :categoryData="entry.category" class="flex-1" />
   </div>
 </template>

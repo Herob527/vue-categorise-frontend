@@ -1197,7 +1197,7 @@ export const CategoryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllCategoriesCategoriesGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getAllCategoriesCategoriesGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CategoryModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllCategoriesCategoriesGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CategoryApi.getAllCategoriesCategoriesGet']?.[localVarOperationServerIndex]?.url;
@@ -1260,7 +1260,7 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllCategoriesCategoriesGet(options?: any): AxiosPromise<any> {
+        getAllCategoriesCategoriesGet(options?: any): AxiosPromise<Array<CategoryModel>> {
             return localVarFp.getAllCategoriesCategoriesGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -1497,11 +1497,11 @@ export const TextsApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Get Text
-         * @param {number} textId 
+         * @param {string} textId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTextTextsTextIdGet: async (textId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getTextTextsTextIdGet: async (textId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'textId' is not null or undefined
             assertParamExists('getTextTextsTextIdGet', 'textId', textId)
             const localVarPath = `/texts/{text_id}`
@@ -1642,20 +1642,16 @@ export const TextsApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-            const localVarFormParams = new URLSearchParams();
 
-
-            if (newText !== undefined) { 
-                localVarFormParams.set('new_text', newText as any);
+            if (newText !== undefined) {
+                localVarQueryParameter['new_text'] = newText;
             }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+
+
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams.toString();
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1687,11 +1683,11 @@ export const TextsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Text
-         * @param {number} textId 
+         * @param {string} textId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTextTextsTextIdGet(textId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getTextTextsTextIdGet(textId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TextModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getTextTextsTextIdGet(textId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TextsApi.getTextTextsTextIdGet']?.[localVarOperationServerIndex]?.url;
@@ -1761,11 +1757,11 @@ export const TextsApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Get Text
-         * @param {number} textId 
+         * @param {string} textId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTextTextsTextIdGet(textId: number, options?: any): AxiosPromise<any> {
+        getTextTextsTextIdGet(textId: string, options?: any): AxiosPromise<TextModel> {
             return localVarFp.getTextTextsTextIdGet(textId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1825,12 +1821,12 @@ export class TextsApi extends BaseAPI {
     /**
      * 
      * @summary Get Text
-     * @param {number} textId 
+     * @param {string} textId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TextsApi
      */
-    public getTextTextsTextIdGet(textId: number, options?: RawAxiosRequestConfig) {
+    public getTextTextsTextIdGet(textId: string, options?: RawAxiosRequestConfig) {
         return TextsApiFp(this.configuration).getTextTextsTextIdGet(textId, options).then((request) => request(this.axios, this.basePath));
     }
 

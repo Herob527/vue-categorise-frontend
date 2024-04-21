@@ -1,8 +1,16 @@
 import { axiosApi } from '@/axiosConfig';
+import { CategoryApi } from '@/types/generated';
+
+const categoryApi = new CategoryApi(
+  {
+    isJsonMime: (mime: string) => mime === 'application/json',
+  },
+  'http://localhost:8000',
+);
 
 export const getAll = async () => {
-  const res = await axiosApi.get('categories');
-  return res.data;
+  const { data } = await categoryApi.getAllCategoriesCategoriesGet();
+  return data;
 };
 
 export const deleteOne = async ({ name }: { name: string }) => {
@@ -17,13 +25,6 @@ export const updateOne = async ({ id, name }: { id: string; name: string }) => {
   return res.data;
 };
 export const post = async ({ id, name }: { id: string; name: string }) => {
-  const formData = new FormData();
-  formData.set('id', id);
-  formData.set('category', name);
-  const res = await axiosApi.post('categories', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-  return res.data;
+  const { data } = await categoryApi.postNewCategoryCategoriesPost(id, name);
+  return data;
 };

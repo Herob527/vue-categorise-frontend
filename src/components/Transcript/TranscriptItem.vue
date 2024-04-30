@@ -13,6 +13,9 @@ defineProps<{
     <span class="flex-1">{{ entry.audio.file_name }}</span>
     <AudioItem :audioData="entry.audio" class="flex-1" />
     <TextItem :textData="entry.text" class="flex-1" />
-    <CategoryItem :categoryData="entry.category" class="flex-1" />
+    <CategoryItem
+      :categoryData="entry.category"
+      class="flex-1 p-2 rounded-xl border-2 h-min border-primary-500"
+    />
   </div>
 </template>

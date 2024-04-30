@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type CategoryModel } from '@/types/generated';
-import { useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import { getAll } from '@/actions/categories';
 defineProps<{
   categoryData: CategoryModel;
@@ -13,11 +13,11 @@ const { data } = useQuery({
 });
 </script>
 <template>
-  <select :class="className">
+  <select :class="className" :on-change="$emit('change')">
     <option
       v-for="entry in data"
       :key="entry.id"
-      value="entry.id"
+      :value="entry.id"
       :selected="entry.id === categoryData.id"
     >
       {{ entry.name }}

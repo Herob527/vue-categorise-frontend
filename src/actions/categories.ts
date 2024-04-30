@@ -24,7 +24,7 @@ export const updateOne = async ({ id, name }: { id: string; name: string }) => {
   const res = await axiosApi.patch(`categories/${id}`, formData);
   return res.data;
 };
-export const post = async ({ id, name }: { id: string; name: string }) => {
-  const { data } = await categoryApi.postNewCategoryCategoriesPost(id, name);
+export const post = async ({ name }: { name: string }) => {
+  const { data } = await categoryApi.postNewCategoryCategoriesPost(name);
   return data;
 };

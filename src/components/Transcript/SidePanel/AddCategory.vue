@@ -31,7 +31,7 @@ const handleSubmit = async () => {
 };
 </script>
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col p-2 border-2 border-primary-800">
     <label for="new_category_name">Name</label>
     <input
       type="text"

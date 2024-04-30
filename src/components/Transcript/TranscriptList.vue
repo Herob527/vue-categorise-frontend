@@ -16,7 +16,7 @@ const { data, refetch } = useQuery({
 </script>
 <template>
   <div class="flex flex-row gap-4">
-    <div class="flex-1">
+    <div class="flex flex-col flex-1 gap-2">
       <TranscriptItem
         v-for="entry in data"
         :key="entry.binding.id"

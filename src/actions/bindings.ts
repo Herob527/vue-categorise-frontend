@@ -59,3 +59,18 @@ export const getCount = async () => {
   const res = await axiosApi.get('bindings/count');
   return res.data;
 };
+
+export const updateOneCategory = async ({
+  bindingId,
+  categoryId,
+}: {
+  bindingId: UUID;
+  categoryId: string;
+}) => {
+  const res =
+    await bindingsApi.bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(
+      bindingId,
+      categoryId,
+    );
+  return res;
+};

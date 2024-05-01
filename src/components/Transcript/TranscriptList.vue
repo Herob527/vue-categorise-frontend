@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 import { getPaginated } from '@/actions/bindings';
-import { ref } from 'vue';
 import TranscriptItem from './TranscriptItem.vue';
 import SidePanelContainer from './SidePanel/SidePanelContainer.vue';
+import { ENTRIES_PER_PAGE } from '@/constants';
 
-const page = ref(1);
-const pageSize = ref(10);
-
-const { data, refetch } = useQuery({
-  queryKey: ['get-paginated-transcript', page, pageSize],
-  queryFn: async () =>
-    getPaginated({ page: page.value, pageSize: pageSize.value }),
+const { data } = useQuery({
+  queryKey: ['get-paginated-transcript'],
+  meta: {
+    page: 0,
+    pageSize: ENTRIES_PER_PAGE,
+  },
+  queryFn: async ({ meta }) => {
+    const { page, pageSize } = (meta as { page: number; pageSize: number }) || {
+      page: 0,
+      pageSize: ENTRIES_PER_PAGE,
+    };
+    return getPaginated({ page, pageSize });
+  },
 });
 </script>
 <template>

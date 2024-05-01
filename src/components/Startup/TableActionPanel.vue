@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
 import { useBindingsStore } from '@/stores/bindingsStore';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faFile, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ref } from 'vue';
 
 const inputFileRef = ref<HTMLInputElement | null>(null);
@@ -39,8 +39,8 @@ const handleSubmitAll = () => {
           multiple
           @change="handleFileUpload"
         />
-        <FontAwesomeIcon
-          icon="fa-solid fa-file"
+        <font-awesome-icon
+          :icon="faFile"
           class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
         />
       </ActionButton>
@@ -49,8 +49,8 @@ const handleSubmitAll = () => {
         :class-name="`${'bg-blue-500 hover:bg-blue-700 cursor-pointer'} text-white px-4 py-4 relative rounded-md`"
         label="Submit all"
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-plus"
+        <font-awesome-icon
+          :icon="faPlus"
           class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
         />
       </ActionButton>
@@ -59,8 +59,8 @@ const handleSubmitAll = () => {
         class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700"
         label="Delete all"
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-trash"
+        <font-awesome-icon
+          :icon="faTrash"
           class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
         />
       </ActionButton>

@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { type Entry, statuses } from '@/types/shared';
 
+import {
+  faRotateRight,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { useBindingsStore } from '@/stores/bindingsStore';
 
 const props = defineProps<{ entry: Entry; index: number }>();
@@ -37,8 +41,8 @@ const store = useBindingsStore();
           class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700"
           label="Delete"
         >
-          <FontAwesomeIcon
-            icon="fa-solid fa-trash"
+          <font-awesome-icon
+            :icon="faTrash"
             class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
           />
         </ActionButton>
@@ -49,8 +53,8 @@ const store = useBindingsStore();
           class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
           label="Add"
         >
-          <FontAwesomeIcon
-            icon="fa-solid fa-plus"
+          <font-awesome-icon
+            :icon="faPlus"
             class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
           />
         </ActionButton>
@@ -61,8 +65,8 @@ const store = useBindingsStore();
           class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700"
           label="Retry"
         >
-          <FontAwesomeIcon
-            icon="fa-solid fa-rotate-right"
+          <font-awesome-icon
+            :icon="faRotateRight"
             class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2"
           />
         </ActionButton>

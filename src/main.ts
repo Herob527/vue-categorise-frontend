@@ -5,8 +5,7 @@ import App from './App.vue';
 import router from './router';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library, config } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { config } from '@fortawesome/fontawesome-svg-core';
 import VueVirtualScroller from 'vue-virtual-scroller';
 import { createI18n } from 'vue-i18n';
 import enUs from './locale/en-US.json';
@@ -25,7 +24,6 @@ const i18n = createI18n<{
 
 app.use(VueVirtualScroller);
 app.use(i18n);
-library.add(fas);
 
 config.styleDefault = 'solid';
 

@@ -11,3 +11,5 @@ export const STATUS_COLORS: Record<`${statuses}`, string> = {
   processing: 'blue',
   inDatabase: 'orange',
 };
+
+export const ENTRIES_PER_PAGE = 20;

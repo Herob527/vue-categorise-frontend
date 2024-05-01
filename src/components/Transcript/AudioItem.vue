@@ -28,11 +28,15 @@ const init = () => {
   });
   wsInstance.value = wavesurfer;
 };
-onMounted(init);
+onMounted(() => init());
 onUnmounted(() => {
+  wsInstance.value?.unAll();
+  wsInstance.value?.empty();
+  wsInstance.value?.stop();
   wsInstance.value?.destroy();
+  wsInstance.value = null;
 });
 </script>
 <template>
-  <div ref="wsContainer" :class="`w-64 ${className}`"></div>
+  <div ref="wsContainer" :class="`${className || ''}`.trim()"></div>
 </template>

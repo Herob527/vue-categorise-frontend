@@ -15,10 +15,7 @@ export type postBindingType = {
 
 export type UUID = string;
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
 export const post = async ({ audio, category }: postBindingType) => {
-  await sleep(2000);
   const formData = new FormData();
   formData.set('audio', audio);
   formData.set('category', category);

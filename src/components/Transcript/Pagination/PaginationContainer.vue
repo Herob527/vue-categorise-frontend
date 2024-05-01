@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getCount } from '@/actions/bindings';
-import { ENTRIES_PER_PAGE } from '@/constants';
+import { ENTRIES_PER_PAGE, LOCALSTORAGE_PAGE_KEY } from '@/constants';
 import { useQuery } from '@tanstack/vue-query';
 import PaginationEntry from './PaginationEntry.vue';
 import { computed, ref } from 'vue';
@@ -10,7 +10,12 @@ const { data } = useQuery({
   queryFn: () => getCount(),
 });
 
-const currentPage = ref(0);
+const currentPageFromStorage = parseInt(
+  localStorage.getItem(LOCALSTORAGE_PAGE_KEY) || '0',
+  10,
+);
+
+const currentPage = ref(currentPageFromStorage);
 
 const splitToPages = (amountOfEntries: number) => {
   const pages = Math.ceil(amountOfEntries / ENTRIES_PER_PAGE);
@@ -24,6 +29,11 @@ const splitToPages = (amountOfEntries: number) => {
 const paginationData = computed(() =>
   data.value !== undefined ? splitToPages(data.value) : [],
 );
+
+const handleClick = (newPage: number) => {
+  currentPage.value = newPage;
+  localStorage.setItem(LOCALSTORAGE_PAGE_KEY, `${newPage}`);
+};
 </script>
 <template>
   <footer class="flex gap-2">
@@ -36,7 +46,7 @@ const paginationData = computed(() =>
       @click="
         (newPage: number | Event) => {
           if (typeof newPage !== 'number') return;
-          currentPage = newPage;
+          handleClick(newPage);
         }
       "
     />

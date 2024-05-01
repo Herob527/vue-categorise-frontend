@@ -13,3 +13,5 @@ export const STATUS_COLORS: Record<`${statuses}`, string> = {
 };
 
 export const ENTRIES_PER_PAGE = 20;
+
+export const LOCALSTORAGE_PAGE_KEY = 'lastPage';

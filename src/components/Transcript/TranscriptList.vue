@@ -3,19 +3,20 @@ import { useQuery } from '@tanstack/vue-query';
 import { getPaginated } from '@/actions/bindings';
 import TranscriptItem from './TranscriptItem.vue';
 import SidePanelContainer from './SidePanel/SidePanelContainer.vue';
-import { ENTRIES_PER_PAGE } from '@/constants';
+import { ENTRIES_PER_PAGE, LOCALSTORAGE_PAGE_KEY } from '@/constants';
 
+const currentPageFromStorage = parseInt(
+  localStorage.getItem(LOCALSTORAGE_PAGE_KEY) || '0',
+  10,
+);
 const { data } = useQuery({
   queryKey: ['get-paginated-transcript'],
   meta: {
-    page: 0,
+    page: currentPageFromStorage,
     pageSize: ENTRIES_PER_PAGE,
   },
   queryFn: async ({ meta }) => {
-    const { page, pageSize } = (meta as { page: number; pageSize: number }) || {
-      page: 0,
-      pageSize: ENTRIES_PER_PAGE,
-    };
+    const { page, pageSize } = meta as { page: number; pageSize: number };
     return getPaginated({ page, pageSize });
   },
 });

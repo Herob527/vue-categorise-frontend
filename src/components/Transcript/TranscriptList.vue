@@ -17,7 +17,12 @@ const { data } = useQuery({
   },
   queryFn: async ({ meta }) => {
     const { page, pageSize } = meta as { page: number; pageSize: number };
-    return getPaginated({ page, pageSize });
+    const value = await getPaginated({ page, pageSize });
+    if (value.length === 0) {
+      localStorage.setItem(LOCALSTORAGE_PAGE_KEY, '0');
+      return getPaginated({ page: 0, pageSize });
+    }
+    return value;
   },
 });
 </script>

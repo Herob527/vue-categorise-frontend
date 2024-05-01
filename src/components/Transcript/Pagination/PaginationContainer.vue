@@ -15,8 +15,6 @@ const currentPageFromStorage = parseInt(
   10,
 );
 
-const currentPage = ref(currentPageFromStorage);
-
 const splitToPages = (amountOfEntries: number) => {
   const pages = Math.ceil(amountOfEntries / ENTRIES_PER_PAGE);
   const pagesArray = Array.from({ length: pages }, (_, i) => ({
@@ -29,6 +27,10 @@ const splitToPages = (amountOfEntries: number) => {
 const paginationData = computed(() =>
   data.value !== undefined ? splitToPages(data.value) : [],
 );
+
+const isPageInRange = currentPageFromStorage < paginationData.value.length - 1;
+
+const currentPage = ref(isPageInRange ? currentPageFromStorage : 0);
 
 const handleClick = (newPage: number) => {
   currentPage.value = newPage;

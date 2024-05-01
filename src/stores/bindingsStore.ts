@@ -13,11 +13,8 @@ export const useBindingsStore = defineStore('bindings', {
       new Set(entries.map((e) => e.status)),
     getFieldsByStatus:
       ({ entries }) =>
-      (status: statuses) => {
-        const filtered = entries.filter((e) => e.status === status);
-        console.log(`${status} - ${filtered}`);
-        return filtered;
-      },
+      (status: statuses) =>
+        entries.filter((e) => e.status === status),
   },
   actions: {
     addLocalFiles(files: FileList) {

@@ -13,7 +13,6 @@ export const getOne = async (id: string) => {
 };
 
 export const updateOne = async ({ id, text }: { id: string; text: string }) => {
-  console.log('[updateOne - id,text]', id, text);
   const { data } = await textsApi.updateTextTextsTextIdPatch(id, text);
   return data;
 };

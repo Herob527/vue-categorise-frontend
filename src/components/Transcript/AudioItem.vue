@@ -18,7 +18,7 @@ const init = () => {
   if (wsContainer.value === null) return;
   const wavesurfer = WaveSurfer.create({
     container: wsContainer.value,
-    waveColor: 'rgb(200, 0, 200)',
+    waveColor: '#2196f3',
     progressColor: 'rgb(100, 0, 100)',
     url: fullUrl,
   });

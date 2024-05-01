@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
+import PaginationContainer from '@/components/Transcript/Pagination/PaginationContainer.vue';
 import TranscriptList from '@/components/Transcript/TranscriptList.vue';
 import { useRouter } from 'vue-router';
 
@@ -21,5 +22,6 @@ const handleClick = () => {
   </nav>
   <main class="flex flex-col flex-1 gap-3 px-2 mx-auto mb-4">
     <TranscriptList />
+    <PaginationContainer />
   </main>
 </template>

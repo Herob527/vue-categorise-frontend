@@ -26,7 +26,7 @@ const handleCategoryChange = (event: Event) => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-8 gap-4">
+  <div class="grid grid-flow-col auto-cols-fr gap-4">
     <span class="col-span-1 self-center">{{ entry.audio.file_name }}</span>
     <AudioItem :audioData="entry.audio" class="col-span-3" />
     <TextItem

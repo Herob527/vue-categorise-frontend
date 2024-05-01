@@ -26,16 +26,16 @@ const handleCategoryChange = (event: Event) => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-8 gap-2">
-    <span class="flex-1 self-center">{{ entry.audio.file_name }}</span>
-    <AudioItem :audioData="entry.audio" class="flex-1 col-span-2" />
+  <div class="grid grid-cols-8 gap-4">
+    <span class="col-span-1 self-center">{{ entry.audio.file_name }}</span>
+    <AudioItem :audioData="entry.audio" class="col-span-3" />
     <TextItem
       :textData="entry.text"
-      class="col-span-4 p-2 border-2 border-primary-500"
+      class="col-span-3 p-2 border-2 border-primary-500"
     />
     <CategoryItem
       :categoryData="entry.category"
-      class="col-span-1 self-center p-2 rounded-xl border-2 h-min border-primary-500"
+      class="col-span-1 self-center p-2 rounded-md border-2 border-primary-500"
       :onchange="handleCategoryChange"
     />
   </div>

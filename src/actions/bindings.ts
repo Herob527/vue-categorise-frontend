@@ -56,8 +56,8 @@ export const deleteOne = async ({ id }: { id: UUID }) => {
 };
 
 export const getCount = async () => {
-  const res = await axiosApi.get('bindings/count');
-  return res.data;
+  const { data } = await bindingsApi.getCountBindingsCountGet();
+  return data as number;
 };
 
 export const updateOneCategory = async ({

@@ -37,6 +37,7 @@ const handleSubmit = async () => {
       type="text"
       id="new_category_name"
       name="name"
+      class="text-black"
       v-model="categoryName"
     />
     <button :onclick="handleSubmit" type="button">Add category</button>

@@ -24,7 +24,7 @@ const closeHandler = () => {
 };
 </script>
 <template>
-  <nav class="flex flex-row gap-4 px-2 my-4 mx-auto">
+  <nav class="flex flex-row gap-4 py-4 px-2 mx-auto">
     <ActionButton
       :onClick="handleClick"
       class-name="bg-blue-500 text-white px-4 py-2 rounded-xl"
@@ -40,7 +40,7 @@ const closeHandler = () => {
       Settings
     </ActionButton>
   </nav>
-  <main class="flex flex-col flex-1 gap-3 px-2 mx-auto mb-4">
+  <main class="flex flex-col flex-1 gap-3 px-2 pb-4 mx-auto">
     <TranscriptList />
     <PaginationContainer />
     <OptionPanelContainer v-if="isOptionsOpen" @close="closeHandler" />

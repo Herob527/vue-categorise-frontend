@@ -31,7 +31,8 @@ const handleSubmit = async () => {
 };
 </script>
 <template>
-  <div class="flex flex-col p-2 border-2 border-primary-800">
+  <section class="flex flex-col gap-2 p-2 border-2 border-primary-800">
+    <h2 class="text-xl font-bold">Add category</h2>
     <label for="new_category_name">Name</label>
     <input
       type="text"
@@ -40,6 +41,12 @@ const handleSubmit = async () => {
       class="text-black"
       v-model="categoryName"
     />
-    <button :onclick="handleSubmit" type="button">Add category</button>
-  </div>
+    <button
+      :onclick="handleSubmit"
+      type="button"
+      class="p-2 border-2 bg-primary-500 border-primary-600"
+    >
+      Submit
+    </button>
+  </section>
 </template>

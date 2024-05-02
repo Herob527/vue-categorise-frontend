@@ -2,7 +2,6 @@
 import { useQuery } from '@tanstack/vue-query';
 import { getPaginated } from '@/actions/bindings';
 import TranscriptItem from './TranscriptItem.vue';
-import SidePanelContainer from './SidePanel/SidePanelContainer.vue';
 import { ENTRIES_PER_PAGE, LOCALSTORAGE_PAGE_KEY } from '@/constants';
 
 const currentPageFromStorage = parseInt(
@@ -35,6 +34,5 @@ const { data } = useQuery({
         :entry="entry"
       />
     </div>
-    <SidePanelContainer />
   </div>
 </template>

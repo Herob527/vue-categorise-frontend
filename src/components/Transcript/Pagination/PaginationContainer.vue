@@ -28,7 +28,7 @@ const paginationData = computed(() =>
   data.value !== undefined ? splitToPages(data.value) : [],
 );
 
-const isPageInRange = currentPageFromStorage < paginationData.value.length - 1;
+const isPageInRange = currentPageFromStorage <= paginationData.value.length - 1;
 
 const currentPage = ref(isPageInRange ? currentPageFromStorage : 0);
 

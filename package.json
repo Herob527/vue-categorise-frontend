@@ -11,8 +11,9 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "generate": "openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-axios -o src/types/generated",
-    "format": "prettier --write src/"
+    "generate-api-types": "openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-axios -o src/types/generated",
+    "format": "prettier --write src/",
+    "analyse-bundle": "vite-bundle-visualizer"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",

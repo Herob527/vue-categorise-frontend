@@ -83,7 +83,7 @@ export interface BindingEntry {
      * @type {string}
      * @memberof BindingEntry
      */
-    'category_id': string;
+    'category_id'?: string;
     /**
      * 
      * @type {string}
@@ -114,7 +114,7 @@ export interface BindingModel {
      * @type {CategoryModel}
      * @memberof BindingModel
      */
-    'category': CategoryModel;
+    'category'?: CategoryModel;
     /**
      * 
      * @type {AudioModel}
@@ -615,13 +615,13 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
+            if (category !== undefined) {
+                localVarQueryParameter['category'] = category;
+            }
+
 
             if (audio !== undefined) { 
                 localVarFormParams.append('audio', audio as any);
-            }
-    
-            if (category !== undefined) { 
-                localVarFormParams.append('category', category as any);
             }
     
     

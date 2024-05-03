@@ -14,8 +14,9 @@ export const getAll = async () => {
 };
 
 export const deleteOne = async ({ name }: { name: string }) => {
-  const res = await axiosApi.delete(`categories/${name}`);
-  return res.data;
+  const { data } =
+    await categoryApi.removeCategoryCategoriesCategoryNameDelete(name);
+  return data;
 };
 
 export const updateOne = async ({ id, name }: { id: string; name: string }) => {

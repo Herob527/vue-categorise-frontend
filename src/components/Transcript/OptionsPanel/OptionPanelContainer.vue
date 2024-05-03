@@ -2,6 +2,7 @@
 import ActionButton from '@/components/ActionButton.vue';
 import AddCategory from './AddCategory.vue';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import RemoveCategory from './RemoveCategory.vue';
 
 defineEmits(['close']);
 </script>
@@ -11,7 +12,7 @@ defineEmits(['close']);
     @click="$emit('close')"
   ></div>
   <div
-    class="flex fixed top-1/2 left-1/2 z-10 flex-col gap-4 p-2 text-white -translate-x-1/2 -translate-y-1/2 bg-primary-500"
+    class="container flex fixed top-1/2 left-1/2 z-10 flex-col gap-4 p-2 text-white -translate-x-1/2 -translate-y-1/2 bg-primary-500"
   >
     <div>
       <ActionButton
@@ -24,6 +25,11 @@ defineEmits(['close']);
         />
       </ActionButton>
     </div>
-    <AddCategory />
+    <div class="grid grid-cols-4 grid-flow-col gap-2">
+      <div class="bg-primary-600"></div>
+      <AddCategory />
+      <RemoveCategory />
+      <div class="bg-primary-600"></div>
+    </div>
   </div>
 </template>

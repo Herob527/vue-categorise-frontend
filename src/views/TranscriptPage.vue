@@ -5,7 +5,7 @@ import TranscriptList from '@/components/Transcript/TranscriptList.vue';
 import { useRouter } from 'vue-router';
 import { faArrowLeft, faGear } from '@fortawesome/free-solid-svg-icons';
 import { ref } from 'vue';
-import OptionPanelContainer from '@/components/Transcript/SidePanel/OptionPanelContainer.vue';
+import OptionPanelContainer from '@/components/Transcript/OptionsPanel/OptionPanelContainer.vue';
 
 const router = useRouter();
 

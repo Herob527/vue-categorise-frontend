@@ -38,13 +38,13 @@ const handleSubmit = async () => {
       type="text"
       id="new_category_name"
       name="name"
-      class="text-black"
+      class="p-2 text-black"
       v-model="categoryName"
     />
     <button
       :onclick="handleSubmit"
       type="button"
-      class="p-2 border-2 bg-primary-500 border-primary-600"
+      class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600"
     >
       Submit
     </button>

@@ -38,7 +38,7 @@ export const useBindingsStore = defineStore('bindings', {
       toSubmit.forEach(async (entry) => {
         try {
           entry.status = statuses.PROCESSING;
-          await post({ audio: entry.file, category: 'unassigned' });
+          await post({ audio: entry.file });
           this.synchronise();
         } catch (e) {
           console.error(e);
@@ -53,7 +53,7 @@ export const useBindingsStore = defineStore('bindings', {
       toSubmit.forEach(async (entry) => {
         try {
           entry.status = statuses.PROCESSING;
-          await post({ audio: entry.file, category: 'unassigned' });
+          await post({ audio: entry.file });
           this.synchronise();
         } catch (e) {
           console.error(e);

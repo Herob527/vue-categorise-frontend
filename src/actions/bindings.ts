@@ -68,3 +68,11 @@ export const updateOneCategory = async ({
     );
   return res;
 };
+
+export const removeCategoryFromBinding = async (bindingId: UUID) => {
+  const { data } =
+    await bindingsApi.bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(
+      bindingId,
+    );
+  return data;
+};

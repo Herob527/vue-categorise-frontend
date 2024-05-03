@@ -4,7 +4,10 @@ import AudioItem from './AudioItem.vue';
 import CategoryItem from './CategoryItem.vue';
 import TextItem from './TextItem.vue';
 import { type BindingModel } from '@/types/generated';
-import { updateOneCategory } from '@/actions/bindings';
+import {
+  removeCategoryFromBinding,
+  updateOneCategory,
+} from '@/actions/bindings';
 
 const props = defineProps<{
   entry: BindingModel;
@@ -20,9 +23,17 @@ const { mutate } = useMutation({
   }) => updateOneCategory({ bindingId, categoryId }),
 });
 
+const { mutate: mutateRemove } = useMutation({
+  mutationFn: ({ bindingId }: { bindingId: string }) =>
+    removeCategoryFromBinding(bindingId),
+});
 const handleCategoryChange = (event: Event) => {
   const { value } = event.target as HTMLSelectElement;
-  mutate({ bindingId: props.entry.binding.id, categoryId: value });
+  if (value === '0') {
+    mutateRemove({ bindingId: props.entry.binding.id });
+  } else {
+    mutate({ bindingId: props.entry.binding.id, categoryId: value });
+  }
 };
 </script>
 <template>

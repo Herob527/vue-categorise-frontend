@@ -2,6 +2,7 @@
 import { type CategoryModel } from '@/types/generated';
 import { useQuery } from '@tanstack/vue-query';
 import { getAll } from '@/actions/categories';
+
 defineProps<{
   categoryData?: CategoryModel;
   className?: string;
@@ -14,8 +15,12 @@ const { data, isLoading } = useQuery({
 </script>
 <template>
   <select :class="className" :on-change="$emit('change')">
-    <option v-if="data?.length === 0 && !isLoading">No category</option>
-    <option v-if="data && data?.length > 0 && !isLoading">No category</option>
+    <option value="0" v-if="data?.length === 0 && !isLoading">
+      No category
+    </option>
+    <option value="0" v-if="data && data?.length > 0 && !isLoading">
+      No category
+    </option>
     <option
       v-for="entry in data"
       :key="entry.id"

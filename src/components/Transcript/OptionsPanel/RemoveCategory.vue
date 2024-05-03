@@ -15,7 +15,7 @@ const { mutate } = useMutation({
   },
 });
 
-const { data } = useQuery({
+const { data, isLoading } = useQuery({
   queryKey: ['category', 'get'],
   queryFn: () => getAll(),
 });
@@ -37,7 +37,12 @@ const handleChange = (event: Event) => {
     <h2 class="text-xl font-bold">Remove category</h2>
     <div class="flex flex-col gap-2">
       <select @change="handleChange" class="p-2 text-black bg-white">
-        <option value="">Select category</option>
+        <option value="" v-if="!isLoading && data && data.length > 0">
+          Select category
+        </option>
+        <option value="" v-if="!isLoading && data && data.length == 0">
+          No categories to delete
+        </option>
         <option v-for="entry in data" :key="entry.name" :value="entry.name">
           {{ entry.name }}
         </option>

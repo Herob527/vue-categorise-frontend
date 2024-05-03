@@ -10,17 +10,14 @@ const bindingsApi = new BindingsApi(
 
 export type postBindingType = {
   audio: File;
-  category: string;
+  category?: string;
 };
 
 export type UUID = string;
 
 export const post = async ({ audio, category }: postBindingType) => {
-  const formData = new FormData();
-  formData.set('audio', audio);
-  formData.set('category', category);
-  const res = await axiosApi.postForm('bindings', formData);
-  return res.data;
+  const { data } = await bindingsApi.createBindingBindingsPost(audio, category);
+  return data;
 };
 
 export const getAll = async () => {

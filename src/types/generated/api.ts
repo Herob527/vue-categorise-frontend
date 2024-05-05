@@ -154,7 +154,7 @@ export interface CategoryModel {
  */
 export interface FinaliseConfigModel {
     /**
-     * Omit empty texts
+     * 
      * @type {boolean}
      * @memberof FinaliseConfigModel
      */
@@ -171,6 +171,18 @@ export interface FinaliseConfigModel {
      * @memberof FinaliseConfigModel
      */
     'divide_by_category'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FinaliseConfigModel
+     */
+    'category_to_lower'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof FinaliseConfigModel
+     */
+    'category_space_replacer'?: string;
     /**
      * 
      * @type {boolean}

@@ -131,11 +131,35 @@ defineEmits(['submit']);
           </div>
         </div>
         <div class="p-2 bg-white text-primary-500">
+          <h3 class="text-xl font-bold">Category to lower</h3>
+
+          <div class="pl-2">
+            <div class="flex flex-row gap-2">
+              <input type="checkbox" checked readonly />
+              <span
+                >Categories <b>will be</b> converted to <b>lowercase</b></span
+              >
+            </div>
+            <div class="flex flex-row gap-2">
+              <input type="checkbox" readonly />
+              <span
+                >Categories <b>won't</b> be converted to <b>lowercase</b> at all
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 bg-white text-primary-500">
+          <h3 class="text-xl font-bold">Category whitespace substitution</h3>
+          <p class="pl-2">
+            Substitute whitespace in category with given character
+          </p>
+        </div>
+        <div class="p-2 bg-white text-primary-500">
           <h3 class="text-xl font-bold">Uncategorized name</h3>
           <p class="pl-2">
             Name of category for uncatergized audio files in output
           </p>
-          <p class="pl-2">It's required</p>
+          <p class="pl-2 font-bold">Is required</p>
         </div>
 
         <div class="p-2 bg-white text-primary-500">
@@ -187,12 +211,34 @@ defineEmits(['submit']);
     <div class="flex flex-row gap-2">
       <input
         type="checkbox"
+        name="category_to_lower"
+        id="category_to_lower"
+        class="accent-primary-500"
+        v-model="values.category_to_lower"
+      />
+      <label for="category_to_lower">Category to lower</label>
+    </div>
+    <div class="flex flex-row gap-2">
+      <input
+        type="checkbox"
         name="export_transcript"
         id="export_transcript"
         class="accent-primary-500"
         v-model="values.export_transcript"
       />
       <label for="export_transcript">Export transcript</label>
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="category_space_replacer"
+        >Category whitespace substitution</label
+      >
+      <input
+        type="text"
+        name="category_space_replacer"
+        id="category_space_replacer"
+        class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
+        v-model="values.category_space_replacer"
+      />
     </div>
     <div class="flex flex-col gap-1">
       <label for="uncategorized_name">Uncategorized name:</label>

@@ -14,9 +14,9 @@ const handleClick = () => {
   router.replace({ name: 'home' });
 };
 
-const values = useFinaliseStore();
+const store = useFinaliseStore();
 const { mutate } = useMutation({
-  mutationFn: () => post(),
+  mutationFn: () => post(store.$state),
 });
 </script>
 
@@ -31,6 +31,6 @@ const { mutate } = useMutation({
     </ActionButton>
   </nav>
   <main class="container flex mx-auto">
-    <FormView />
+    <FormView @submit="mutate()" />
   </main>
 </template>

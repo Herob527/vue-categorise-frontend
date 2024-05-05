@@ -10,6 +10,8 @@ const entriesInLine = [
 ];
 
 const values = useFinaliseStore();
+
+defineEmits(['submit']);
 </script>
 
 <template>
@@ -67,11 +69,12 @@ const values = useFinaliseStore();
       />
     </div>
     <div class="flex flex-row gap-2">
-      <button type="button" class="flex-1 p-2 text-white bg-blue-500">
+      <button
+        type="button"
+        class="flex-1 p-2 text-white bg-blue-500"
+        @click="$emit('submit')"
+      >
         Submit
-      </button>
-      <button type="button" class="flex-1 p-2 text-white bg-blue-500">
-        Preview
       </button>
     </div>
   </section>

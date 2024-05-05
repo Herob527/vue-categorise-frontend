@@ -154,7 +154,7 @@ export interface CategoryModel {
  */
 export interface FinaliseConfigModel {
     /**
-     * 
+     * Omit empty texts
      * @type {boolean}
      * @memberof FinaliseConfigModel
      */

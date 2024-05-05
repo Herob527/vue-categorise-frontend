@@ -150,6 +150,43 @@ export interface CategoryModel {
 /**
  * 
  * @export
+ * @interface FinaliseConfigModel
+ */
+export interface FinaliseConfigModel {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FinaliseConfigModel
+     */
+    'omit_empty'?: boolean;
+    /**
+     *       supported keys:          {file} - file name          {category} - category name          {category_index} - category index (created automatically)          {text} - text of entry          {duration} - duration of audio in seconds      
+     * @type {string}
+     * @memberof FinaliseConfigModel
+     */
+    'line_format'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FinaliseConfigModel
+     */
+    'divide_by_category'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FinaliseConfigModel
+     */
+    'export_transcript'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof FinaliseConfigModel
+     */
+    'uncaterized_name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -1596,6 +1633,116 @@ export class DefaultApi extends BaseAPI {
      */
     public rootGet(options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).rootGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * FinaliseApi - axios parameter creator
+ * @export
+ */
+export const FinaliseApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Finalise
+         * @param {FinaliseConfigModel} finaliseConfigModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        finaliseFinalisePost: async (finaliseConfigModel: FinaliseConfigModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'finaliseConfigModel' is not null or undefined
+            assertParamExists('finaliseFinalisePost', 'finaliseConfigModel', finaliseConfigModel)
+            const localVarPath = `/finalise/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(finaliseConfigModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FinaliseApi - functional programming interface
+ * @export
+ */
+export const FinaliseApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FinaliseApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Finalise
+         * @param {FinaliseConfigModel} finaliseConfigModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.finaliseFinalisePost(finaliseConfigModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.finaliseFinalisePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * FinaliseApi - factory interface
+ * @export
+ */
+export const FinaliseApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FinaliseApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Finalise
+         * @param {FinaliseConfigModel} finaliseConfigModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: any): AxiosPromise<any> {
+            return localVarFp.finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FinaliseApi - object-oriented interface
+ * @export
+ * @class FinaliseApi
+ * @extends {BaseAPI}
+ */
+export class FinaliseApi extends BaseAPI {
+    /**
+     * 
+     * @summary Finalise
+     * @param {FinaliseConfigModel} finaliseConfigModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinaliseApi
+     */
+    public finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

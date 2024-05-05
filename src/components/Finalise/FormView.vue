@@ -200,7 +200,7 @@ defineEmits(['submit']);
         type="text"
         name="uncategorized_name"
         id="uncategorized_name"
-        class="p-2 w-min rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
+        class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
         v-model="values.uncaterized_name"
         :disabled="!values.divide_by_category"
       />
@@ -215,7 +215,7 @@ defineEmits(['submit']);
         type="text"
         name="line_format"
         id="line_format"
-        class="p-2 w-min rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
+        class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
         v-model="values.line_format"
         :disabled="!values.export_transcript"
       />

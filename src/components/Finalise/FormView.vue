@@ -52,7 +52,9 @@ defineEmits(['submit']);
 </script>
 
 <template>
-  <section class="flex flex-col gap-2 p-2 border-2 border-primary-500">
+  <section
+    class="flex flex-col gap-2 p-2 rounded-xl border-2 border-primary-500"
+  >
     <header class="flex flex-row gap-2 items-center">
       <h2 class="text-2xl font-bold">Finalise options</h2>
       <ActionButton
@@ -198,7 +200,7 @@ defineEmits(['submit']);
         type="text"
         name="uncategorized_name"
         id="uncategorized_name"
-        class="p-2 w-min border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
+        class="p-2 w-min rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
         v-model="values.uncaterized_name"
         :disabled="!values.divide_by_category"
       />
@@ -213,7 +215,7 @@ defineEmits(['submit']);
         type="text"
         name="line_format"
         id="line_format"
-        class="p-2 w-min border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
+        class="p-2 w-min rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
         v-model="values.line_format"
         :disabled="!values.export_transcript"
       />
@@ -224,7 +226,7 @@ defineEmits(['submit']);
     <div class="flex flex-row gap-2">
       <button
         type="button"
-        class="p-2 text-white bg-blue-500 disabled:bg-gray-300"
+        class="p-2 text-white bg-blue-500 rounded-md disabled:bg-gray-300"
         :disabled="submitStatus === 'pending'"
         @click="!(submitStatus === 'pending') && validate() && $emit('submit')"
       >

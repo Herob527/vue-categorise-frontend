@@ -15,3 +15,4 @@ Frontend app for categorising audio files that uses vue
 - [] Adjust pagination to handle large amount of data
 - [] Add preview of finalisation
 - [] Add navigation menu accessible from every subpage
+- [] Handle multiple languages

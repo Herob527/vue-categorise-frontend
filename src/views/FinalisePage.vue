@@ -3,12 +3,21 @@ import ActionButton from '@/components/ActionButton.vue';
 import { useRouter } from 'vue-router';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useMutation } from '@tanstack/vue-query';
+import { post } from '@/actions/finalise';
+import FormView from '@/components/Finalise/FormView.vue';
+import { useFinaliseStore } from '@/stores/finaliseStore';
 
 const router = useRouter();
 
 const handleClick = () => {
   router.replace({ name: 'home' });
 };
+
+const values = useFinaliseStore();
+const { mutate } = useMutation({
+  mutationFn: () => post(),
+});
 </script>
 
 <template>
@@ -21,7 +30,7 @@ const handleClick = () => {
       Go home
     </ActionButton>
   </nav>
-  <main>
-    <p>Test</p>
+  <main class="container flex mx-auto">
+    <FormView />
   </main>
 </template>

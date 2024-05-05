@@ -69,7 +69,7 @@ defineEmits(['submit']);
     </header>
     <ModalComponent v-if="isHelpOpen" @close="isHelpOpen = false" title="Help">
       <div class="flex flex-col gap-2 mt-2">
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Omit empty texts</h3>
 
           <div class="pl-2">
@@ -89,7 +89,7 @@ defineEmits(['submit']);
             </div>
           </div>
         </div>
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Divide by category</h3>
           <div class="pl-2">
             <div class="flex flex-row gap-2">
@@ -114,7 +114,7 @@ defineEmits(['submit']);
             >
           </div>
         </div>
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Export transcript</h3>
           <div class="pl-2">
             <div class="flex flex-row gap-2">
@@ -129,7 +129,7 @@ defineEmits(['submit']);
             </div>
           </div>
         </div>
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Category to lower</h3>
 
           <div class="pl-2">
@@ -147,13 +147,13 @@ defineEmits(['submit']);
             </div>
           </div>
         </div>
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Category whitespace substitution</h3>
           <p class="pl-2">
             Substitute whitespace in category with given character
           </p>
         </div>
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Uncategorized name</h3>
           <p class="pl-2">
             Name of category for uncatergized audio files in output
@@ -161,7 +161,7 @@ defineEmits(['submit']);
           <p class="pl-2 font-bold">Is required</p>
         </div>
 
-        <div class="p-2 bg-white text-primary-500">
+        <div class="p-2 bg-white text-slate-800">
           <h3 class="text-xl font-bold">Line format</h3>
           <div class="flex flex-col pl-2 class">
             <span> Format of line in transcript </span>

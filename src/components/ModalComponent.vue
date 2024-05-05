@@ -10,7 +10,7 @@ defineEmits(['close']);
     @click="$emit('close')"
   ></div>
   <div
-    class="flex fixed top-1/2 left-1/2 z-10 flex-col p-2 text-white -translate-x-1/2 -translate-y-1/2 bg-primary-500"
+    class="flex fixed top-1/2 left-1/2 z-10 flex-col p-2 max-h-screen text-white -translate-x-1/2 -translate-y-1/2 bg-primary-500"
   >
     <div>
       <ActionButton

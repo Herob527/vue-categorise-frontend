@@ -7,8 +7,11 @@ Frontend app for categorising audio files that uses vue
 - node v20
 - pnpm
 
-## TODO
+## Goals
 
+- [x] Working initialisation panel
+- [x] Working transcript panel
+- [x] Working finalisation panel
 - [] Redesign initialisation panel
 - [] Configuration panel
 - [] Add possibility to rename categories

@@ -67,9 +67,8 @@ defineEmits(['submit']);
         />
       </ActionButton>
     </header>
-    <ModalComponent v-if="isHelpOpen" @close="isHelpOpen = false">
+    <ModalComponent v-if="isHelpOpen" @close="isHelpOpen = false" title="Help">
       <div class="flex flex-col gap-2 mt-2">
-        <h2 class="text-2xl font-bold">Help</h2>
         <div class="p-2 bg-white text-primary-500">
           <h3 class="text-xl font-bold">Omit empty texts</h3>
 

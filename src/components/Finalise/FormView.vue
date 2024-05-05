@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { useFinaliseStore } from '@/stores/finaliseStore';
+import type { MutationStatus } from '@tanstack/vue-query';
+import { ref } from 'vue';
+
+defineProps<{ submitStatus: MutationStatus }>();
 
 const entriesInLine = [
   'file',
@@ -9,7 +13,36 @@ const entriesInLine = [
   'duration',
 ];
 
+enum ERRORS {
+  INVALID_FORMAT = 'INVALID_FORMAT',
+  EMPTY_CATEGORY = 'EMPTY_CATEGORY',
+}
+
 const values = useFinaliseStore();
+
+const errors = ref<ERRORS[]>([]);
+
+const validate = () => {
+  errors.value = [];
+
+  const formatEntries = values.line_format.matchAll(/\{(.*?)\}/g);
+
+  for (const [, group] of formatEntries) {
+    if (
+      entriesInLine.indexOf(group) === -1 &&
+      !errors.value.includes(ERRORS.INVALID_FORMAT)
+    ) {
+      errors.value.push(ERRORS.INVALID_FORMAT);
+    }
+  }
+  if (values.uncaterized_name.trim() === '') {
+    errors.value.push(ERRORS.EMPTY_CATEGORY);
+  }
+  if (errors.value.length > 0) {
+    return false;
+  }
+  return true;
+};
 
 defineEmits(['submit']);
 </script>
@@ -57,6 +90,10 @@ defineEmits(['submit']);
         class="p-2 w-min border-2 border-primary-500"
         v-model="values.uncaterized_name"
       />
+
+      <span v-if="errors.includes(ERRORS.EMPTY_CATEGORY)" class="text-red-500"
+        >Category cannot be empty</span
+      >
     </div>
     <div class="flex flex-col gap-1">
       <label for="line_format">Line format:</label>
@@ -67,15 +104,23 @@ defineEmits(['submit']);
         class="p-2 w-min border-2 border-primary-500"
         v-model="values.line_format"
       />
+      <span v-if="errors.includes(ERRORS.INVALID_FORMAT)" class="text-red-500"
+        >Invalid format</span
+      >
     </div>
     <div class="flex flex-row gap-2">
       <button
         type="button"
-        class="flex-1 p-2 text-white bg-blue-500"
-        @click="$emit('submit')"
+        class="flex-1 p-2 text-white bg-blue-500 disabled:bg-gray-300"
+        :disabled="submitStatus === 'pending'"
+        @click="!(submitStatus === 'pending') && validate() && $emit('submit')"
       >
-        Submit
+        <span v-if="submitStatus !== 'error'"> Submit </span>
+        <span v-else> Retry </span>
       </button>
+    </div>
+    <div class="flex flex-row gap-2">
+      <span>Status: {{ submitStatus }}</span>
     </div>
   </section>
 </template>

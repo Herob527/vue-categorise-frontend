@@ -15,7 +15,7 @@ const handleClick = () => {
 };
 
 const store = useFinaliseStore();
-const { mutate } = useMutation({
+const { mutate, status } = useMutation({
   mutationFn: () => post(store.$state),
 });
 </script>
@@ -31,6 +31,6 @@ const { mutate } = useMutation({
     </ActionButton>
   </nav>
   <main class="container flex mx-auto">
-    <FormView @submit="mutate()" />
+    <FormView @submit="mutate()" :submit-status="status" />
   </main>
 </template>

@@ -52,7 +52,7 @@ defineEmits(['submit']);
 </script>
 
 <template>
-  <section class="flex flex-col gap-2 p-2">
+  <section class="flex flex-col gap-2 p-2 border-2 border-primary-500">
     <header class="flex flex-row gap-2 items-center">
       <h2 class="text-2xl font-bold">Finalise options</h2>
       <ActionButton

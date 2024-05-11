@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import ModalComponent from '../ModalComponent.vue';
+defineEmits(['close'])
+
 </script>
 
 <template>

@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/vue-query';
 import { post } from '@/actions/finalise';
 import FormView from '@/components/Finalise/FormView.vue';
 import { useFinaliseStore } from '@/stores/finaliseStore';
+import TranscriptPreview from '@/components/Finalise/Preview/TranscriptPreview.vue';
 
 const router = useRouter();
 
@@ -30,7 +31,8 @@ const { mutate, status } = useMutation({
       Go home
     </ActionButton>
   </nav>
-  <main class="container flex mx-auto">
+  <main class="container flex gap-4 mx-auto">
     <FormView @submit="mutate()" :submit-status="status" />
+    <TranscriptPreview />
   </main>
 </template>

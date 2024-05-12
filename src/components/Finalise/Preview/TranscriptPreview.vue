@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { faker } from '@faker-js/faker';
 import { useFinaliseStore } from '@/stores/finaliseStore';
 import { FilterFactory } from '@/utils/FilterFactory';
+import { ProcessingPipeline } from '@/utils/ProcessingPipeline';
 
 const store = useFinaliseStore();
 
@@ -21,8 +22,28 @@ const extensions = ['wav', 'mp3'];
 const exampleData = ref<ExampleDataItem[]>([]);
 const filteredData = computed(() => {
   const filter = new FilterFactory(exampleData.value);
-  filter.addFilter((item) => item.text.trim() !== '', store.omit_empty);
-  return filter.filter();
+  const filteredEntries = filter
+    .addFilter((item) => item.text.trim() !== '', store.omit_empty)
+    .filter();
+  const processing = new ProcessingPipeline(filteredEntries);
+  const processedData = processing
+    .addStage(
+      (value) => ({
+        ...value,
+        category: value.category.toLowerCase(),
+      }),
+      store.category_to_lower,
+    )
+    .addStage(
+      (value) => ({
+        ...value,
+        category: value.category.replace(/\s+/, store.category_space_replacer),
+      }),
+      !!store.category_space_replacer,
+    )
+    .process();
+
+  return processedData;
 });
 
 onMounted(() => {
@@ -62,12 +83,11 @@ onMounted(() => {
 const processLine = computed(() => (param: ExampleDataItem) => {
   const { fileName, text, categoryIndex, category, duration } = param;
   const formattedText = store.line_format
-    .replace(/\{|\}/g, '')
-    .replace('file', fileName)
-    .replace('duration', duration.toString())
-    .replace('category_index', categoryIndex.toString())
-    .replace('category', category)
-    .replace('text', text);
+    .replace('{file}', fileName)
+    .replace('{duration}', duration.toString())
+    .replace('{category_index}', categoryIndex.toString())
+    .replace('{category}', category)
+    .replace('text}', text);
   return formattedText;
 });
 </script>

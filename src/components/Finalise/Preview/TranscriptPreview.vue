@@ -83,11 +83,11 @@ onMounted(() => {
 const processLine = computed(() => (param: ExampleDataItem) => {
   const { fileName, text, categoryIndex, category, duration } = param;
   const formattedText = store.line_format
-    .replace('{file}', fileName)
-    .replace('{duration}', duration.toString())
-    .replace('{category_index}', categoryIndex.toString())
-    .replace('{category}', category)
-    .replace('text}', text);
+    .replace(/{file}/g, fileName)
+    .replace(/{duration}/g, duration.toString())
+    .replace(/{category_index}/g, categoryIndex.toString())
+    .replace(/{category}/g, category)
+    .replace(/{text}/g, text);
   return formattedText;
 });
 </script>

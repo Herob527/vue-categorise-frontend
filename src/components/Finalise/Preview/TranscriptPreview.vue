@@ -109,9 +109,10 @@ const processLine = computed(() => (param: ExampleDataItem) => {
           class="py-2 text-left text-white index bg-primary-400"
           >{{ Number(index) + 1 }}</span
         >
-        <span class="flex flex-1 gap-4 p-2 line">{{
-          processLine(example)
-        }}</span>
+        <span class="flex flex-1 gap-4 p-2 line">
+          {{ processLine(example).substring(0, 50)
+          }}{{ processLine(example).length > 50 ? '...' : '' }}
+        </span>
       </div>
     </div>
   </section>

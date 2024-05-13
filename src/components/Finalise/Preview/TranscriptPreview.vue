@@ -17,9 +17,12 @@ interface ExampleDataItem {
 }
 
 const categories = ref<string[]>([]);
-const extensions = ['wav', 'mp3'];
+const extensions = ['wav', 'mp3'] as const;
+
+const TRANSCRIPT_ENTRIES = 15;
 
 const exampleData = ref<ExampleDataItem[]>([]);
+
 const filteredData = computed(() => {
   const filter = new FilterFactory(exampleData.value);
   const filteredEntries = filter
@@ -47,24 +50,23 @@ const filteredData = computed(() => {
 });
 
 onMounted(() => {
-  console.log('do-stuff');
   categories.value = faker.lorem
     .words(5)
     .split(' ')
     .map((entry) => {
-      const randomIndex = Math.floor(Math.random() * 10);
+      const randomIndex = Math.floor(Math.random() * TRANSCRIPT_ENTRIES);
       const splitVal = entry.split('');
-      if (randomIndex > 7) {
+      if (randomIndex > TRANSCRIPT_ENTRIES / 2) {
         return faker.lorem.words(2);
       }
-      if (randomIndex < 5) {
+      if (randomIndex < TRANSCRIPT_ENTRIES / 2) {
         return [splitVal[0].toUpperCase(), ...splitVal.slice(1)].join('');
       } else {
         return splitVal.join('');
       }
     });
 
-  exampleData.value = Array.from({ length: 10 }, () => {
+  exampleData.value = Array.from({ length: TRANSCRIPT_ENTRIES }, () => {
     const categoryIndex = Math.floor(Math.random() * categories.value.length);
     const category = categories.value[categoryIndex];
     const fileName = faker.system.fileName({ extensionCount: 0 });
@@ -92,12 +94,44 @@ const processLine = computed(() => (param: ExampleDataItem) => {
 });
 </script>
 <template>
-  <section class="flex flex-col">
-    <h2>Transcript preview</h2>
+  <section
+    class="flex overflow-scroll flex-col rounded-xl border-2 max-h-[500px] border-primary-500"
+  >
+    <h2 class="px-2 my-2 text-2xl font-bold">Transcript preview</h2>
     <div class="flex flex-col">
-      <span v-for="example in filteredData" :key="example.fileName">
-        {{ processLine(example) }}
-      </span>
+      <div
+        v-for="[index, example] in Object.entries(filteredData)"
+        :key="example.fileName"
+        class="flex entry-container"
+      >
+        <span
+          :style="`--length: ${TRANSCRIPT_ENTRIES.toString().length}`"
+          class="py-2 text-left text-white index bg-primary-400"
+          >{{ Number(index) + 1 }}</span
+        >
+        <span class="flex flex-1 gap-4 p-2 line">{{
+          processLine(example)
+        }}</span>
+      </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.index {
+  display: inline-block;
+  padding-left: 0.5rem;
+  padding-right: 0.25rem;
+  width: calc(20px * var(--length)); /* Adjust the width as needed */
+}
+.entry-container:nth-child(odd) .index {
+  background-color: rgb(33 140 220);
+}
+.line {
+  background-color: rgb(209 213 219);
+}
+
+.entry-container:nth-child(odd) .line {
+  background-color: rgb(156 163 175);
+}
+</style>

@@ -10,9 +10,8 @@ export class FilterFactory<T extends any[]> {
   }
 
   filter(): T[number][] {
-    return this.filterValues.filter((value) => {
-      // Check if all predicates return true for the current value
-      return this.filterPredicates.every((predicate) => predicate(value));
-    });
+    return this.filterValues.filter((value) =>
+      this.filterPredicates.every((predicate) => predicate(value)),
+    );
   }
 }

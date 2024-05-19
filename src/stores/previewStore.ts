@@ -9,27 +9,56 @@ const TRANSCRIPT_ENTRIES = 15;
 
 const EXTENSIONS = ['wav', 'mp3'] as const;
 
+interface FakeData {
+  fileName: string;
+  text: string;
+  categoryIndex: number;
+  category: string;
+  duration: number;
+}
+
 export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
   const store = useFinaliseStore();
+  let cached: FakeData[];
 
   const fakeData = computed(() => {
-    // Include store.uncaterized_name directly in the calculation of categories for fakeData
     const categories = [...fakeCategories.value, store.uncategorized_name];
 
-    return Array.from({ length: TRANSCRIPT_ENTRIES }, () => {
-      const categoryIndex = Math.floor(Math.random() * categories.length);
-      const category = categories[categoryIndex];
-      const fileName = faker.system.fileName({ extensionCount: 0 });
-      const extension = faker.helpers.arrayElement(EXTENSIONS);
-      const text = faker.lorem.sentences({ min: 0, max: 2 });
-      return {
-        fileName: `${fileName}.${extension}`,
-        text: text.length > 10 ? `${text.substring(0, 10)}...` : text,
-        categoryIndex,
-        category,
-        duration: faker.number.float({ max: 10, min: 0, fractionDigits: 2 }),
-      };
-    });
+    const data = cached ?? [
+      ...Array.from({ length: TRANSCRIPT_ENTRIES }, () => {
+        const categoryIndex = Math.floor(Math.random() * categories.length);
+        const category = categories[categoryIndex];
+        const fileName = faker.system.fileName({ extensionCount: 0 });
+        const extension = faker.helpers.arrayElement(EXTENSIONS);
+        const text = faker.lorem.sentences({ min: 0, max: 2 });
+        return {
+          fileName: `${fileName}.${extension}`,
+          text: text.length > 10 ? `${text.substring(0, 10)}...` : text,
+          categoryIndex,
+          category,
+          duration: faker.number.float({ max: 10, min: 0, fractionDigits: 2 }),
+        };
+      }),
+      {
+        fileName: 'definitely-not-categorized.mp3',
+        text: '',
+        categoryIndex: categories.length - 1,
+        category: store.uncategorized_name,
+        duration: 10,
+      },
+      {
+        fileName: 'definitely-not-categorized-with-text.mp3',
+        text: 'asda',
+        categoryIndex: categories.length - 1,
+        category: store.uncategorized_name,
+        duration: 5,
+      },
+    ];
+    cached = data;
+    return data.map((entry) => ({
+      ...entry,
+      category: categories[entry.categoryIndex],
+    }));
   });
 
   const fakeCategories = computed(() => {

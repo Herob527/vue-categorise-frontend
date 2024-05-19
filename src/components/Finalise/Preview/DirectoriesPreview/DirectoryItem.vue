@@ -6,7 +6,7 @@ import type { DataProp } from '@/types/shared';
 
 defineProps<{ name: string; data: DataProp[]; depth?: number }>();
 
-const isOpen = ref(true);
+const isOpen = ref(false);
 </script>
 <template>
   <div

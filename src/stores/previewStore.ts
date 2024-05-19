@@ -13,7 +13,9 @@ export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
   const store = useFinaliseStore();
 
   const fakeData = computed(() => {
-    const categories = fakeCategories.value;
+    // Include store.uncaterized_name directly in the calculation of categories for fakeData
+    const categories = [...fakeCategories.value, store.uncategorized_name];
+
     return Array.from({ length: TRANSCRIPT_ENTRIES }, () => {
       const categoryIndex = Math.floor(Math.random() * categories.length);
       const category = categories[categoryIndex];

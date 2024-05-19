@@ -39,7 +39,7 @@ const validate = () => {
       errors.value.push(ERRORS.INVALID_FORMAT);
     }
   }
-  if (values.uncaterized_name.trim() === '') {
+  if (values.uncategorized_name.trim() === '') {
     errors.value.push(ERRORS.EMPTY_CATEGORY);
   }
   if (errors.value.length > 0) {
@@ -128,7 +128,7 @@ defineEmits(['submit']);
         name="uncategorized_name"
         id="uncategorized_name"
         class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-        v-model="values.uncaterized_name"
+        v-model="values.uncategorized_name"
         :disabled="!values.divide_by_category"
       />
 

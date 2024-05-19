@@ -8,6 +8,6 @@ export const useFinaliseStore = defineStore('finalise', {
     category_to_lower: false,
     category_space_replacer: '_',
     export_transcript: true,
-    uncaterized_name: 'Uncategorized',
+    uncategorized_name: 'Uncategorized',
   }),
 });

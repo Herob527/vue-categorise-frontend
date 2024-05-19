@@ -3,11 +3,12 @@ import { useFinalisePreviewStore } from '@/stores/previewStore';
 import DirectoryItem from './DirectoriesPreview/DirectoryItem.vue';
 import type { DataProp, FileShape } from '@/types/shared';
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
-const { filteredData: fakeData } = useFinalisePreviewStore();
+const { filteredData } = storeToRefs(useFinalisePreviewStore());
 
 const getDataForCategory = (category: string) =>
-  fakeData
+  filteredData.value
     .filter((d) => d.category === category)
     .map(
       (entry) =>
@@ -32,9 +33,9 @@ const getDataProps = computed(
     ] satisfies DataProp[],
 );
 
-const categories = computed(
-  () => new Set(fakeData.map((entry) => entry.category)),
-);
+const categories = computed(() => [
+  ...new Set(filteredData.value.map((entry) => entry.category)),
+]);
 </script>
 
 <template>

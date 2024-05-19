@@ -4,7 +4,7 @@ import {
   faInfo,
   faMusic,
 } from '@fortawesome/free-solid-svg-icons';
-const props = defineProps<{ fileName: string }>();
+const props = defineProps<{ fileName: string; isEvenIndex: boolean }>();
 
 const iconMapping = {
   mp3: faMusic,
@@ -18,5 +18,9 @@ const usedIcon =
   extension && extension in iconMapping ? iconMapping[extension] : faInfo;
 </script>
 <template>
-  <font-awesome-icon width="16" :icon="usedIcon" />
+  <font-awesome-icon
+    width="16"
+    :icon="usedIcon"
+    :class="`${isEvenIndex ? 'text-primary-700' : 'text-primary-500 '}`"
+  />
 </template>

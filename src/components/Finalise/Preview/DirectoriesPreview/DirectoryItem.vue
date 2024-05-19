@@ -10,7 +10,7 @@ const isOpen = ref(false);
 </script>
 <template>
   <div
-    :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-black border-2 p-2 rounded-xl'} `"
+    :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-primary-500 border-2 p-2 rounded-xl'} `"
   >
     <button
       type="button"
@@ -20,7 +20,7 @@ const isOpen = ref(false);
       <font-awesome-icon
         width="16"
         :icon="isOpen ? faFolderOpen : faFolder"
-        class="group-hover:text-white text-primary-600 stroke-black"
+        class="group-hover:text-white text-primary-600"
       />
       <span>{{ name }}</span>
     </button>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { faFolder, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { ref } from 'vue';
+import FileIcon from './FileIcon.vue';
 
 type FileShape = {
   fileName: string;
@@ -38,7 +39,10 @@ const dataSize = props.data.length;
         class="flex relative gap-2 border-l-2 border-black"
       >
         <template v-if="entry.isDirectory === false">
-          <span class="flex-1 ml-2">{{ entry.fileName }}</span>
+          <div class="flex flex-row flex-1 gap-2 items-center ml-2">
+            <FileIcon :file-name="entry.fileName" />
+            <span>{{ entry.fileName }} </span>
+          </div>
         </template>
         <template v-else>
           <DirectoryItem

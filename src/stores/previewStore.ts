@@ -24,6 +24,19 @@ export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
   const fakeData = computed(() => {
     const categories = [...fakeCategories.value, store.uncategorized_name];
 
+    const uncategorizedFiles = Array.from({ length: 2 }, () => {
+      const fileName = faker.system.fileName({ extensionCount: 0 });
+      const extension = faker.helpers.arrayElement(EXTENSIONS);
+      const text = faker.lorem.sentences({ min: 0, max: 2 });
+      return {
+        fileName: `${fileName}.${extension}`,
+        text: text.length > 10 ? `${text.substring(0, 10)}...` : text,
+        categoryIndex: categories.length - 1,
+        category: store.uncategorized_name,
+        duration: 10,
+      };
+    });
+
     const data = cached ?? [
       ...Array.from({ length: TRANSCRIPT_ENTRIES }, () => {
         const categoryIndex = Math.floor(Math.random() * categories.length);
@@ -39,20 +52,7 @@ export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
           duration: faker.number.float({ max: 10, min: 0, fractionDigits: 2 }),
         };
       }),
-      {
-        fileName: 'definitely-not-categorized.mp3',
-        text: '',
-        categoryIndex: categories.length - 1,
-        category: store.uncategorized_name,
-        duration: 10,
-      },
-      {
-        fileName: 'definitely-not-categorized-with-text.mp3',
-        text: 'asda',
-        categoryIndex: categories.length - 1,
-        category: store.uncategorized_name,
-        duration: 5,
-      },
+      ...uncategorizedFiles,
     ];
     cached = data;
     return data.map((entry) => ({
@@ -111,7 +111,6 @@ export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
   return { fakeData, fakeCategories, filteredData };
 });
 
-// make sure to pass the right store definition, `useAuth` in this case.
 if (import.meta.hot) {
   import.meta.hot.accept(
     acceptHMRUpdate(useFinalisePreviewStore, import.meta.hot),

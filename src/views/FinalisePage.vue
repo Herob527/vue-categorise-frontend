@@ -32,7 +32,7 @@ const { mutate, status } = useMutation({
       Go home
     </ActionButton>
   </nav>
-  <main class="container flex gap-4 mx-auto">
+  <main class="container flex flex-wrap gap-4 mx-auto">
     <FormView @submit="mutate()" :submit-status="status" />
     <TranscriptPreview />
     <DirectoriesPreview />

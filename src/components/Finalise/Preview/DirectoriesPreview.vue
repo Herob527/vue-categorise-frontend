@@ -59,10 +59,10 @@ const categories = computed(() => [
 
 <template>
   <section
-    class="flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500"
+    class="container flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500"
   >
     <h2 class="px-2 my-2 text-2xl font-bold">Folder preview</h2>
-    <div class="flex flex-col flex-wrap px-2 pb-2">
+    <div class="flex flex-row flex-wrap gap-3 px-2 pb-2">
       <template v-if="divide_by_category">
         <DirectoryItem
           v-for="category in categories"

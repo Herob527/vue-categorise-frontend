@@ -8,6 +8,7 @@ import { post } from '@/actions/finalise';
 import FormView from '@/components/Finalise/FormView.vue';
 import { useFinaliseStore } from '@/stores/finaliseStore';
 import TranscriptPreview from '@/components/Finalise/Preview/TranscriptPreview.vue';
+import DirectoriesPreview from '@/components/Finalise/Preview/DirectoriesPreview.vue';
 
 const router = useRouter();
 
@@ -34,5 +35,6 @@ const { mutate, status } = useMutation({
   <main class="container flex gap-4 mx-auto">
     <FormView @submit="mutate()" :submit-status="status" />
     <TranscriptPreview />
+    <DirectoriesPreview />
   </main>
 </template>

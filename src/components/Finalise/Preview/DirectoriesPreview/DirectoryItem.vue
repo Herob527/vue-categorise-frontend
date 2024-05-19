@@ -10,17 +10,20 @@ const isOpen = ref(false);
 </script>
 <template>
   <div
-    :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-black border-2 p-2 rounded-xl'}`"
+    :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-black border-2 p-2 rounded-xl'} `"
   >
     <button
       type="button"
       @click="isOpen = !isOpen"
-      class="flex gap-2 items-center py-1 px-2 rounded-xl hover:text-white hover:bg-primary-500"
+      class="flex gap-2 items-center py-1 px-2 rounded-md hover:text-white hover:bg-primary-500"
     >
       <font-awesome-icon width="16" :icon="isOpen ? faFolderOpen : faFolder" />
       <span>{{ name }}</span>
     </button>
-    <div v-if="isOpen" class="flex flex-col flex-wrap ml-1.5">
+    <div
+      v-if="isOpen"
+      class="flex flex-col flex-wrap ml-3.5 border-l-2 border-primary-500"
+    >
       <div
         v-for="entry in data"
         :key="entry.isDirectory ? entry.dirName : entry.fileName"

@@ -1,30 +1,52 @@
 <script setup lang="ts">
-import { useFinalisePreviewStore } from '@/stores/previewStore';
 import { faFolder, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
-const props = defineProps<{ category: string }>();
+type FileShape = {
+  fileName: string;
+  isDirectory: false;
+};
 
-const { fakeData } = useFinalisePreviewStore();
+type DirectoryShape = {
+  dirName: string;
+  files: FileShape[];
+  isDirectory: true;
+};
 
-const dataWithCategory = computed(() =>
-  fakeData.filter((d) => d.category === props.category),
-);
+type DataProp = FileShape | DirectoryShape;
+
+const props = defineProps<{ name: string; data: DataProp[]; depth?: number }>();
+
 const isOpen = ref(true);
+
+const dataSize = props.data.length;
 </script>
 <template>
-  <div class="flex flex-col">
+  <div :class="`flex flex-col ${depth ? 'ml-2' : ''}`">
     <button
       type="button"
       @click="isOpen = !isOpen"
       class="flex gap-2 items-center"
     >
-      <font-awesome-icon :icon="isOpen ? faFolderOpen : faFolder" />
-      <span>{{ category }}</span>
+      <font-awesome-icon width="16" :icon="isOpen ? faFolderOpen : faFolder" />
+      <span>{{ name }}</span>
     </button>
-    <div v-if="isOpen">
-      <div v-for="data in dataWithCategory" :key="data.fileName">
-        <p>{{ data.fileName }}</p>
+    <div v-if="isOpen" class="ml-1.5">
+      <div
+        v-for="entry in data"
+        :key="entry.isDirectory ? entry.dirName : entry.fileName"
+        class="flex relative gap-2 border-l-2 border-black"
+      >
+        <template v-if="entry.isDirectory === false">
+          <span class="flex-1 ml-2">{{ entry.fileName }}</span>
+        </template>
+        <template v-else>
+          <DirectoryItem
+            :name="entry.dirName"
+            :data="entry.files"
+            :depth="depth ? depth + 1 : 1"
+          />
+        </template>
       </div>
     </div>
   </div>

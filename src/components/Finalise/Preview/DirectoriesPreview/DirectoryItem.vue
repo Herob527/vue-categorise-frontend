@@ -10,7 +10,7 @@ const isOpen = ref(true);
 </script>
 <template>
   <div
-    :class="`flex flex-col ${depth ? 'ml-2' : 'border-black border-2 p-2 rounded-xl'}`"
+    :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-black border-2 p-2 rounded-xl'}`"
   >
     <button
       type="button"

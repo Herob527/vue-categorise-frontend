@@ -58,17 +58,22 @@ const categories = computed(() => [
 </script>
 
 <template>
-  <div class="flex flex-col flex-wrap gap-4 max-h-[500px]">
-    <template v-if="divide_by_category">
-      <DirectoryItem
-        v-for="category in categories"
-        :key="category"
-        :name="category"
-        :data="getDataProps(category)"
-      />
-    </template>
-    <template v-else>
-      <DirectoryItem :name="'(root)'" :data="getDataProps()" />
-    </template>
-  </div>
+  <section
+    class="flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500"
+  >
+    <h2 class="px-2 my-2 text-2xl font-bold">Folder preview</h2>
+    <div class="flex flex-col flex-wrap px-2 pb-2">
+      <template v-if="divide_by_category">
+        <DirectoryItem
+          v-for="category in categories"
+          :key="category"
+          :name="category"
+          :data="getDataProps(category)"
+        />
+      </template>
+      <template v-else>
+        <DirectoryItem :name="'(root)'" :data="getDataProps()" />
+      </template>
+    </div>
+  </section>
 </template>

@@ -4,8 +4,10 @@ import DirectoryItem from './DirectoriesPreview/DirectoryItem.vue';
 import type { DataProp, FileShape } from '@/types/shared';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useFinaliseStore } from '@/stores/finaliseStore';
 
 const { filteredData } = storeToRefs(useFinalisePreviewStore());
+const { export_transcript } = storeToRefs(useFinaliseStore());
 
 const getDataForCategory = (category: string) =>
   filteredData.value
@@ -26,10 +28,15 @@ const getDataProps = computed(
         files: getDataForCategory(category),
         isDirectory: true,
       },
-      {
-        fileName: 'transcript.txt',
-        isDirectory: false,
-      },
+
+      ...(export_transcript.value
+        ? [
+            {
+              fileName: 'transcript.txt',
+              isDirectory: false,
+            } satisfies FileShape,
+          ]
+        : []),
     ] satisfies DataProp[],
 );
 

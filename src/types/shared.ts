@@ -12,3 +12,16 @@ export type Entry = {
   filename: string;
   file: File;
 };
+
+export type FileShape = {
+  fileName: string;
+  isDirectory: false;
+};
+
+export type DirectoryShape = {
+  dirName: string;
+  files: FileShape[];
+  isDirectory: true;
+};
+
+export type DataProp = FileShape | DirectoryShape;

@@ -2,25 +2,11 @@
 import { faFolder, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { ref } from 'vue';
 import FileIcon from './FileIcon.vue';
+import type { DataProp } from '@/types/shared';
 
-type FileShape = {
-  fileName: string;
-  isDirectory: false;
-};
-
-type DirectoryShape = {
-  dirName: string;
-  files: FileShape[];
-  isDirectory: true;
-};
-
-type DataProp = FileShape | DirectoryShape;
-
-const props = defineProps<{ name: string; data: DataProp[]; depth?: number }>();
+defineProps<{ name: string; data: DataProp[]; depth?: number }>();
 
 const isOpen = ref(true);
-
-const dataSize = props.data.length;
 </script>
 <template>
   <div :class="`flex flex-col ${depth ? 'ml-2' : ''}`">

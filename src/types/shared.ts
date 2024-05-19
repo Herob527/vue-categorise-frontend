@@ -20,7 +20,7 @@ export type FileShape = {
 
 export type DirectoryShape = {
   dirName: string;
-  files: FileShape[];
+  files: (FileShape | DirectoryShape)[];
   isDirectory: true;
 };
 

@@ -30,7 +30,7 @@ const processLine = computed(() => (param: ExampleDataItem) => {
 </script>
 <template>
   <section
-    class="flex overflow-scroll flex-col justify-between rounded-xl border-2 max-h-[500px] border-primary-500"
+    class="flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500"
   >
     <h2 class="px-2 my-2 text-2xl font-bold">Transcript preview</h2>
     <div class="flex flex-col">

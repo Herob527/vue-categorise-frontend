@@ -80,10 +80,10 @@ export interface BindingEntry {
     'id': string;
     /**
      * 
-     * @type {string}
+     * @type {CategoryId}
      * @memberof BindingEntry
      */
-    'category_id'?: string;
+    'category_id': CategoryId;
     /**
      * 
      * @type {string}
@@ -111,10 +111,10 @@ export interface BindingModel {
     'binding': BindingEntry;
     /**
      * 
-     * @type {CategoryModel}
+     * @type {BindingModelCategory}
      * @memberof BindingModel
      */
-    'category'?: CategoryModel;
+    'category': BindingModelCategory;
     /**
      * 
      * @type {AudioModel}
@@ -127,6 +127,39 @@ export interface BindingModel {
      * @memberof BindingModel
      */
     'text': TextModel;
+}
+/**
+ * 
+ * @export
+ * @interface BindingModelCategory
+ */
+export interface BindingModelCategory {
+    /**
+     * 
+     * @type {any}
+     * @memberof BindingModelCategory
+     */
+    'id': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof BindingModelCategory
+     */
+    'name': any;
+}
+/**
+ * 
+ * @export
+ * @interface Category
+ */
+export interface Category {
+}
+/**
+ * 
+ * @export
+ * @interface CategoryId
+ */
+export interface CategoryId {
 }
 /**
  * 
@@ -147,6 +180,102 @@ export interface CategoryModel {
      */
     'name': string;
 }
+/**
+ * 
+ * @export
+ * @interface DirectoryModel
+ */
+export interface DirectoryModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof DirectoryModel
+     */
+    'dir_name': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DirectoryModel
+     */
+    'is_dir': DirectoryModelIsDirEnum;
+    /**
+     * 
+     * @type {Array<DirectoryModelFilesInner>}
+     * @memberof DirectoryModel
+     */
+    'files': Array<DirectoryModelFilesInner>;
+}
+
+export const DirectoryModelIsDirEnum = {
+    True: true
+} as const;
+
+export type DirectoryModelIsDirEnum = typeof DirectoryModelIsDirEnum[keyof typeof DirectoryModelIsDirEnum];
+
+/**
+ * 
+ * @export
+ * @interface DirectoryModelFilesInner
+ */
+export interface DirectoryModelFilesInner {
+    /**
+     * 
+     * @type {any}
+     * @memberof DirectoryModelFilesInner
+     */
+    'file_name': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof DirectoryModelFilesInner
+     */
+    'is_dir': DirectoryModelFilesInnerIsDirEnum;
+    /**
+     * 
+     * @type {any}
+     * @memberof DirectoryModelFilesInner
+     */
+    'dir_name': any;
+    /**
+     * 
+     * @type {any}
+     * @memberof DirectoryModelFilesInner
+     */
+    'files': any;
+}
+
+export const DirectoryModelFilesInnerIsDirEnum = {
+    True: 'true'
+} as const;
+
+export type DirectoryModelFilesInnerIsDirEnum = typeof DirectoryModelFilesInnerIsDirEnum[keyof typeof DirectoryModelFilesInnerIsDirEnum];
+
+/**
+ * 
+ * @export
+ * @interface FileModel
+ */
+export interface FileModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof FileModel
+     */
+    'file_name': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FileModel
+     */
+    'is_dir': FileModelIsDirEnum;
+}
+
+export const FileModelIsDirEnum = {
+    False: false
+} as const;
+
+export type FileModelIsDirEnum = typeof FileModelIsDirEnum[keyof typeof FileModelIsDirEnum];
+
 /**
  * 
  * @export
@@ -212,9 +341,9 @@ export interface HTTPValidationError {
 /**
  * 
  * @export
- * @interface LocationInner
+ * @interface Id
  */
-export interface LocationInner {
+export interface Id {
 }
 /**
  * 
@@ -243,10 +372,10 @@ export interface TextModel {
 export interface ValidationError {
     /**
      * 
-     * @type {Array<LocationInner>}
+     * @type {Array<ValidationErrorLocInner>}
      * @memberof ValidationError
      */
-    'loc': Array<LocationInner>;
+    'loc': Array<ValidationErrorLocInner>;
     /**
      * 
      * @type {string}
@@ -259,6 +388,13 @@ export interface ValidationError {
      * @memberof ValidationError
      */
     'type': string;
+}
+/**
+ * 
+ * @export
+ * @interface ValidationErrorLocInner
+ */
+export interface ValidationErrorLocInner {
 }
 
 /**
@@ -678,11 +814,11 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
          * 
          * @summary Create Binding
          * @param {File} audio 
-         * @param {string} [category] 
+         * @param {Category} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost: async (audio: File, category?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createBindingBindingsPost: async (audio: File, category?: Category, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'audio' is not null or undefined
             assertParamExists('createBindingBindingsPost', 'audio', audio)
             const localVarPath = `/bindings`;
@@ -699,7 +835,9 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             if (category !== undefined) {
-                localVarQueryParameter['category'] = category;
+                for (const [key, value] of Object.entries(category)) {
+                    localVarQueryParameter[key] = value;
+                }
             }
 
 
@@ -723,11 +861,11 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Get All Bindings
-         * @param {string} [category] 
+         * @param {Category} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllBindingsBindingsAllGet: async (category?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllBindingsBindingsAllGet: async (category?: Category, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/bindings/all`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -741,7 +879,9 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarQueryParameter = {} as any;
 
             if (category !== undefined) {
-                localVarQueryParameter['category'] = category;
+                for (const [key, value] of Object.entries(category)) {
+                    localVarQueryParameter[key] = value;
+                }
             }
 
 
@@ -934,11 +1074,11 @@ export const BindingsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Create Binding
          * @param {File} audio 
-         * @param {string} [category] 
+         * @param {Category} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createBindingBindingsPost(audio: File, category?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createBindingBindingsPost(audio: File, category?: Category, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createBindingBindingsPost(audio, category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.createBindingBindingsPost']?.[localVarOperationServerIndex]?.url;
@@ -947,11 +1087,11 @@ export const BindingsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get All Bindings
-         * @param {string} [category] 
+         * @param {Category} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllBindingsBindingsAllGet(category?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BindingModel>>> {
+        async getAllBindingsBindingsAllGet(category?: Category, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BindingModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllBindingsBindingsAllGet(category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.getAllBindingsBindingsAllGet']?.[localVarOperationServerIndex]?.url;
@@ -1044,21 +1184,21 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * 
          * @summary Create Binding
          * @param {File} audio 
-         * @param {string} [category] 
+         * @param {Category} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost(audio: File, category?: string, options?: any): AxiosPromise<any> {
+        createBindingBindingsPost(audio: File, category?: Category, options?: any): AxiosPromise<any> {
             return localVarFp.createBindingBindingsPost(audio, category, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get All Bindings
-         * @param {string} [category] 
+         * @param {Category} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllBindingsBindingsAllGet(category?: string, options?: any): AxiosPromise<Array<BindingModel>> {
+        getAllBindingsBindingsAllGet(category?: Category, options?: any): AxiosPromise<Array<BindingModel>> {
             return localVarFp.getAllBindingsBindingsAllGet(category, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1140,24 +1280,24 @@ export class BindingsApi extends BaseAPI {
      * 
      * @summary Create Binding
      * @param {File} audio 
-     * @param {string} [category] 
+     * @param {Category} [category] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BindingsApi
      */
-    public createBindingBindingsPost(audio: File, category?: string, options?: RawAxiosRequestConfig) {
+    public createBindingBindingsPost(audio: File, category?: Category, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).createBindingBindingsPost(audio, category, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get All Bindings
-     * @param {string} [category] 
+     * @param {Category} [category] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BindingsApi
      */
-    public getAllBindingsBindingsAllGet(category?: string, options?: RawAxiosRequestConfig) {
+    public getAllBindingsBindingsAllGet(category?: Category, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).getAllBindingsBindingsAllGet(category, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1252,11 +1392,11 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
          * 
          * @summary Post New Category
          * @param {string} category 
-         * @param {string} [id] 
+         * @param {Id} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postNewCategoryCategoriesPost: async (category: string, id?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        postNewCategoryCategoriesPost: async (category: string, id?: Id, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'category' is not null or undefined
             assertParamExists('postNewCategoryCategoriesPost', 'category', category)
             const localVarPath = `/categories`;
@@ -1273,7 +1413,9 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             const localVarFormParams = new URLSearchParams();
 
             if (id !== undefined) {
-                localVarQueryParameter['id'] = id;
+                for (const [key, value] of Object.entries(id)) {
+                    localVarQueryParameter[key] = value;
+                }
             }
 
 
@@ -1399,11 +1541,11 @@ export const CategoryApiFp = function(configuration?: Configuration) {
          * 
          * @summary Post New Category
          * @param {string} category 
-         * @param {string} [id] 
+         * @param {Id} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postNewCategoryCategoriesPost(category: string, id?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async postNewCategoryCategoriesPost(category: string, id?: Id, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.postNewCategoryCategoriesPost(category, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CategoryApi.postNewCategoryCategoriesPost']?.[localVarOperationServerIndex]?.url;
@@ -1459,11 +1601,11 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * 
          * @summary Post New Category
          * @param {string} category 
-         * @param {string} [id] 
+         * @param {Id} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postNewCategoryCategoriesPost(category: string, id?: string, options?: any): AxiosPromise<any> {
+        postNewCategoryCategoriesPost(category: string, id?: Id, options?: any): AxiosPromise<any> {
             return localVarFp.postNewCategoryCategoriesPost(category, id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1512,12 +1654,12 @@ export class CategoryApi extends BaseAPI {
      * 
      * @summary Post New Category
      * @param {string} category 
-     * @param {string} [id] 
+     * @param {Id} [id] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoryApi
      */
-    public postNewCategoryCategoriesPost(category: string, id?: string, options?: RawAxiosRequestConfig) {
+    public postNewCategoryCategoriesPost(category: string, id?: Id, options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).postNewCategoryCategoriesPost(category, id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1709,7 +1851,7 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DirectoryModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.finaliseFinalisePost(finaliseConfigModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.finaliseFinalisePost']?.[localVarOperationServerIndex]?.url;
@@ -1732,7 +1874,7 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: any): AxiosPromise<any> {
+        finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: any): AxiosPromise<DirectoryModel> {
             return localVarFp.finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(axios, basePath));
         },
     };

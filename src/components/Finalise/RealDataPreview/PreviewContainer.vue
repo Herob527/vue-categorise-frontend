@@ -11,12 +11,16 @@ const store = useFinaliseRealPreviewStore();
     <h2 class="px-2 my-2 text-2xl font-bold">Folder preview (Real)</h2>
     <div class="flex flex-col flex-wrap gap-3 px-2 pb-2">
       <template v-if="store.processedData">
-        <DirectoryItem
+        <template
           v-for="category in store.processedData"
-          :key="category.dirName"
-          :name="category.dirName"
-          :data="category.files"
-        />
+          :key="category.isDirectory ? category.dirName : category.fileName"
+        >
+          <DirectoryItem
+            v-if="category.isDirectory"
+            :name="category.dirName"
+            :data="category.files"
+          />
+        </template>
       </template>
       <template v-else>
         <p>Data not there yet</p>

@@ -9,8 +9,11 @@ import FormView from '@/components/Finalise/FormView.vue';
 import { useFinaliseStore } from '@/stores/finaliseStore';
 import TranscriptPreview from '@/components/Finalise/Preview/TranscriptPreview.vue';
 import DirectoriesPreview from '@/components/Finalise/Preview/DirectoriesPreview.vue';
+import { useFinaliseRealPreviewStore } from '@/stores/finalisationDataStore';
+import PreviewContainer from '@/components/Finalise/RealDataPreview/PreviewContainer.vue';
 
 const router = useRouter();
+const previewStore = useFinaliseRealPreviewStore();
 
 const handleClick = () => {
   router.replace({ name: 'home' });
@@ -19,6 +22,9 @@ const handleClick = () => {
 const store = useFinaliseStore();
 const { mutate, status } = useMutation({
   mutationFn: () => post(store.$state),
+  onSuccess: (result) => {
+    previewStore.setData(result);
+  },
 });
 </script>
 
@@ -36,5 +42,6 @@ const { mutate, status } = useMutation({
     <FormView @submit="mutate()" :submit-status="status" />
     <TranscriptPreview />
     <DirectoriesPreview />
+    <PreviewContainer />
   </main>
 </template>

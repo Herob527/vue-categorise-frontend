@@ -5,6 +5,7 @@ import type { DataProp, DirectoryShape, FileShape } from '@/types/shared';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFinaliseStore } from '@/stores/finaliseStore';
+import FileIcon from './DirectoriesPreview/FileIcon.vue';
 
 const { filteredData } = storeToRefs(useFinalisePreviewStore());
 const { export_transcript, divide_by_category } =
@@ -71,8 +72,27 @@ const categories = computed(() => [
           :data="getDataProps(category)"
         />
       </template>
-      <template v-else>
-        <DirectoryItem :name="'(root)'" :data="getDataProps()" />
+      <template
+        v-else
+        v-for="[index, entry] in Object.entries(getDataProps())"
+        :key="entry.isDirectory ? entry.dirName : entry.fileName"
+      >
+        <DirectoryItem
+          :name="entry.dirName"
+          :data="entry.files"
+          v-if="entry.isDirectory"
+        />
+
+        <div
+          class="flex flex-row flex-1 gap-2 items-center py-3 px-4 rounded-xl border-2 border-primary-500"
+          v-else
+        >
+          <FileIcon
+            :file-name="entry.fileName"
+            :is-even-index="Number(index) % 2 === 0"
+          />
+          <span>{{ entry.fileName }} </span>
+        </div>
       </template>
     </div>
   </section>

@@ -28,7 +28,7 @@ export const useFinaliseRealPreviewStore = defineStore(
     getters: {
       processedData: (state) => {
         if (state.data === null) return;
-        return mapBackendToFrontend(state.data).files;
+        return mapBackendToFrontend(state.data);
       },
     },
   },

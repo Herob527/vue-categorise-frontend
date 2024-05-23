@@ -39,27 +39,31 @@ export const useBindingsStore = defineStore('bindings', {
         try {
           entry.status = statuses.PROCESSING;
           await post({ audio: entry.file });
-          this.synchronise();
         } catch (e) {
           console.error(e);
           entry.status = statuses.ERROR;
         }
       });
+
+      this.synchronise();
     },
-    submitAll() {
+    async submitAll() {
       const toSubmit = this.entries.filter(
         (e) => e.status === statuses.PENDING || e.status === statuses.ERROR,
       );
-      toSubmit.forEach(async (entry) => {
-        try {
-          entry.status = statuses.PROCESSING;
-          await post({ audio: entry.file });
-          this.synchronise();
-        } catch (e) {
-          console.error(e);
-          entry.status = statuses.ERROR;
-        }
-      });
+      await Promise.all(
+        toSubmit.map(async (entry) => {
+          try {
+            entry.status = statuses.PROCESSING;
+            await post({ audio: entry.file });
+          } catch (e) {
+            console.error(e);
+            entry.status = statuses.ERROR;
+          }
+        }),
+      );
+
+      this.synchronise();
     },
     async synchronise() {
       const data = await getAll();
@@ -75,9 +79,10 @@ export const useBindingsStore = defineStore('bindings', {
       });
     },
     async deleteAll() {
-      for await (const entry of this.entries) {
-        await deleteOne({ id: entry.id });
-      }
+      await Promise.all(
+        this.entries.map((entry) => deleteOne({ id: entry.id })),
+      );
+      this.synchronise();
       this.entries = [];
     },
     async delete(id: string) {

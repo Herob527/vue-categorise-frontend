@@ -34,9 +34,7 @@ const isOpen = ref(false);
         class="flex relative gap-2"
       >
         <template v-if="entry.isDirectory === false">
-          <div
-            class="flex flex-row flex-1 gap-2 items-center py-3 px-4 rounded-xl border-2 border-primary-500"
-          >
+          <div class="flex flex-row flex-1 gap-2 items-center py-1 px-2 ml-2">
             <FileIcon
               :file-name="entry.fileName"
               :is-even-index="Number(index) % 2 === 0"

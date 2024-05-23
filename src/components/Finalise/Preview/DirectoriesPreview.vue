@@ -52,8 +52,6 @@ const getDataProps = computed(
     ] as DataProp[],
 );
 
-// TODO: Make categories to appear in (root) like in backend response or process in a way to go one level deeper
-
 const categories = computed(() => [
   ...new Set(filteredData.value.map((entry) => entry.category)),
 ]);

@@ -28,7 +28,7 @@ const props = defineProps<{
     :items="data"
     :min-item-size="75"
     vue-else
-    :class="className"
+    :class="`${className} overflow-y-auto max-h-96`"
   >
     <template v-slot="{ item, index, active }">
       <DynamicScrollerItem

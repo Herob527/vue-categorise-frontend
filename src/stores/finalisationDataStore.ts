@@ -1,5 +1,5 @@
 import type { DirectoryModel } from '@/types/generated';
-import type { DataProp, DirectoryShape, FileShape } from '@/types/shared';
+import type { DirectoryShape } from '@/types/shared';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
 function mapBackendToFrontend(data: DirectoryModel): DirectoryShape {

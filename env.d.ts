@@ -1,2 +1,3 @@
 /// <reference types="vite/client" />
-declare module '*.vue'
+/// <reference types="vite-svg-loader" />
+declare module '*.vue';

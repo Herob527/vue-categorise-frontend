@@ -3,7 +3,7 @@ import { useFinaliseStore } from './finaliseStore';
 import { computed } from 'vue';
 import { FilterFactory } from '@/utils/FilterFactory';
 import { ProcessingPipeline } from '@/utils/ProcessingPipeline';
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker/locale/en_GB';
 
 const TRANSCRIPT_ENTRIES = 15;
 

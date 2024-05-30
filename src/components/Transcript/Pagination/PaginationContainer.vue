@@ -87,8 +87,6 @@ const getProperSlice = (paginationData: { page: number }[]) => {
     return paginationData.slice(currentPage.value - 4, currentPage.value);
   } else if (currentPage.value >= 6) {
     return paginationData.slice(currentPage.value - 1, currentPage.value + 2);
-  } else if (currentPage.value < 2) {
-    return [];
   }
   return [];
 };

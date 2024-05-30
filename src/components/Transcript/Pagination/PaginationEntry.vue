@@ -1,35 +1,8 @@
 <script setup lang="ts">
-import { getPaginated } from '@/actions/bindings';
-import { ENTRIES_PER_PAGE } from '@/constants';
-import { useQueryClient } from '@tanstack/vue-query';
-
 const props = defineProps<{
   page: number;
-  offset: number;
   className?: string;
 }>();
-
-const queryClient = useQueryClient();
-
-const handleClick = () => {
-  queryClient.fetchQuery({
-    queryKey: ['get-paginated-transcript'],
-    meta: {
-      page: props.page,
-      pageSize: ENTRIES_PER_PAGE,
-    },
-    queryFn: async ({ meta }) => {
-      const { page, pageSize } = (meta as {
-        page: number;
-        pageSize: number;
-      }) || {
-        page: props.page,
-        pageSize: ENTRIES_PER_PAGE,
-      };
-      return getPaginated({ page, pageSize });
-    },
-  });
-};
 </script>
 <template>
   <button
@@ -38,7 +11,6 @@ const handleClick = () => {
     @click="
       () => {
         $emit('click', props.page);
-        handleClick();
       }
     "
   >

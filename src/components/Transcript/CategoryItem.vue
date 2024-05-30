@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/vue-query';
 import { getAll } from '@/actions/categories';
 
 defineProps<{
-  categoryData?: CategoryModel;
+  categoryData?: CategoryModel | null;
   className?: string;
 }>();
 

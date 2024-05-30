@@ -28,33 +28,6 @@ const { data } = useQuery({
     </p>
   </div>
   <div class="flex flex-row flex-wrap gap-4 justify-center">
-    <router-link to="/startup">
-      <p
-        class="flex flex-col flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
-      >
-        Go to startup
-      </p>
-    </router-link>
-    <router-link :to="'/transcript'">
-      <p
-        class="flex flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
-      >
-        Go to transcript
-      </p>
-    </router-link>
-    <router-link :to="'/finalise'">
-      <p
-        class="flex flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
-      >
-        Go to finalisation
-      </p>
-    </router-link>
-    <router-link :to="'/configuration'">
-      <p
-        class="flex flex-1 justify-center items-center p-4 w-32 h-32 text-center bg-gray-200"
-      >
-        Go to configuration
-      </p>
-    </router-link>
+    <p>Welcome</p>
   </div>
 </template>

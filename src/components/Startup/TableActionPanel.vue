@@ -20,9 +20,7 @@ const handleSubmitAll = () => {
 </script>
 
 <template>
-  <div
-    class="container mx-auto mb-4 rounded-lg border-2 border-primary-400 overflow-clip"
-  >
+  <div class="mb-4 rounded-lg border-2 border-primary-400 overflow-clip">
     <div class="p-2 text-white bg-primary-500">
       <p class="text-xl font-bold">Bulk actions</p>
     </div>

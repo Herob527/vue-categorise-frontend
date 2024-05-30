@@ -28,7 +28,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
 </script>
 
 <template>
-  <div class="container flex flex-col gap-2 mx-auto">
+  <div class="flex flex-col gap-2">
     <DataTable
       :data="pendingEntries"
       :class-name="

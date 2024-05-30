@@ -45,7 +45,6 @@ const handleCategoryChange = (event: Event) => {
       class="col-span-3 p-2 border-2 border-primary-500"
     />
     <CategoryItem
-      v-if="entry.category"
       :categoryData="entry.category"
       class="col-span-1 self-center p-2 rounded-md border-2 border-primary-500"
       :onchange="handleCategoryChange"

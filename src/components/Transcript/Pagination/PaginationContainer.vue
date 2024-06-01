@@ -35,9 +35,11 @@ const isPageInRange =
   currentPageFromStorage <= paginationData.value.length - 1 || isLoading.value;
 
 const currentPage = ref(isPageInRange ? currentPageFromStorage : 0);
+document.title = `Transcript - ${currentPage.value + 1}`;
 
 const saveCurrentPage = (newPage: number) => {
   currentPage.value = newPage;
+  document.title = `Transcript - ${currentPage.value + 1}`;
   localStorage.setItem(LOCALSTORAGE_PAGE_KEY, `${newPage}`);
 };
 
@@ -61,7 +63,7 @@ const handleNewPage = (newPage: number) => {
   });
 };
 const getProperSlice = (paginationData: { page: number }[]) => {
-  console.log(currentPage.value);
+  console.log(currentPage.value + 1);
   // TODO: Refactor this to reduce else ifs
   if (currentPage.value === 0) {
     return paginationData.slice(currentPage.value + 3, currentPage.value + 6);

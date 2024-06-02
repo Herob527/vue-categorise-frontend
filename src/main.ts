@@ -32,3 +32,10 @@ app.use(router);
 app.use(VueQueryPlugin);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');
+
+// register global typings
+declare module 'vue' {
+  export interface GlobalComponents {
+    'font-awesome-icon': typeof FontAwesomeIcon;
+  }
+}

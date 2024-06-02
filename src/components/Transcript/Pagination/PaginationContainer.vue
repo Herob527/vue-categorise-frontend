@@ -61,6 +61,7 @@ const handleNewPage = (newPage: number) => {
     },
   });
 };
+
 const getProperSlice = (paginationData: number[]) => {
   console.log(currentPage.value + 1);
   // TODO: Refactor this to reduce else ifs
@@ -106,7 +107,7 @@ const getProperSlice = (paginationData: number[]) => {
         }
       "
     />
-    <span> Rest </span>
+    <span v-if="currentPage - (paginationData?.at(3) ?? 0) > 1"> Rest </span>
     <PaginationEntry
       v-for="page in getProperSlice(paginationData)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
@@ -119,7 +120,7 @@ const getProperSlice = (paginationData: number[]) => {
         }
       "
     />
-    <span> Rest </span>
+    <span v-if="(paginationData?.at(-3) ?? 0) - currentPage > 2"> Rest </span>
     <PaginationEntry
       v-for="page in paginationData.slice(-3)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"

@@ -95,7 +95,7 @@ const getProperSlice = (paginationData: { page: number }[]) => {
 };
 </script>
 <template>
-  <footer class="flex gap-2 justify-center">
+  <footer class="flex gap-2 justify-center items-center">
     <PaginationEntry
       v-for="{ page } in paginationData.slice(0, 3)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"

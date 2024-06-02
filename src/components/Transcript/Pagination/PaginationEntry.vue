@@ -3,6 +3,10 @@ const props = defineProps<{
   page: number;
   className?: string;
 }>();
+
+defineEmits<{
+  (e: 'click', page: number): void;
+}>();
 </script>
 <template>
   <button

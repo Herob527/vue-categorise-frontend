@@ -8,6 +8,7 @@ import {
   removeCategoryFromBinding,
   updateOneCategory,
 } from '@/actions/bindings';
+import FilenameItem from './FilenameItem.vue';
 
 const props = defineProps<{
   entry: BindingModel;
@@ -38,9 +39,7 @@ const handleCategoryChange = (event: Event) => {
 </script>
 <template>
   <div class="grid grid-flow-col auto-cols-fr gap-4">
-    <span class="col-span-1 self-center break-words">{{
-      entry.audio.file_name.replace(/\./g, '&#8203;.')
-    }}</span>
+    <FilenameItem :file-name="entry.audio.file_name" />
     <AudioItem :audioData="entry.audio" class="col-span-3" />
     <TextItem
       :textData="entry.text"

@@ -31,7 +31,10 @@ const store = useBindingsStore();
           {{ filename.length > 15 ? filename.slice(0, 15) + '...' : filename }}
         </span>
       </div>
-      <div class="flex-1 py-2 px-4">{{ duration ?? '-' }}</div>
+      <span
+        class="flex flex-col flex-1 justify-center items-center py-2 px-4"
+        >{{ duration ?? '-' }}</span
+      >
       <div
         class="flex flex-row flex-1 gap-2 justify-center items-center py-2 px-4"
       >

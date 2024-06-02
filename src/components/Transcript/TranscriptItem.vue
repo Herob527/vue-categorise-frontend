@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/vue-query';
 import AudioItem from './AudioItem.vue';
 import CategoryItem from './CategoryItem.vue';
 import TextItem from './TextItem.vue';
-import { type BindingModel } from '@/types/generated';
+import type { BindingModel } from '@/types/generated';
 import {
   removeCategoryFromBinding,
   updateOneCategory,
@@ -38,7 +38,9 @@ const handleCategoryChange = (event: Event) => {
 </script>
 <template>
   <div class="grid grid-flow-col auto-cols-fr gap-4">
-    <span class="col-span-1 self-center">{{ entry.audio.file_name }}</span>
+    <span class="col-span-1 self-center break-words">{{
+      entry.audio.file_name.replace(/\./g, '&#8203;.')
+    }}</span>
     <AudioItem :audioData="entry.audio" class="col-span-3" />
     <TextItem
       :textData="entry.text"

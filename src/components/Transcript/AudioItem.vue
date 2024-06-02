@@ -14,6 +14,8 @@ const fullUrl = `http://localhost:8000/static/${splitUrl}`;
 const wsInstance = ref<WaveSurfer | null>(null);
 const wsContainer = ref(null);
 
+const AUDIO_LENGTH_TRESHOLD = 100;
+
 const init = () => {
   if (wsContainer.value === null) return;
   const wavesurfer = WaveSurfer.create({
@@ -22,6 +24,11 @@ const init = () => {
     progressColor: '#0d47a1',
     url: fullUrl,
   });
+  if (audioData.audio_length > AUDIO_LENGTH_TRESHOLD) {
+    wavesurfer.setOptions({
+      peaks: [],
+    });
+  }
 
   wavesurfer.on('click', () => {
     wavesurfer.playPause();

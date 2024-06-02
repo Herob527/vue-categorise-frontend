@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { deleteOne, getAll, post } from '@/actions/bindings';
+import { deleteOne, post } from '@/actions/bindings';
 import { statuses, type Entry } from '@/types/shared';
 import { v4 } from 'uuid';
 
@@ -17,6 +17,25 @@ export const useBindingsStore = defineStore('bindings', {
         entries.filter((e) => e.status === status),
   },
   actions: {
+    addDbFiles(data: { filename: string; duration: number; id: string }[]) {
+      const dataForStore = data
+        .map((entry) => {
+          const { filename, id, duration } = entry;
+          const file = new File([], filename);
+          return {
+            file,
+            id,
+            duration,
+            filename,
+            status: statuses.IN_DB,
+          };
+        })
+        .filter((entry) => !this.entries.some((it) => it.id === entry.id));
+
+      this.$patch({
+        entries: [...dataForStore, ...this.entries],
+      });
+    },
     addLocalFiles(files: FileList) {
       const newFiles = [...files].map((f) => ({
         file: f,
@@ -44,8 +63,6 @@ export const useBindingsStore = defineStore('bindings', {
           entry.status = statuses.ERROR;
         }
       });
-
-      this.synchronise();
     },
     async submitAll() {
       const toSubmit = this.entries.filter(
@@ -62,27 +79,11 @@ export const useBindingsStore = defineStore('bindings', {
           }
         }),
       );
-
-      this.synchronise();
-    },
-    async synchronise() {
-      const data = await getAll();
-      this.$patch({
-        entries:
-          data?.map((entry) => ({
-            id: entry.binding.id,
-            duration: entry.audio.audio_length,
-            filename: entry.audio.file_name,
-            status: statuses.IN_DB,
-            file: new File([], entry.audio.file_name),
-          })) || [],
-      });
     },
     async deleteAll() {
       await Promise.all(
         this.entries.map((entry) => deleteOne({ id: entry.id })),
       );
-      this.synchronise();
       this.entries = [];
     },
     async delete(id: string) {

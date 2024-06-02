@@ -35,6 +35,7 @@ const isPageInRange =
   currentPageFromStorage <= paginationData.value.length - 1 || isLoading.value;
 
 const currentPage = ref(isPageInRange ? currentPageFromStorage : 0);
+
 document.title = `Transcript - ${currentPage.value + 1}`;
 
 const saveCurrentPage = (newPage: number) => {
@@ -94,15 +95,14 @@ const getProperSlice = (paginationData: { page: number }[]) => {
 };
 </script>
 <template>
-  <footer class="flex gap-2">
+  <footer class="flex gap-2 justify-center">
     <PaginationEntry
       v-for="{ page } in paginationData.slice(0, 3)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :key="page"
       :page="page"
       @click="
-        (newPage: number | Event) => {
-          if (typeof newPage !== 'number') return;
+        (newPage: number) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
@@ -115,8 +115,7 @@ const getProperSlice = (paginationData: { page: number }[]) => {
       :key="page"
       :page="page"
       @click="
-        (newPage: number | Event) => {
-          if (typeof newPage !== 'number') return;
+        (newPage: number) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
@@ -129,8 +128,7 @@ const getProperSlice = (paginationData: { page: number }[]) => {
       :key="page"
       :page="page"
       @click="
-        (newPage: number | Event) => {
-          if (typeof newPage !== 'number') return;
+        (newPage: number) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }

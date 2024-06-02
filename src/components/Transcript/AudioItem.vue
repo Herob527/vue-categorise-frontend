@@ -24,6 +24,7 @@ const init = () => {
     progressColor: '#0d47a1',
     url: fullUrl,
   });
+  // TODO: Redirect generating peaks to backend or web worker
   if (audioData.audio_length > AUDIO_LENGTH_TRESHOLD) {
     wavesurfer.setOptions({
       peaks: [],

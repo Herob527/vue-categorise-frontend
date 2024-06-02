@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
 import { type TextModel } from '@/types/generated';
 import { updateOne } from '@/actions/texts';
 import { useMutation } from '@tanstack/vue-query';

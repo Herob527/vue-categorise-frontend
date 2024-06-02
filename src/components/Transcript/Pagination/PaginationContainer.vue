@@ -6,6 +6,7 @@ import PaginationEntry from './PaginationEntry.vue';
 import { computed, ref } from 'vue';
 
 import { getPaginated } from '@/actions/bindings';
+import PageJumper from './PageJumper.vue';
 
 const { data, isLoading } = useQuery({
   queryKey: ['get-count'],
@@ -63,7 +64,6 @@ const handleNewPage = (newPage: number) => {
 };
 
 const getProperSlice = (paginationData: number[]) => {
-  console.log(currentPage.value + 1);
   // TODO: Refactor this to reduce else ifs
   if (currentPage.value === 0) {
     return paginationData.slice(currentPage.value + 3, currentPage.value + 6);
@@ -94,7 +94,7 @@ const getProperSlice = (paginationData: number[]) => {
 };
 </script>
 <template>
-  <footer class="flex gap-2 justify-center items-center">
+  <footer class="flex gap-2 justify-center items-start">
     <PaginationEntry
       v-for="page in paginationData.slice(0, 3)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
@@ -107,7 +107,18 @@ const getProperSlice = (paginationData: number[]) => {
         }
       "
     />
-    <span v-if="currentPage - (paginationData?.at(3) ?? 0) > 1"> Rest </span>
+    <PageJumper
+      v-if="currentPage - (paginationData?.at(3) ?? 0) > 1"
+      :min="0"
+      :max="paginationData.length"
+      @submit="
+        (newPage: number) => {
+          console.log(newPage);
+          saveCurrentPage(newPage);
+          handleNewPage(newPage);
+        }
+      "
+    />
     <PaginationEntry
       v-for="page in getProperSlice(paginationData)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
@@ -120,7 +131,18 @@ const getProperSlice = (paginationData: number[]) => {
         }
       "
     />
-    <span v-if="(paginationData?.at(-3) ?? 0) - currentPage > 2"> Rest </span>
+    <PageJumper
+      v-if="(paginationData?.at(-3) ?? 0) - currentPage > 2"
+      :min="0"
+      :max="paginationData.length"
+      @submit="
+        (newPage: number) => {
+          console.log(newPage);
+          saveCurrentPage(newPage);
+          handleNewPage(newPage);
+        }
+      "
+    />
     <PaginationEntry
       v-for="page in paginationData.slice(-3)"
       :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"

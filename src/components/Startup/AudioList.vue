@@ -3,15 +3,44 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import AudioItem from './AudioItem.vue';
 import { statuses } from '@/types/shared';
-import { computed, onMounted } from 'vue';
+import { computed, ref, watch } from 'vue';
 import DataTable from '../DataTable.vue';
+import { useQuery } from '@tanstack/vue-query';
+import { getCount, getPaginated } from '@/actions/bindings';
 
 const store = useBindingsStore();
 
-onMounted(() => {
-  store.synchronise();
+const inDbPage = ref(0);
+
+const { data: transcriptData, refetch } = useQuery({
+  queryKey: ['get-paginated-transcript', inDbPage.value],
+  queryFn: () => getPaginated({ page: inDbPage.value, pageSize: 20 }),
 });
 
+const { data: countData, isRefetching } = useQuery({
+  queryKey: ['get-count'],
+  queryFn: () => getCount(),
+});
+
+watch(
+  () => transcriptData.value || isRefetching.value,
+  () => {
+    console.log('test');
+    if (transcriptData.value) {
+      store.addDbFiles(
+        transcriptData.value.map((entry) => ({
+          id: entry.binding.id,
+          duration: entry.audio.audio_length,
+          filename: entry.audio.file_name,
+        })),
+      );
+    }
+  },
+);
+watch(
+  () => inDbPage.value,
+  async () => refetch(),
+);
 const pendingEntries = computed(() =>
   store.getFieldsByStatus(statuses.PENDING),
 );
@@ -38,6 +67,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       "
       :item-keys="fields"
       title="Pending"
+      :items-count="pendingEntries.length"
     >
       <template v-slot:fallback>
         <span class="p-4 bg-white">Add some data pal</span>
@@ -56,6 +86,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       "
       :item-keys="fields"
       title="Processing"
+      :items-count="processingEntried.length"
     >
       <template v-slot:fallback>
         <span class="p-4 bg-white">Submit some data pal</span>
@@ -71,7 +102,13 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
         entriesInDB.length > 0 ? `rounded-xl border-2 border-primary-500` : ``
       "
       :item-keys="fields"
+      :items-count="countData"
       title="In DB"
+      @submit:page="
+        (newPage: number) => {
+          inDbPage = newPage;
+        }
+      "
     >
       <template v-slot:fallback>
         <span class="p-4">Nothing in DB pal</span>
@@ -85,6 +122,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       :data="errorEntries"
       :class-name="`rounded-xl border-2 border-primary-500`"
       :item-keys="fields"
+      :items-count="errorEntries.length"
       title="Errored"
       v-if="errorEntries.length > 0"
     >

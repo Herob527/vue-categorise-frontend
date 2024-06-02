@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import {
+  faChalkboard,
   faClipboard,
   faFileLines,
   faTruckFast,
@@ -16,6 +17,11 @@ type RouteEntryType = {
 };
 
 const routes = [
+  {
+    icon: faChalkboard,
+    link: '/',
+    text: 'Dashboard',
+  },
   {
     icon: faClipboard,
     link: '/startup',

@@ -12,9 +12,14 @@ const store = useBindingsStore();
 
 const inDbPage = ref(0);
 
-const { data: transcriptData, refetch } = useQuery({
+const {
+  data: transcriptData,
+  refetch,
+  isLoading,
+} = useQuery({
   queryKey: ['get-paginated-transcript', inDbPage.value],
   queryFn: () => getPaginated({ page: inDbPage.value, pageSize: 20 }),
+  placeholderData: [],
 });
 
 const { data: countData, isRefetching } = useQuery({
@@ -26,6 +31,7 @@ watch(
   () => transcriptData.value || isRefetching.value,
   () => {
     console.log('test');
+
     if (transcriptData.value) {
       store.addDbFiles(
         transcriptData.value.map((entry) => ({
@@ -103,6 +109,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       "
       :item-keys="fields"
       :items-count="countData"
+      :is-loading="isLoading"
       title="In DB"
       @submit:page="
         (newPage: number) => {

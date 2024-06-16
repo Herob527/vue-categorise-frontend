@@ -45,7 +45,6 @@ const splitToPages = (amountOfEntries: number): (number | 'dot')[] => {
 const pages = computed(() =>
   props.itemsCount ? splitToPages(props.itemsCount) : [],
 );
-console.log(pages.value);
 
 const isValid = computed(() => {
   if (!pickedJumpPage.value) return true;

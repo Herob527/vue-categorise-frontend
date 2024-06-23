@@ -32,11 +32,11 @@ tenPagesAmounts.forEach((amountOfEntries) => {
 
     test('User on 8 page', () => {
       const pages = splitToPages({ amountOfEntries, selectedPage: 7 });
-      expect(pages).toEqual([0, 'dot', 7, 8, 9, 10]);
+      expect(pages).toEqual([0, 'dot', 6, 7, 8, 'dot', 10]);
     });
     test('User on 9 page', () => {
       const pages = splitToPages({ amountOfEntries, selectedPage: 8 });
-      expect(pages).toEqual([0, 'dot', 8, 9, 10]);
+      expect(pages).toEqual([0, 'dot', 7, 8, 9, 10]);
     });
     test('User on last page', () => {
       const pages = splitToPages({ amountOfEntries, selectedPage: 9 });
@@ -68,11 +68,11 @@ elevenPagesAmounts.forEach((amountOfEntries) => {
 
     test('User on 9 page', () => {
       const pages = splitToPages({ amountOfEntries, selectedPage: 8 });
-      expect(pages).toEqual([0, 'dot', 8, 9, 10, 11]);
+      expect(pages).toEqual([0, 'dot', 7, 8, 9, 'dot', 11]);
     });
     test('User on 10 page', () => {
       const pages = splitToPages({ amountOfEntries, selectedPage: 9 });
-      expect(pages).toEqual([0, 'dot', 9, 10, 11]);
+      expect(pages).toEqual([0, 'dot', 8, 9, 10, 11]);
     });
     test('User on last page', () => {
       const pages = splitToPages({ amountOfEntries, selectedPage: 10 });

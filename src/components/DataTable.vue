@@ -15,13 +15,21 @@ defineEmits<{
   'submit:page': [value: number];
 }>();
 
-const selectedPage = ref<number | null>(0);
+const selectedPage = ref<number>(0);
 const pickedJumpPage = ref<number | null>(null);
 const pageSize = 20;
 
 const pages = computed(() =>
-  props.itemsCount ? splitToPages(props.itemsCount) : [],
+  props.itemsCount
+    ? splitToPages({
+        amountOfEntries: props.itemsCount,
+        selectedPage: selectedPage.value,
+        pageSize: 10,
+      })
+    : [],
 );
+
+console.log(pages.value);
 
 const isValid = computed(() => {
   if (!pickedJumpPage.value) return true;

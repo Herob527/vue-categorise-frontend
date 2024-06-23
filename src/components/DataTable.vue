@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T">
+import { splitToPages } from '@/utils/splitToPages';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{
@@ -17,30 +18,6 @@ defineEmits<{
 const selectedPage = ref<number | null>(0);
 const pickedJumpPage = ref<number | null>(null);
 const pageSize = 20;
-
-const splitToPages = (amountOfEntries: number): (number | 'dot')[] => {
-  const pages = Array.from(Array(amountOfEntries).keys());
-  const firstPage = 0;
-  const lastPage = amountOfEntries - 1;
-  const usedPage = selectedPage.value || 0;
-  const lowerBound = usedPage - 1 > 0 ? usedPage - 1 : 0;
-  const upperBound = usedPage + 2;
-
-  const inBetween = pages.slice(lowerBound, upperBound);
-  console.table([
-    ['lowerBound', lowerBound],
-    ['upperBound', upperBound],
-    ['usedPage', usedPage],
-  ]);
-  if (inBetween[0] === 0) {
-    return [0, 'dot', 1, 2, 3, 'dot', lastPage];
-  } else if (inBetween[inBetween.length - 1] === pages.length - 1) {
-    return [firstPage, 'dot', ...inBetween];
-  }
-  console.log('inBetween', inBetween);
-
-  return [firstPage, 'dot', ...inBetween, 'dot', lastPage] as const;
-};
 
 const pages = computed(() =>
   props.itemsCount ? splitToPages(props.itemsCount) : [],

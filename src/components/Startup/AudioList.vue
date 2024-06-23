@@ -12,13 +12,16 @@ const store = useBindingsStore();
 
 const inDbPage = ref(0);
 
+const QUERY_PAGE_SIZE = 20;
+
 const {
   data: transcriptData,
   refetch,
   isLoading,
 } = useQuery({
   queryKey: ['get-paginated-transcript', inDbPage.value],
-  queryFn: () => getPaginated({ page: inDbPage.value, pageSize: 20 }),
+  queryFn: () =>
+    getPaginated({ page: inDbPage.value, pageSize: QUERY_PAGE_SIZE }),
   placeholderData: [],
 });
 
@@ -111,6 +114,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       :items-count="countData"
       :is-loading="isLoading"
       title="In DB"
+      :page-size="QUERY_PAGE_SIZE"
       @submit:page="
         (newPage: number) => {
           inDbPage = newPage;

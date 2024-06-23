@@ -9,6 +9,7 @@ const props = defineProps<{
   itemKeys?: string[] | readonly string[];
   itemsCount?: number;
   isLoading?: boolean;
+  pageSize?: number;
 }>();
 
 defineEmits<{
@@ -17,19 +18,18 @@ defineEmits<{
 
 const selectedPage = ref<number>(0);
 const pickedJumpPage = ref<number | null>(null);
-const pageSize = 20;
 
 const pages = computed(() =>
   props.itemsCount
     ? splitToPages({
         amountOfEntries: props.itemsCount,
         selectedPage: selectedPage.value,
-        pageSize: 10,
+        pageSize: props.pageSize || 10,
       })
     : [],
 );
 
-console.log(pages.value);
+console.log('pages', pages.value);
 
 const isValid = computed(() => {
   if (!pickedJumpPage.value) return true;
@@ -38,6 +38,7 @@ const isValid = computed(() => {
     pickedJumpPage.value < (props.itemsCount || 0) + 1
   );
 });
+console.log(props.data.length);
 </script>
 <template>
   <div>

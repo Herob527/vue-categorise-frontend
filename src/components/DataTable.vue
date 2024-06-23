@@ -12,6 +12,8 @@ const props = defineProps<{
   pageSize?: number;
 }>();
 
+const DEFAULT_PAGE_SIZE = 10;
+
 defineEmits<{
   'submit:page': [value: number];
 }>();
@@ -24,21 +26,19 @@ const pages = computed(() =>
     ? splitToPages({
         amountOfEntries: props.itemsCount,
         selectedPage: selectedPage.value,
-        pageSize: props.pageSize || 10,
+        pageSize: props.pageSize || DEFAULT_PAGE_SIZE,
       })
     : [],
 );
 
-console.log('pages', pages.value);
-
 const isValid = computed(() => {
+  console.log('data-length', props.data);
   if (!pickedJumpPage.value) return true;
   return (
     pickedJumpPage.value > 0 &&
     pickedJumpPage.value < (props.itemsCount || 0) + 1
   );
 });
-console.log(props.data.length);
 </script>
 <template>
   <div>
@@ -62,15 +62,31 @@ console.log(props.data.length);
       <slot name="fallback" />
     </div>
 
-    <div
-      v-for="[index, item] in Object.entries(data).slice(
-        (selectedPage || 0) * pageSize,
-        ((selectedPage || 0) + 1) * pageSize,
-      )"
-      :key="index"
-    >
-      <slot name="item" :index="Number(index)" :entry="item" />
-    </div>
+    <template v-if="(isLoading ?? false) === false">
+      <div
+        v-for="[index, item] in Object.entries(data).slice(
+          (selectedPage || 0) * (pageSize || DEFAULT_PAGE_SIZE),
+          ((selectedPage || 0) + 1) * (pageSize || DEFAULT_PAGE_SIZE),
+        )"
+        :key="index"
+      >
+        <slot name="item" :index="Number(index)" :entry="item" />
+      </div>
+    </template>
+    <template v-else>
+      <div
+        v-for="index in pageSize || DEFAULT_PAGE_SIZE"
+        :key="index"
+        class="flex flex-col"
+      >
+        <slot name="loadingItem" :index="index" v-if="$slots['loadingItem']" />
+        <span
+          v-else
+          :class="`w-full ${index % 2 == 1 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} h-[50px] animate-pulse`"
+          >&nbsp;</span
+        >
+      </div>
+    </template>
     <div class="inline-flex flex-row gap-2 mt-2">
       <!-- Pagination -->
       <template v-for="entryPage in pages" :key="entryPage">

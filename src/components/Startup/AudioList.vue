@@ -18,6 +18,7 @@ const {
   data: transcriptData,
   refetch,
   isLoading,
+  isRefetching: isTranscriptRefetching,
 } = useQuery({
   queryKey: ['get-paginated-transcript', inDbPage.value],
   queryFn: () =>
@@ -25,13 +26,13 @@ const {
   placeholderData: [],
 });
 
-const { data: countData, isRefetching } = useQuery({
+const { data: countData } = useQuery({
   queryKey: ['get-count'],
   queryFn: () => getCount(),
 });
 
 watch(
-  () => transcriptData.value || isRefetching.value,
+  () => transcriptData.value || isTranscriptRefetching.value,
   () => {
     console.log('test');
 
@@ -112,7 +113,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       "
       :item-keys="fields"
       :items-count="countData"
-      :is-loading="isLoading"
+      :is-loading="isLoading || isTranscriptRefetching"
       title="In DB"
       :page-size="QUERY_PAGE_SIZE"
       @submit:page="
@@ -127,6 +128,12 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
 
       <template v-slot:item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+      </template>
+      <template v-slot:loadingItem="{ index }">
+        <span
+          :class="`w-full ${index % 2 == 1 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} h-[50px] animate-pulse`"
+          >&nbsp;</span
+        >
       </template>
     </DataTable>
     <DataTable

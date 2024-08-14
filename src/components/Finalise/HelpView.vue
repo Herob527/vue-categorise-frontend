@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ModalComponent from '../ModalComponent.vue';
-defineEmits(['close'])
-
+defineEmits(['close']);
 </script>
 
 <template>
@@ -10,16 +9,16 @@ defineEmits(['close'])
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Omit empty texts</h3>
 
-        <div class="pl-2">
+        <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked readonly />
+            <input type="checkbox" checked class="pointer-events-none" />
             <span
               >Empty transcripts will be <b>omitted</b> in generated
               transcript</span
             >
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" readonly />
+            <input type="checkbox" class="pointer-events-none" />
             <span
               >Empty transcripts will be <b>incluced</b> in generated
               transcript</span
@@ -29,16 +28,16 @@ defineEmits(['close'])
       </div>
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Divide by category</h3>
-        <div class="pl-2">
+        <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked readonly />
+            <input type="checkbox" checked class="pointer-events-none" />
             <span
               >Audio files will <b>be divided</b> by category (in different
               directories)</span
             >
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" readonly />
+            <input type="checkbox" class="pointer-events-none" />
             <span>
               <span
                 >Audio files will <b>share</b> one directory regardless of
@@ -53,13 +52,13 @@ defineEmits(['close'])
       </div>
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Export transcript</h3>
-        <div class="pl-2">
+        <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked readonly />
+            <input type="checkbox" checked class="pointer-events-none" />
             <span>Transcript <b>will</b> be generated</span>
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" readonly />
+            <input type="checkbox" class="pointer-events-none" />
             <span>
               <span>Transcript <b>won't</b> be generated</span>
             </span>
@@ -69,13 +68,13 @@ defineEmits(['close'])
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Category to lower</h3>
 
-        <div class="pl-2">
+        <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked readonly />
+            <input type="checkbox" checked class="pointer-events-none" />
             <span>Categories <b>will be</b> converted to <b>lowercase</b></span>
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" readonly />
+            <input type="checkbox" class="pointer-events-none" />
             <span
               >Categories <b>won't</b> be converted to <b>lowercase</b> at all
             </span>
@@ -84,21 +83,17 @@ defineEmits(['close'])
       </div>
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Category whitespace substitution</h3>
-        <p class="pl-2">
-          Substitute whitespace in category with given character
-        </p>
+        <p>Substitute whitespace in category with given character</p>
       </div>
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Uncategorized name</h3>
-        <p class="pl-2">
-          Name of category for uncatergized audio files in output
-        </p>
+        <p>Name of category for uncatergized audio files in output</p>
         <p class="pl-2 font-bold">Is required</p>
       </div>
 
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Line format</h3>
-        <div class="flex flex-col pl-2 class">
+        <div class="flex flex-col class">
           <span> Format of line in transcript </span>
           <span
             >Text between curly brackets is used for substitution of values from

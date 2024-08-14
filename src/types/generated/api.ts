@@ -308,6 +308,25 @@ export interface HTTPValidationError {
 /**
  * 
  * @export
+ * @interface PaginatedBindingModel
+ */
+export interface PaginatedBindingModel {
+    /**
+     * 
+     * @type {Array<BindingModel>}
+     * @memberof PaginatedBindingModel
+     */
+    'bindings': Array<BindingModel>;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginatedBindingModel
+     */
+    'page': number;
+}
+/**
+ * 
+ * @export
  * @interface TextModel
  */
 export interface TextModel {
@@ -1086,7 +1105,7 @@ export const BindingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BindingModel>>> {
+        async getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedBindingModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getPaginatedBindingsBindingsGet(page, perPage, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.getPaginatedBindingsBindingsGet']?.[localVarOperationServerIndex]?.url;
@@ -1184,7 +1203,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: any): AxiosPromise<Array<BindingModel>> {
+        getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: any): AxiosPromise<PaginatedBindingModel> {
             return localVarFp.getPaginatedBindingsBindingsGet(page, perPage, options).then((request) => request(axios, basePath));
         },
         /**

@@ -37,6 +37,7 @@ watch(
     if (transcriptData.value) {
       store.addDbFiles(
         transcriptData.value.bindings.map((entry) => ({
+          page: inDbPage.value,
           id: entry.binding.id,
           duration: entry.audio.audio_length,
           filename: entry.audio.file_name,

@@ -32,7 +32,6 @@ const pages = computed(() =>
 );
 
 const isValid = computed(() => {
-  console.log('data-length', props.data);
   if (!pickedJumpPage.value) return true;
   return (
     pickedJumpPage.value > 0 &&

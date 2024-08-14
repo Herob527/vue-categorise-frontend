@@ -17,12 +17,15 @@ export const useBindingsStore = defineStore('bindings', {
         entries.filter((e) => e.status === status),
   },
   actions: {
-    addDbFiles(data: { filename: string; duration: number; id: string }[]) {
+    addDbFiles(
+      data: { filename: string; duration: number; id: string; page: number }[],
+    ) {
       const dataForStore = data
         .map((entry) => {
-          const { filename, id, duration } = entry;
+          const { filename, id, duration, page } = entry;
           const file = new File([], filename);
           return {
+            page,
             file,
             id,
             duration,

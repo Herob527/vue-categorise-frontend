@@ -6,6 +6,7 @@ export enum statuses {
 }
 
 export type Entry = {
+  page: number;
   id: string;
   duration?: number | null;
   status: statuses;

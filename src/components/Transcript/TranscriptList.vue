@@ -16,7 +16,7 @@ const { data } = useQuery({
   queryFn: async ({ meta }) => {
     const { page, pageSize } = meta as { page: () => number; pageSize: number };
     const value = await getPaginated({ page: page(), pageSize });
-    if (value.length === 0) {
+    if (value.bindings.length === 0) {
       localStorage.setItem(LOCALSTORAGE_PAGE_KEY, '0');
       return getPaginated({ page: 0, pageSize });
     }
@@ -28,7 +28,7 @@ const { data } = useQuery({
   <div class="flex flex-row gap-4">
     <div class="flex flex-col flex-1 gap-2">
       <TranscriptItem
-        v-for="entry in data"
+        v-for="entry in data?.bindings"
         :key="entry.binding.id"
         :entry="entry"
       />

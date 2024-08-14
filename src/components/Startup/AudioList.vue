@@ -23,7 +23,7 @@ const {
   queryKey: ['get-paginated-transcript', inDbPage.value],
   queryFn: () =>
     getPaginated({ page: inDbPage.value, pageSize: QUERY_PAGE_SIZE }),
-  placeholderData: [],
+  placeholderData: { bindings: [], page: 1 },
 });
 
 const { data: countData } = useQuery({
@@ -34,11 +34,9 @@ const { data: countData } = useQuery({
 watch(
   () => transcriptData.value || isTranscriptRefetching.value,
   () => {
-    console.log('test');
-
     if (transcriptData.value) {
       store.addDbFiles(
-        transcriptData.value.map((entry) => ({
+        transcriptData.value.bindings.map((entry) => ({
           id: entry.binding.id,
           duration: entry.audio.audio_length,
           filename: entry.audio.file_name,

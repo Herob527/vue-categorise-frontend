@@ -56,7 +56,7 @@ const pendingEntries = computed(() =>
   store.getFieldsByStatus(statuses.PENDING),
 );
 
-const processingEntried = computed(() =>
+const processingEntries = computed(() =>
   store.getFieldsByStatus(statuses.PROCESSING),
 );
 
@@ -91,15 +91,15 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
     </DataTable>
 
     <DataTable
-      :data="processingEntried"
+      :data="processingEntries"
       :class-name="
-        processingEntried.length > 0
+        processingEntries.length > 0
           ? `rounded-xl border-2 border-primary-500`
           : ``
       "
       :item-keys="fields"
       title="Processing"
-      :items-count="processingEntried.length"
+      :items-count="processingEntries.length"
     >
       <template v-slot:fallback>
         <span class="p-4 bg-white">Submit some data pal</span>

@@ -34,10 +34,12 @@ const { data: countData } = useQuery({
 watch(
   () => transcriptData.value || isTranscriptRefetching.value,
   () => {
+    console.log(transcriptData.value);
     if (transcriptData.value) {
+      const { bindings, page } = transcriptData.value;
       store.addDbFiles(
-        transcriptData.value.bindings.map((entry) => ({
-          page: inDbPage.value,
+        bindings.map((entry) => ({
+          page,
           id: entry.binding.id,
           duration: entry.audio.audio_length,
           filename: entry.audio.file_name,
@@ -60,7 +62,9 @@ const processingEntried = computed(() =>
 
 const errorEntries = computed(() => store.getFieldsByStatus(statuses.ERROR));
 
-const entriesInDB = computed(() => store.getFieldsByStatus(statuses.IN_DB));
+const entriesInDB = computed(() =>
+  store.getFieldsByStatus(statuses.IN_DB, inDbPage.value),
+);
 
 const fields = ['File name', 'Duration', 'Actions'] as const;
 </script>

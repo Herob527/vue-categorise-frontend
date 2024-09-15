@@ -13,8 +13,8 @@ export const useBindingsStore = defineStore('bindings', {
       new Set(entries.map((e) => e.status)),
     getFieldsByStatus:
       ({ entries }) =>
-      (status: statuses) =>
-        entries.filter((e) => e.status === status),
+      (status: statuses, page: number = 1) =>
+        entries.filter((e) => e.status === status && e.page === page),
   },
   actions: {
     addDbFiles(

@@ -3,16 +3,15 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import AudioItem from './AudioItem.vue';
 import { statuses } from '@/types/shared';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import DataTable from '../DataTable.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getCount, getPaginated } from '@/actions/bindings';
+import { ENTRIES_PER_PAGE } from '@/constants';
 
 const store = useBindingsStore();
 
 const inDbPage = ref(0);
-
-const QUERY_PAGE_SIZE = 20;
 
 const {
   data: transcriptData,
@@ -22,8 +21,8 @@ const {
 } = useQuery({
   queryKey: ['get-paginated-transcript', inDbPage.value],
   queryFn: () =>
-    getPaginated({ page: inDbPage.value, pageSize: QUERY_PAGE_SIZE }),
-  placeholderData: { bindings: [], page: 1 },
+    getPaginated({ page: inDbPage.value, pageSize: ENTRIES_PER_PAGE }),
+  placeholderData: { bindings: [], page: inDbPage.value },
 });
 
 const { data: countData } = useQuery({
@@ -37,6 +36,7 @@ watch(
     console.log(transcriptData.value);
     if (transcriptData.value) {
       const { bindings, page } = transcriptData.value;
+      console.log(page);
       store.addDbFiles(
         bindings.map((entry) => ({
           page,
@@ -46,6 +46,8 @@ watch(
         })),
       );
     }
+
+    console.log('entriesInDB', entriesInDB.value);
   },
 );
 watch(
@@ -65,7 +67,7 @@ const errorEntries = computed(() => store.getFieldsByStatus(statuses.ERROR));
 const entriesInDB = computed(() =>
   store.getFieldsByStatus(statuses.IN_DB, inDbPage.value),
 );
-
+onMounted(() => {});
 const fields = ['File name', 'Duration', 'Actions'] as const;
 </script>
 
@@ -118,7 +120,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       :items-count="countData"
       :is-loading="isLoading || isTranscriptRefetching"
       title="In DB"
-      :page-size="QUERY_PAGE_SIZE"
+      :page-size="ENTRIES_PER_PAGE"
       @submit:page="
         (newPage: number) => {
           inDbPage = newPage;

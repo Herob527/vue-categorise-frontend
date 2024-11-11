@@ -17,6 +17,7 @@ type Entry = {
 };
 
 type LocalEntry = {
+  id: string;
   page: number;
   duration?: number;
   status: Statuses.PENDING | Statuses.ERROR | Statuses.PROCESSING;
@@ -24,8 +25,8 @@ type LocalEntry = {
 };
 
 type RemoteEntry = {
-  page: number;
   id: string;
+  page: number;
   duration?: number;
   status: Statuses.IN_DB;
   file: File;
@@ -45,19 +46,23 @@ export const useBindingsStoreV2 = defineStore('bingingsV2', {
         store.map.get(status)?.filter((e) => e.page === page) ?? [],
   },
   actions: {
-    updateStatus(id: string, status: Statuses) {
-      const currentStatusData = this.$state.map.get(status) ?? [];
-    },
     addFiles(data: ParamInput[]) {
       data.forEach((entry) => this.addFile(entry));
     },
     removeFiles(status: Statuses, ids: string[]) {
       ids.forEach((id) => this.removeFile(status, id));
     },
+    updateStatus(id: string, status: Statuses, newData: Partial<Entry>) {
+      const currentStatusData = this.$state.map.get(status) ?? [];
+      const entry = currentStatusData.findIndex((e) => e.id === id);
+      const newEntry = { ...currentStatusData[entry], ...newData };
+      currentStatusData[entry] = newEntry;
+      this.$state.map.set(status, [...currentStatusData]);
+    },
     addFile(data: ParamInput) {
       const { status } = data;
       const currentStatusData = this.$state.map.get(status) ?? [];
-      const id = status === Statuses.IN_DB ? data.id : v4();
+      const id = data.id;
       const newData = [...currentStatusData, { ...data, id }];
       this.$state.map.set(status, newData);
     },

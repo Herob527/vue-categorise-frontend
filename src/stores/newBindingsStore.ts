@@ -8,30 +8,12 @@ export enum Statuses {
 }
 
 type Entry = {
+  id: string;
   page: number;
   duration?: number;
   status: Statuses;
   file: File;
-  id: string;
 };
-
-type LocalEntry = {
-  id: string;
-  page: number;
-  duration?: number;
-  status: Statuses.PENDING | Statuses.ERROR | Statuses.PROCESSING;
-  file: File;
-};
-
-type RemoteEntry = {
-  id: string;
-  page: number;
-  duration?: number;
-  status: Statuses.IN_DB;
-  file: File;
-};
-
-type ParamInput = LocalEntry | RemoteEntry;
 
 export const useBindingsStoreV2 = defineStore('bingingsV2', {
   state: () => ({ map: new Map<Statuses, Entry[]>() }),
@@ -52,7 +34,7 @@ export const useBindingsStoreV2 = defineStore('bingingsV2', {
     },
   },
   actions: {
-    addFiles(data: ParamInput[]) {
+    addFiles(data: Entry[]) {
       data.forEach((entry) => this.addFile(entry));
     },
     removeFiles(ids: string[]) {
@@ -65,7 +47,7 @@ export const useBindingsStoreV2 = defineStore('bingingsV2', {
       this.removeFile(id);
       this.addFile({ ...value, status: newStatus });
     },
-    updateFileData(id: string, newData: Partial<ParamInput>) {
+    updateFileData(id: string, newData: Partial<Entry>) {
       const { status, value } = this.getFieldById(id);
       if (status === undefined || value === undefined)
         throw new Error('File not found');
@@ -76,7 +58,7 @@ export const useBindingsStoreV2 = defineStore('bingingsV2', {
       );
       this.$state.map.set(status, newDataList);
     },
-    addFile(data: ParamInput) {
+    addFile(data: Entry) {
       const { status, id } = data;
       const currentStatusData = this.$state.map.get(status) ?? [];
       const newData = [...currentStatusData, { ...data, id }];

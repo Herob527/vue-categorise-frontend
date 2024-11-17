@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { v4 } from 'uuid';
 
 export enum Statuses {
   PENDING,
@@ -56,24 +55,37 @@ export const useBindingsStoreV2 = defineStore('bingingsV2', {
     addFiles(data: ParamInput[]) {
       data.forEach((entry) => this.addFile(entry));
     },
-    removeFiles(status: Statuses, ids: string[]) {
-      ids.forEach((id) => this.removeFile(status, id));
+    removeFiles(ids: string[]) {
+      ids.forEach((id) => this.removeFile(id));
     },
-    updateStatus(id: string, status: Statuses, newData: Partial<Entry>) {
+    updateStatus(id: string, newStatus: Statuses) {
+      const { status: oldStatus, value } = this.getFieldById(id);
+      if (oldStatus === undefined || value === undefined)
+        throw new Error('File not found');
+      this.removeFile(id);
+      this.addFile({ ...value, status: newStatus });
+    },
+    updateFileData(id: string, newData: Partial<ParamInput>) {
+      const { status, value } = this.getFieldById(id);
+      if (status === undefined || value === undefined)
+        throw new Error('File not found');
+      const newEntry = { ...value, ...newData };
       const currentStatusData = this.$state.map.get(status) ?? [];
-      const entry = currentStatusData.findIndex((e) => e.id === id);
-      const newEntry = { ...currentStatusData[entry], ...newData };
-      currentStatusData[entry] = newEntry;
-      this.$state.map.set(status, [...currentStatusData]);
+      const newDataList = currentStatusData.map((e) =>
+        e.id === id ? newEntry : e,
+      );
+      this.$state.map.set(status, newDataList);
     },
     addFile(data: ParamInput) {
-      const { status } = data;
+      const { status, id } = data;
       const currentStatusData = this.$state.map.get(status) ?? [];
-      const id = data.id;
       const newData = [...currentStatusData, { ...data, id }];
       this.$state.map.set(status, newData);
     },
-    removeFile(status: Statuses, id: string) {
+    removeFile(id: string) {
+      const { status } = this.getFieldById(id);
+      if (status === undefined) throw new Error('File not found');
+
       this.$state.map.set(
         status,
         (this.$state.map.get(status) ?? []).filter((e) => e.id !== id),

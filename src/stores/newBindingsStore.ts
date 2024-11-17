@@ -44,6 +44,13 @@ export const useBindingsStoreV2 = defineStore('bingingsV2', {
       (store) =>
       (status: Statuses, page: number = 0) =>
         store.map.get(status)?.filter((e) => e.page === page) ?? [],
+    getFieldById: (store) => (id: string) => {
+      const [status, value] =
+        [...store.map.entries()]
+          .filter(([, items]) => items.find((entry) => entry.id === id))
+          .at(0) ?? [];
+      return { status, value: value?.at(0) };
+    },
   },
   actions: {
     addFiles(data: ParamInput[]) {

@@ -16,7 +16,7 @@ defineEmits(['close']);
   >
     <div>
       <ActionButton
-        :onClick="() => $emit('close')"
+        :on-click="() => $emit('close')"
         class-name="bg-primary-500 border-2 border-primary-600 relative p-4 text-white rounded-xl"
       >
         <font-awesome-icon

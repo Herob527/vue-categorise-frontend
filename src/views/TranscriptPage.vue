@@ -19,7 +19,7 @@ const closeHandler = () => {
 <template>
   <div class="flex flex-row gap-4 px-2 pb-4 mx-auto">
     <ActionButton
-      :onClick="handleOptionClick"
+      :on-click="handleOptionClick"
       class-name="bg-blue-500 text-white px-4 py-2 rounded-xl"
     >
       <font-awesome-icon :icon="faGear" />

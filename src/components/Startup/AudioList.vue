@@ -84,10 +84,10 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       title="Pending"
       :items-count="pendingEntries.length"
     >
-      <template v-slot:fallback>
+      <template #fallback>
         <span class="p-4 bg-white">Add some data pal</span>
       </template>
-      <template v-slot:item="{ index, entry }">
+      <template #item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
     </DataTable>
@@ -103,10 +103,10 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       title="Processing"
       :items-count="processingEntries.length"
     >
-      <template v-slot:fallback>
+      <template #fallback>
         <span class="p-4 bg-white">Submit some data pal</span>
       </template>
-      <template v-slot:item="{ index, entry }">
+      <template #item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
     </DataTable>
@@ -127,14 +127,14 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
         }
       "
     >
-      <template v-slot:fallback>
+      <template #fallback>
         <span class="p-4">Nothing in DB pal</span>
       </template>
 
-      <template v-slot:item="{ index, entry }">
+      <template #item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
-      <template v-slot:loadingItem="{ index }">
+      <template #loadingItem="{ index }">
         <span
           :class="`w-full ${index % 2 == 1 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} h-[50px] animate-pulse`"
           >&nbsp;</span
@@ -149,11 +149,11 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       title="Errored"
       v-if="errorEntries.length > 0"
     >
-      <template v-slot:fallback>
+      <template #fallback>
         <span class="p-4">Everything going just fine for now pal</span>
       </template>
 
-      <template v-slot:item="{ index, entry }">
+      <template #item="{ index, entry }">
         <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
       </template>
     </DataTable>

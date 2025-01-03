@@ -31,9 +31,9 @@ const handleSubmitAll = () => {
         label="Add item(s)"
       >
         <input
+          ref="inputFileRef"
           type="file"
           class="hidden"
-          ref="inputFileRef"
           multiple
           @change="handleFileUpload"
         />

@@ -6,17 +6,25 @@ import { ref } from 'vue';
 
 const inputFileRef = ref<HTMLInputElement | null>(null);
 
-const { addLocalFiles, submitAll, deleteAll } = useBindingsStore();
+const { addLocalFiles, submitAll } = useBindingsStore();
 
-const handleFileUpload = (event: Event) => {
+const deleteAll = () => {};
+
+const handleFileUpload = (event: Event) => { 
   const files = (event.target as HTMLInputElement)?.files;
   if (!files) return;
+  console.log('files');
   addLocalFiles(files);
 };
 
 const handleSubmitAll = () => {
   submitAll();
 };
+
+defineEmits<{
+  (e: 'upload', files: FileList): void;
+  (e: 'submit' | 'delete'): void;
+}>();
 </script>
 
 <template>

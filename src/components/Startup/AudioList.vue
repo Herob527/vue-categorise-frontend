@@ -15,7 +15,6 @@ const inDbPage = ref(0);
 
 const {
   data: transcriptData,
-  refetch,
   isLoading,
   isRefetching: isTranscriptRefetching,
 } = useQuery({
@@ -30,30 +29,6 @@ const { data: countData } = useQuery({
   queryFn: () => getCount(),
 });
 
-watch(
-  () => transcriptData.value || isTranscriptRefetching.value,
-  () => {
-    console.log(transcriptData.value);
-    if (transcriptData.value) {
-      const { bindings, page } = transcriptData.value;
-      console.log(page);
-      store.addDbFiles(
-        bindings.map((entry) => ({
-          page,
-          id: entry.binding.id,
-          duration: entry.audio.audio_length,
-          filename: entry.audio.file_name,
-        })),
-      );
-    }
-
-    console.log('entriesInDB', entriesInDB.value);
-  },
-);
-watch(
-  () => inDbPage.value,
-  async () => refetch(),
-);
 const pendingEntries = computed(() =>
   store.getFieldsByStatus(statuses.PENDING),
 );
@@ -64,11 +39,11 @@ const processingEntries = computed(() =>
 
 const errorEntries = computed(() => store.getFieldsByStatus(statuses.ERROR));
 
-const entriesInDB = computed(() =>
-  store.getFieldsByStatus(statuses.IN_DB, inDbPage.value),
-);
-onMounted(() => {});
 const fields = ['File name', 'Duration', 'Actions'] as const;
+
+defineEmits<{
+  (e: 'pageChange', status: statuses, newPage: number): void;
+}>();
 </script>
 
 <template>
@@ -112,9 +87,11 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
     </DataTable>
 
     <DataTable
-      :data="entriesInDB"
+      :data="transcriptData?.bindings ?? []"
       :class-name="
-        entriesInDB.length > 0 ? `rounded-xl border-2 border-primary-500` : ``
+        (transcriptData?.bindings?.length ?? -1) > 0
+          ? `rounded-xl border-2 border-primary-500`
+          : ``
       "
       :item-keys="fields"
       :items-count="countData"
@@ -123,7 +100,7 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       :page-size="ENTRIES_PER_PAGE"
       @submit:page="
         (newPage: number) => {
-          inDbPage = newPage;
+          $emit('pageChange', statuses.IN_DB, newPage);
         }
       "
     >
@@ -132,7 +109,17 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       </template>
 
       <template #item="{ index, entry }">
-        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+        <AudioItem
+          :key="entry.audio.id"
+          :index="index"
+          :entry="{
+            duration: entry.audio.audio_length,
+            page: inDbPage,
+            id: entry.audio.id,
+            filename: entry.audio.file_name,
+            status: statuses.IN_DB,
+          }"
+        ></AudioItem>
       </template>
       <template #loadingItem="{ index }">
         <span
@@ -142,12 +129,12 @@ const fields = ['File name', 'Duration', 'Actions'] as const;
       </template>
     </DataTable>
     <DataTable
+      v-if="errorEntries.length > 0"
       :data="errorEntries"
       :class-name="`rounded-xl border-2 border-primary-500`"
       :item-keys="fields"
       :items-count="errorEntries.length"
       title="Errored"
-      v-if="errorEntries.length > 0"
     >
       <template #fallback>
         <span class="p-4">Everything going just fine for now pal</span>

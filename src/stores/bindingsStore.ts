@@ -47,6 +47,7 @@ export const useBindingsStore = defineStore('bindings', {
         filename: f.name,
         duration: null,
       }));
+      console.log(newFiles)
       this.$patch({
         entries: [...newFiles, ...this.entries],
       });

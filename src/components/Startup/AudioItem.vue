@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useBindingsStore } from '@/stores/bindingsStore';
 
-const props = defineProps<{ entry: Entry; index: number }>();
+const props = defineProps<{ entry: Omit<Entry, 'file'>; index: number }>();
 const {
   entry: { status, filename, duration, id },
   index,

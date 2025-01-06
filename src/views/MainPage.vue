@@ -16,7 +16,6 @@ const { data } = useQuery({
   queryKey: ['bindingsCount'],
   queryFn,
 });
-
 </script>
 
 <template>

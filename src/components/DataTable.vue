@@ -49,7 +49,7 @@ const isValid = computed(() => {
       <div
         class="flex flex-row justify-center items-center py-2 text-xl font-bold text-center text-white uppercase bg-primary-500"
       >
-        <span class="flex-1" v-for="item in itemKeys" :key="item">{{
+        <span v-for="item in itemKeys" :key="item" class="flex-1">{{
           item
         }}</span>
       </div>
@@ -78,7 +78,7 @@ const isValid = computed(() => {
         :key="index"
         class="flex flex-col"
       >
-        <slot name="loadingItem" :index="index" v-if="$slots['loadingItem']" />
+        <slot v-if="$slots['loadingItem']" name="loadingItem" :index="index" />
         <span
           v-else
           :class="`w-full ${index % 2 == 1 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} h-[50px] animate-pulse`"
@@ -105,10 +105,10 @@ const isValid = computed(() => {
         </button>
         <div v-else class="flex flex-col gap-2 w-10">
           <input
+            v-model="pickedJumpPage"
             type="text"
             inputmode="numeric"
             class="w-10 h-10 text-center border-2 border-primary-500"
-            v-model="pickedJumpPage"
             placeholder="..."
           />
           <button

@@ -21,7 +21,7 @@ const { mutate, status } = useMutation({
 
 <template>
   <main class="container flex flex-wrap gap-4 mx-auto">
-    <FormView @submit="mutate()" :submit-status="status" />
+    <FormView :submit-status="status" @submit="mutate()" />
     <TranscriptPreview />
     <DirectoriesPreview />
     <PreviewContainer />

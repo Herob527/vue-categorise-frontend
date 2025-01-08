@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
-import { useBindingsStore } from '@/stores/bindingsStore';
 import { faFile, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ref } from 'vue';
 
 const inputFileRef = ref<HTMLInputElement | null>(null);
 
-const { addLocalFiles, submitAll } = useBindingsStore();
+const deleteAll = () => {
+  emit('delete');
+};
 
-const deleteAll = () => {};
-
-const handleFileUpload = (event: Event) => { 
+const handleFileUpload = (event: Event) => {
   const files = (event.target as HTMLInputElement)?.files;
   if (!files) return;
-  console.log('files');
-  addLocalFiles(files);
+  emit('upload', files);
 };
 
 const handleSubmitAll = () => {
-  submitAll();
+  emit('submit');
 };
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'upload', files: FileList): void;
   (e: 'submit' | 'delete'): void;
 }>();

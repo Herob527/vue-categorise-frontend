@@ -8,42 +8,24 @@ import DataTable from '../DataTable.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getCount, getPaginated } from '@/actions/bindings';
 import { ENTRIES_PER_PAGE } from '@/constants';
+import type { dataType } from '@/views/StartupProject.vue';
 
-const store = useBindingsStore();
+const props = defineProps<{ data: Map<statuses, dataType[]> }>();
 
-const inDbPage = ref(0);
-
-const {
-  data: transcriptData,
-  isLoading,
-  isRefetching: isTranscriptRefetching,
-} = useQuery({
-  queryKey: ['get-paginated-transcript', inDbPage.value],
-  queryFn: () =>
-    getPaginated({ page: inDbPage.value, pageSize: ENTRIES_PER_PAGE }),
-  placeholderData: { bindings: [], page: inDbPage.value },
-});
-
-const { data: countData } = useQuery({
-  queryKey: ['get-count'],
-  queryFn: () => getCount(),
-});
-
-const pendingEntries = computed(() =>
-  store.getFieldsByStatus(statuses.PENDING),
-);
-
-const processingEntries = computed(() =>
-  store.getFieldsByStatus(statuses.PROCESSING),
-);
-
-const errorEntries = computed(() => store.getFieldsByStatus(statuses.ERROR));
+const pendingEntries = computed(() => props.data.get(statuses.PENDING) ?? []);
+const processingEntries = props.data.get(statuses.PROCESSING) ?? [];
+const transcriptData = props.data.get(statuses.IN_DB) ?? null;
+const errorEntries = props.data.get(statuses.ERROR) ?? [];
 
 const fields = ['File name', 'Duration', 'Actions'] as const;
 
 defineEmits<{
   (e: 'pageChange', status: statuses, newPage: number): void;
 }>();
+
+onMounted(() => {
+  console.log(pendingEntries.value);
+});
 </script>
 
 <template>
@@ -63,7 +45,7 @@ defineEmits<{
         <span class="p-4 bg-white">Add some data pal</span>
       </template>
       <template #item="{ index, entry }">
-        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
+        <p>{{ entry.fileName }}</p>
       </template>
     </DataTable>
 
@@ -81,21 +63,19 @@ defineEmits<{
       <template #fallback>
         <span class="p-4 bg-white">Submit some data pal</span>
       </template>
-      <template #item="{ index, entry }">
-        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
-      </template>
+      <!-- <template #item="{ index, entry }"> -->
+      <!--   <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem> -->
+      <!-- </template> -->
     </DataTable>
 
     <DataTable
-      :data="transcriptData?.bindings ?? []"
+      :data="transcriptData ?? []"
       :class-name="
-        (transcriptData?.bindings?.length ?? -1) > 0
+        (transcriptData?.length ?? -1) > 0
           ? `rounded-xl border-2 border-primary-500`
           : ``
       "
       :item-keys="fields"
-      :items-count="countData"
-      :is-loading="isLoading || isTranscriptRefetching"
       title="In DB"
       :page-size="ENTRIES_PER_PAGE"
       @submit:page="
@@ -108,19 +88,19 @@ defineEmits<{
         <span class="p-4">Nothing in DB pal</span>
       </template>
 
-      <template #item="{ index, entry }">
-        <AudioItem
-          :key="entry.audio.id"
-          :index="index"
-          :entry="{
-            duration: entry.audio.audio_length,
-            page: inDbPage,
-            id: entry.audio.id,
-            filename: entry.audio.file_name,
-            status: statuses.IN_DB,
-          }"
-        ></AudioItem>
-      </template>
+      <!-- <template #item="{ index, entry }"> -->
+      <!--   <AudioItem -->
+      <!--     :key="entry.audio.id" -->
+      <!--     :index="index" -->
+      <!--     :entry="{ -->
+      <!--       duration: entry.audio.audio_length, -->
+      <!--       page: inDbPage, -->
+      <!--       id: entry.audio.id, -->
+      <!--       filename: entry.audio.file_name, -->
+      <!--       status: statuses.IN_DB, -->
+      <!--     }" -->
+      <!--   ></AudioItem> -->
+      <!-- </template> -->
       <template #loadingItem="{ index }">
         <span
           :class="`w-full ${index % 2 == 1 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} h-[50px] animate-pulse`"
@@ -140,9 +120,9 @@ defineEmits<{
         <span class="p-4">Everything going just fine for now pal</span>
       </template>
 
-      <template #item="{ index, entry }">
-        <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem>
-      </template>
+      <!-- <template #item="{ index, entry }"> -->
+      <!--   <AudioItem :key="entry.id" :index="index" :entry="entry"></AudioItem> -->
+      <!-- </template> -->
     </DataTable>
   </div>
 </template>

@@ -11,10 +11,11 @@ const { audioData } = defineProps<{
 const splitUrl = audioData.url.split('/').slice(1).join('/');
 
 const fullUrl = `http://localhost:8000/static/${splitUrl}`;
+
 const wsInstance = ref<WaveSurfer | null>(null);
 const wsContainer = ref(null);
 
-const AUDIO_LENGTH_TRESHOLD = 100;
+const AUDIO_LENGTH_THRESHOLD = 100;
 
 const init = () => {
   if (wsContainer.value === null) return;
@@ -25,7 +26,7 @@ const init = () => {
     url: fullUrl,
   });
   // TODO: Redirect generating peaks to backend or web worker
-  if (audioData.audio_length > AUDIO_LENGTH_TRESHOLD) {
+  if (audioData.audio_length > AUDIO_LENGTH_THRESHOLD) {
     wavesurfer.setOptions({
       peaks: [],
     });
@@ -46,5 +47,7 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div ref="wsContainer" :class="`${className || ''}`.trim()"></div>
+  <div
+    ref="wsContainer"
+    :class="`${className || ''}`.trim()"></div>
 </template>

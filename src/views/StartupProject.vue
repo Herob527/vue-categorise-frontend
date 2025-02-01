@@ -4,11 +4,11 @@ import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
 import { ENTRIES_PER_PAGE } from '@/constants';
-import { statuses } from '@/types/shared';
+import { useBindingsStore } from '@/stores/bindingsStore';
+import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/vue-query';
-import { v4 } from 'uuid';
-import { reactive, ref } from 'vue';
+import { computed, reactive } from 'vue';
 
 const initialPagination = Object.fromEntries(
   Object.values(statuses).map((entry) => [entry, 0]),
@@ -16,13 +16,7 @@ const initialPagination = Object.fromEntries(
 
 export type dataType = { id: string; fileName: string };
 
-const initialData = new Map(
-  Object.values(statuses).map((entry) => [entry, [] as dataType[]]),
-);
-
 const paginationData = reactive(initialPagination);
-
-const data = ref(initialData);
 
 const { data: transcriptData } = useQuery({
   queryKey: ['get-paginated-transcript', paginationData.inDatabase],
@@ -34,49 +28,97 @@ const { data: transcriptData } = useQuery({
   placeholderData: { bindings: [], page: paginationData.inDatabase },
 });
 
-const fields = ['File name', 'Duration', 'Actions'] as const;
+const { getAll, getAvailableStatuses } = useBindingsStore();
+
+const transformtedData = computed(
+  () =>
+    transcriptData.value?.bindings.map(
+      (entry) =>
+        ({
+          id: entry.binding.id,
+          file: new File([], entry.audio.file_name),
+          status: statuses.IN_DB,
+          duration: entry.audio.audio_length,
+          filename: entry.audio.file_name,
+        }) satisfies Entry,
+    ) ?? [],
+);
+
+const visibleData = [...getAll, ...transformtedData.value];
+
+const availableStatuses = [statuses.IN_DB, ...getAvailableStatuses];
+
+const fields = ['File name', 'Status', 'Actions'] as const;
 </script>
 <template>
   <main>
     <TableActionPanel
       @upload="
         (files) => {
-          const currentPending = data.get(statuses.PENDING) ?? [];
-
-          const differentValues =
-            [...files]?.filter((entry) =>
-              currentPending.every((i) => i.fileName !== entry.name),
-            ) ?? [];
-
-          const newPending = [
-            ...currentPending,
-            ...differentValues.map((entry) => ({
-              id: v4(),
-              fileName: entry.name,
-            })),
-          ];
-          data = data.set(statuses.PENDING, newPending);
+          // const currentPending = data.get(statuses.PENDING) ?? [];
+          //
+          // const differentValues =
+          //   [...files]?.filter((entry) =>
+          //     currentPending.every((i) => i.fileName !== entry.name),
+          //   ) ?? [];
+          //
+          // const newPending = [
+          //   ...currentPending,
+          //   ...differentValues.map((entry) => ({
+          //     id: v4(),
+          //     fileName: entry.name,
+          //   })),
+          // ];
+          // data = data.set(statuses.PENDING, newPending);
         }
       "
       @delete="
         () => {
-          data = data.set(statuses.PENDING, []);
+          // data = data.set(statuses.PENDING, []);
         }
       " />
 
+    <div :class="`rounded-xl border-2 border-primary-500 overflow-clip mb-4`">
+      <p class="p-2 text-2xl font-bold text-white uppercase bg-primary-600">
+        Filters
+      </p>
+      <div class="flex flex-row gap-4 m-2">
+        <div>
+          <p class="mb-1">Status</p>
+          <select class="border-2 border-primary-500 p-2 rounded min-w-48">
+            <option
+              v-for="item in Object.entries(statuses)"
+              :key="item[0]"
+              :value="item[0]">
+              {{ $t(item[1]) }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <button
+        class="m-2 bg-primary-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-primary-600 transition-colors"
+        type="button">
+        Apply
+      </button>
+    </div>
+
     <DataTable
       :data="transcriptData?.bindings ?? []"
-      :class-name="`rounded-xl border-2 border-primary-500`"
+      :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
       :item-keys="fields"
-      title="In DB"
       :page-size="ENTRIES_PER_PAGE"
       @submit:page="
         (newPage: number) => {
           console.log(newPage);
         }
       ">
+      <template #top-heading>
+        <p class="p-2 text-2xl font-bold text-white uppercase bg-primary-600">
+          Summary
+        </p>
+      </template>
       <template #fallback>
-        <span class="p-4">Nothing in DB pal</span>
+        <span class="p-4">Nothing there yet</span>
       </template>
 
       <template #item="{ index, entry }">

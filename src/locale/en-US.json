@@ -1,6 +1,7 @@
 {
   "done": "Done",
   "onServer": "On server",
+  "inDatabase": "In Database",
   "processing": "Processing",
   "error": "Error",
   "pending": "Pending"

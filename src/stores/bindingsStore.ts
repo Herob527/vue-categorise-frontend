@@ -25,9 +25,7 @@ export const useBindingsStore = defineStore('bindings', {
         duration: null,
       }));
       console.log(newFiles)
-      this.$patch({
-        entries: [...newFiles, ...this.entries],
-      });
+      this.entries = [...newFiles, ...this.entries]
     },
     async deleteAll() {
       this.entries = [];

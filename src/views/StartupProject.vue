@@ -8,6 +8,7 @@ import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/vue-query';
+import { storeToRefs } from 'pinia';
 import { computed, reactive } from 'vue';
 
 const initialPagination = Object.fromEntries(
@@ -28,7 +29,8 @@ const { data: transcriptData } = useQuery({
   placeholderData: { bindings: [], page: paginationData.inDatabase },
 });
 
-const { getAll, getAvailableStatuses } = useBindingsStore();
+const { addFiles } = useBindingsStore();
+const { getAll, getAvailableStatuses } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(
   () =>
@@ -44,9 +46,12 @@ const transformtedData = computed(
     ) ?? [],
 );
 
-const visibleData = [...getAll, ...transformtedData.value];
+const visibleData = computed(() => [
+  ...getAll.value,
+  ...transformtedData.value,
+]);
 
-const availableStatuses = [statuses.IN_DB, ...getAvailableStatuses];
+const availableStatuses = computed(() => [...getAvailableStatuses.value]);
 
 const fields = ['File name', 'Status', 'Actions'] as const;
 </script>
@@ -55,21 +60,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
     <TableActionPanel
       @upload="
         (files) => {
-          // const currentPending = data.get(statuses.PENDING) ?? [];
-          //
-          // const differentValues =
-          //   [...files]?.filter((entry) =>
-          //     currentPending.every((i) => i.fileName !== entry.name),
-          //   ) ?? [];
-          //
-          // const newPending = [
-          //   ...currentPending,
-          //   ...differentValues.map((entry) => ({
-          //     id: v4(),
-          //     fileName: entry.name,
-          //   })),
-          // ];
-          // data = data.set(statuses.PENDING, newPending);
+          addFiles(files);
         }
       "
       @delete="
@@ -103,7 +94,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
     </div>
 
     <DataTable
-      :data="transcriptData?.bindings ?? []"
+      :data="visibleData ?? []"
       :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
       :item-keys="fields"
       :page-size="ENTRIES_PER_PAGE"
@@ -123,33 +114,39 @@ const fields = ['File name', 'Status', 'Actions'] as const;
 
       <template #item="{ index, entry }">
         <div
-          :class="`w-full text-center ${index % 2 == 0 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} flex flex-row justify-between items-center`">
-          <span
-            class="py-1 px-2 bg-gray-200 rounded-lg border-gray-400 cursor-text hover:bg-gray-300 border-[1px]"
-            :title="entry.audio.file_name">
-            {{
-              entry.audio.file_name.length > 15
-                ? entry.audio.file_name.slice(0, 15) + '...'
-                : entry.audio.file_name
-            }}
-          </span>
+          :class="`w-full text-center ${index % 2 == 0 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} flex flex-row justify-center items-center`">
+          <div class="flex-1">
+            <span
+              class="py-1 px-2 rounded-lg cursor-text"
+              :title="entry.filename">
+              {{
+                entry.filename.length > 15
+                  ? entry.filename.slice(0, 15) + '...'
+                  : entry.filename
+              }}
+            </span>
+          </div>
 
-          <span
-            class="flex flex-col flex-1 justify-center items-center py-2 px-4"
-            >{{ entry.audio.audio_length ?? '-' }}</span
-          >
-          <ActionButton
-            :on-click="
-              () => {
-                console.log('remove');
-              }
-            "
-            class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 "
-            label="Delete">
-            <font-awesome-icon
-              :icon="faTrash"
-              class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />
-          </ActionButton>
+          <div class="flex-1">
+            <span class="flex flex-col justify-center items-center py-2 px-4">{{
+              $t(entry.status)
+            }}</span>
+          </div>
+
+          <div class="flex-1">
+            <ActionButton
+              :on-click="
+                () => {
+                  console.log('remove');
+                }
+              "
+              class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 "
+              label="Delete">
+              <font-awesome-icon
+                :icon="faTrash"
+                class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />
+            </ActionButton>
+          </div>
         </div>
       </template>
       <template #loadingItem="{ index }">

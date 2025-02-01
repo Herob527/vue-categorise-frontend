@@ -98,7 +98,7 @@ const isValid = computed(() => {
         >
       </div>
     </template>
-    <div class="inline-flex flex-row gap-2 mt-2">
+    <div class="inline-flex flex-row gap-2 mt-2 m-2">
       <!-- Pagination -->
       <template
         v-for="entryPage in pages"
@@ -106,7 +106,7 @@ const isValid = computed(() => {
         <button
           v-if="entryPage !== 'dot'"
           type="button"
-          :class="`relative w-10 h-10 ${entryPage === selectedPage ? 'bg-primary-600 hover:bg-primary-700' : 'bg-primary-500 hover:bg-primary-600'} text-white`"
+          :class="`relative w-10 h-10 ${entryPage === selectedPage ? 'bg-primary-600 hover:bg-primary-700' : 'bg-primary-500 hover:bg-primary-600'} text-white first:rounded-l-2xl last:rounded-r-2xl`"
           @click="
             () => {
               console.log(entryPage);

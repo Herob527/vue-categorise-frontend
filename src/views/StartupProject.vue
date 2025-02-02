@@ -9,7 +9,7 @@ import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 const initialPagination = Object.fromEntries(
   Object.values(statuses).map((entry) => [entry, 0]),
@@ -46,12 +46,17 @@ const transformtedData = computed(
     ) ?? [],
 );
 
-const visibleData = computed(() => [
-  ...getAll.value,
-  ...transformtedData.value,
-]);
+type modes = 'DB' | 'LOCAL';
 
-const availableStatuses = computed(() => [...getAvailableStatuses.value]);
+const showMode = ref<modes>('DB');
+
+const shownData = computed(() => {
+  if (showMode.value === 'DB') {
+    return transformtedData.value;
+  } else {
+    return getAll.value ?? [];
+  }
+});
 
 const fields = ['File name', 'Status', 'Actions'] as const;
 </script>
@@ -69,32 +74,8 @@ const fields = ['File name', 'Status', 'Actions'] as const;
         }
       " />
 
-    <div :class="`rounded-xl border-2 border-primary-500 overflow-clip mb-4`">
-      <p class="p-2 text-2xl font-bold text-white uppercase bg-primary-600">
-        Filters
-      </p>
-      <div class="flex flex-row gap-4 m-2">
-        <div>
-          <p class="mb-1">Status</p>
-          <select class="border-2 border-primary-500 p-2 rounded min-w-48">
-            <option
-              v-for="item in Object.entries(statuses)"
-              :key="item[0]"
-              :value="item[0]">
-              {{ $t(item[1]) }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <button
-        class="m-2 bg-primary-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-primary-600 transition-colors"
-        type="button">
-        Apply
-      </button>
-    </div>
-
     <DataTable
-      :data="visibleData ?? []"
+      :data="shownData ?? []"
       :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
       :item-keys="fields"
       :page-size="ENTRIES_PER_PAGE"
@@ -104,9 +85,30 @@ const fields = ['File name', 'Status', 'Actions'] as const;
         }
       ">
       <template #top-heading>
-        <p class="p-2 text-2xl font-bold text-white uppercase bg-primary-600">
-          Summary
-        </p>
+        <div class="flex flex-row bg-primary-600 p-2 justify-between">
+          <p class="text-2xl font-bold text-white uppercase">Summary</p>
+          <div
+            class="text-white flex flex-row gap-3 items-center justify-center">
+            <button
+              type="button"
+              :class="[
+                'cursor-pointer px-4 py-[4px] rounded-2xl transition-colors',
+                showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-600',
+              ]"
+              :onClick="() => (showMode = 'LOCAL')">
+              Local
+            </button>
+            <button
+              type="button"
+              :class="[
+                'cursor-pointer px-4 py-[4px]  rounded-2xl transition-colors',
+                showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-600',
+              ]"
+              :onClick="() => (showMode = 'DB')">
+              Remote
+            </button>
+          </div>
+        </div>
       </template>
       <template #fallback>
         <span class="p-4">Nothing there yet</span>

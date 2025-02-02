@@ -88,11 +88,11 @@ const fields = ['File name', 'Status', 'Actions'] as const;
         <div class="flex flex-row bg-primary-600 p-2 justify-between">
           <p class="text-2xl font-bold text-white uppercase">Summary</p>
           <div
-            class="text-white flex flex-row gap-3 items-center justify-center">
+            class="text-white flex flex-row gap-1 items-center justify-center">
             <button
               type="button"
               :class="[
-                'cursor-pointer px-4 py-[4px]  rounded-2xl transition-colors',
+                'cursor-pointer px-4 py-[4px]  rounded-tl-2xl transition-colors',
                 showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-450',
               ]"
               :onClick="() => (showMode = 'DB')">
@@ -101,7 +101,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
             <button
               type="button"
               :class="[
-                'cursor-pointer px-4 py-[4px] rounded-2xl transition-colors',
+                'cursor-pointer px-4 py-[4px] rounded-br-2xl transition-colors',
                 showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-450',
               ]"
               :onClick="() => (showMode = 'LOCAL')">

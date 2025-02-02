@@ -30,7 +30,7 @@ const { data: transcriptData } = useQuery({
 });
 
 const { addFiles } = useBindingsStore();
-const { getAll, getAvailableStatuses } = storeToRefs(useBindingsStore());
+const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(
   () =>

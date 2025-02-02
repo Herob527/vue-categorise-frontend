@@ -76,7 +76,9 @@ const isValid = computed(() => {
           ((selectedPage || 0) + 1) * (pageSize || DEFAULT_PAGE_SIZE),
         )"
         :key="index"
-        class="last:border-b-2 border-blue-500">
+        :class="[
+          pages.length > 1 ? 'last:border-b-2 last:border-blue-500' : '',
+        ]">
         <slot
           name="item"
           :index="Number(index)"
@@ -100,7 +102,7 @@ const isValid = computed(() => {
       </div>
     </template>
     <div
-      v-if="pages.length > 0"
+      v-if="pages.length > 1"
       class="inline-flex flex-row gap-2 mt-2 m-2">
       <!-- Pagination -->
       <template

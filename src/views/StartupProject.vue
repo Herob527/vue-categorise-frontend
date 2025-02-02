@@ -88,7 +88,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
         <div class="flex flex-row bg-primary-600 p-2 justify-between">
           <p class="text-2xl font-bold text-white uppercase">Summary</p>
           <div
-            class="text-white flex flex-row gap-1 items-center justify-center">
+            class="text-white flex flex-row gap-2 items-center justify-center">
             <button
               type="button"
               :class="[

@@ -65,7 +65,7 @@ const isValid = computed(() => {
     </div>
     <div
       v-if="data.length === 0 && (isLoading ?? false) === false"
-      class="flex overflow-hidden flex-col border-2 border-primary-500">
+      class="flex overflow-clip flex-col">
       <slot name="fallback" />
     </div>
 
@@ -75,7 +75,8 @@ const isValid = computed(() => {
           (selectedPage || 0) * (pageSize || DEFAULT_PAGE_SIZE),
           ((selectedPage || 0) + 1) * (pageSize || DEFAULT_PAGE_SIZE),
         )"
-        :key="index">
+        :key="index"
+        class="last:border-b-2 border-blue-500">
         <slot
           name="item"
           :index="Number(index)"
@@ -98,7 +99,9 @@ const isValid = computed(() => {
         >
       </div>
     </template>
-    <div class="inline-flex flex-row gap-2 mt-2 m-2">
+    <div
+      v-if="pages.length > 0"
+      class="inline-flex flex-row gap-2 mt-2 m-2">
       <!-- Pagination -->
       <template
         v-for="entryPage in pages"

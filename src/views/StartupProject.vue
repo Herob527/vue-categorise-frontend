@@ -116,7 +116,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
 
       <template #item="{ index, entry }">
         <div
-          :class="`w-full text-center ${index % 2 == 0 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} flex flex-row justify-center items-center`">
+          :class="`w-full text-center ${index % 2 == 0 ? 'bg-gray-200 hover:bg-gray-300' : 'hover:bg-gray-100'} flex flex-row justify-center items-center py-2`">
           <div class="flex-1">
             <span
               class="py-1 px-2 rounded-lg cursor-text"

@@ -92,7 +92,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
             <button
               type="button"
               :class="[
-                'cursor-pointer px-4 py-[4px]  rounded-tl-2xl transition-colors',
+                'cursor-pointer px-4 py-[4px] rounded-l-2xl transition-colors',
                 showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-450',
               ]"
               :onClick="() => (showMode = 'DB')">
@@ -101,7 +101,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
             <button
               type="button"
               :class="[
-                'cursor-pointer px-4 py-[4px] rounded-br-2xl transition-colors',
+                'cursor-pointer px-4 py-[4px] rounded-r-2xl transition-colors',
                 showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-450',
               ]"
               :onClick="() => (showMode = 'LOCAL')">

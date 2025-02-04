@@ -33,7 +33,7 @@ export const useBindingsStore = defineStore('bindings', {
 
       this.entries[index].status = status;
     },
-    deleteAll() {
+    removeAll() {
       this.entries = [];
     },
     remove(id: string) {

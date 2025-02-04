@@ -129,7 +129,6 @@ const sendPending = async () => {
         (newPage: number) => {
           if (showMode === 'DB') {
             dbPagination = newPage;
-            console.log(newPage);
           }
         }
       ">

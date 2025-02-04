@@ -164,7 +164,7 @@ export interface DirectoryModel {
      * @type {boolean}
      * @memberof DirectoryModel
      */
-    'is_dir': DirectoryModelIsDirEnum;
+    'is_dir': boolean;
     /**
      * 
      * @type {Array<DirectoryModelFilesInner>}
@@ -172,13 +172,6 @@ export interface DirectoryModel {
      */
     'files': Array<DirectoryModelFilesInner>;
 }
-
-export const DirectoryModelIsDirEnum = {
-    True: true
-} as const;
-
-export type DirectoryModelIsDirEnum = typeof DirectoryModelIsDirEnum[keyof typeof DirectoryModelIsDirEnum];
-
 /**
  * 
  * @export
@@ -196,7 +189,7 @@ export interface DirectoryModelFilesInner {
      * @type {boolean}
      * @memberof DirectoryModelFilesInner
      */
-    'is_dir': DirectoryModelFilesInnerIsDirEnum;
+    'is_dir': boolean;
     /**
      * 
      * @type {string}
@@ -210,13 +203,6 @@ export interface DirectoryModelFilesInner {
      */
     'files': Array<DirectoryModelFilesInner>;
 }
-
-export const DirectoryModelFilesInnerIsDirEnum = {
-    True: true
-} as const;
-
-export type DirectoryModelFilesInnerIsDirEnum = typeof DirectoryModelFilesInnerIsDirEnum[keyof typeof DirectoryModelFilesInnerIsDirEnum];
-
 /**
  * 
  * @export
@@ -234,15 +220,8 @@ export interface FileModel {
      * @type {boolean}
      * @memberof FileModel
      */
-    'is_dir': FileModelIsDirEnum;
+    'is_dir': boolean;
 }
-
-export const FileModelIsDirEnum = {
-    False: false
-} as const;
-
-export type FileModelIsDirEnum = typeof FileModelIsDirEnum[keyof typeof FileModelIsDirEnum];
-
 /**
  * 
  * @export
@@ -319,10 +298,29 @@ export interface PaginatedBindingModel {
     'bindings': Array<BindingModel>;
     /**
      * 
+     * @type {PaginationModel}
+     * @memberof PaginatedBindingModel
+     */
+    'pagination': PaginationModel;
+    /**
+     * 
      * @type {number}
      * @memberof PaginatedBindingModel
      */
     'page': number;
+}
+/**
+ * 
+ * @export
+ * @interface PaginationModel
+ */
+export interface PaginationModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationModel
+     */
+    'total': number;
 }
 /**
  * 

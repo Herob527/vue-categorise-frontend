@@ -70,7 +70,12 @@ const itemsCount = computed(() => {
   return getAll.value?.length ?? 0;
 });
 
-const fields = ['File name', 'Status', 'Actions'] as const;
+const fields = computed(() => {
+  if (showMode.value === 'DB') {
+    return ['File name', 'Duration', 'Actions'] as const;
+  }
+  return ['File name', 'Status', 'Actions'] as const;
+});
 
 const sendPending = async () => {
   const all = getAll.value;

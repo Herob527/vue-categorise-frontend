@@ -59,17 +59,15 @@ const showMode = ref<modes>('DB');
 const shownData = computed(() => {
   if (showMode.value === 'DB') {
     return transformtedData.value;
-  } else {
-    return getAll.value ?? [];
   }
+  return getAll.value ?? [];
 });
 
 const itemsCount = computed(() => {
   if (showMode.value === 'DB') {
     return transcriptData.value?.pagination.total ?? 0;
-  } else {
-    return getAll.value?.length ?? 0;
   }
+  return getAll.value?.length ?? 0;
 });
 
 const fields = ['File name', 'Status', 'Actions'] as const;

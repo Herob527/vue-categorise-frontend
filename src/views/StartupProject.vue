@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getPaginated, post } from '@/actions/bindings';
+import { deleteOne, getPaginated, post } from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
@@ -17,7 +17,7 @@ const dbPagination = ref(0);
 
 const queryClient = useQueryClient();
 
-const { data: transcriptData } = useQuery({
+const { data: transcriptData, refetch } = useQuery({
   queryKey: ['get-paginated-transcript', dbPagination],
   queryFn: () =>
     getPaginated({
@@ -31,7 +31,7 @@ const { data: transcriptData } = useQuery({
   },
 });
 
-const { addFiles, updateFileStatus, remove } = useBindingsStore();
+const { addFiles, updateFileStatus, remove, removeAll } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(() => {
@@ -99,6 +99,20 @@ const sendPending = async () => {
   });
   queryClient.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
 };
+
+const removeFile = async (id: string) => {
+  deleteOne({ id });
+  refetch();
+};
+
+const removeAllFiles = async () => {
+  const test = await Promise.allSettled(
+    transformtedData.value.map((entry) => deleteOne({ id: entry.id })),
+  );
+  console.log(test);
+
+  refetch();
+};
 </script>
 <template>
   <main>
@@ -110,7 +124,12 @@ const sendPending = async () => {
       "
       @delete="
         () => {
-          // data = data.set(statuses.PENDING, []);
+          console.log('test');
+          if (showMode === 'DB') {
+            removeAllFiles();
+          } else {
+            removeAll();
+          }
         }
       "
       @submit="
@@ -193,7 +212,11 @@ const sendPending = async () => {
             <ActionButton
               :on-click="
                 () => {
-                  console.log('remove');
+                  if (showMode === 'DB') {
+                    removeFile(entry.id);
+                  } else {
+                    remove(entry.id);
+                  }
                 }
               "
               class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 "

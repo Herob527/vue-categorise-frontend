@@ -27,7 +27,13 @@ export const useBindingsStore = defineStore('bindings', {
       console.log(newFiles)
       this.entries = [...newFiles, ...this.entries]
     },
-    async deleteAll() {
+    updateFileStatus(id: string, status: statuses) {
+      const index = this.entries.findIndex((entry) => entry.id == id);
+      if (index === undefined) return;
+
+      this.entries[index].status = status;
+    },
+    deleteAll() {
       this.entries = [];
     },
     async delete(id: string) {

@@ -177,7 +177,7 @@ const sendPending = async () => {
 
           <div class="flex-1">
             <span class="flex flex-col justify-center items-center py-2 px-4">{{
-              $t(entry.status)
+              showMode === 'DB' ? entry.duration : $t(entry.status)
             }}</span>
           </div>
 

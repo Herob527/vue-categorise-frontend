@@ -105,7 +105,7 @@ const removeFile = async (id: string) => {
   refetch();
 };
 
-const removeAllFiles = async () => {
+const removeAllOnPage = async () => {
   const test = await Promise.allSettled(
     transformtedData.value.map((entry) => deleteOne({ id: entry.id })),
   );
@@ -126,7 +126,7 @@ const removeAllFiles = async () => {
         () => {
           console.log('test');
           if (showMode === 'DB') {
-            removeAllFiles();
+            removeAllOnPage();
           } else {
             removeAll();
           }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getPaginated } from '@/actions/bindings';
+import { getPaginated, post } from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
@@ -7,7 +7,7 @@ import { ENTRIES_PER_PAGE } from '@/constants';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useQuery } from '@tanstack/vue-query';
+import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, reactive, ref } from 'vue';
 
@@ -19,6 +19,8 @@ export type dataType = { id: string; fileName: string };
 
 const paginationData = reactive(initialPagination);
 
+const queryClient = useQueryClient();
+
 const { data: transcriptData } = useQuery({
   queryKey: ['get-paginated-transcript', paginationData.inDatabase],
   queryFn: () =>
@@ -26,10 +28,14 @@ const { data: transcriptData } = useQuery({
       page: paginationData.inDatabase,
       pageSize: ENTRIES_PER_PAGE,
     }),
-  placeholderData: { bindings: [], page: paginationData.inDatabase },
+  placeholderData: {
+    bindings: [],
+    page: paginationData.inDatabase,
+    pagination: { total: 0 },
+  },
 });
 
-const { addFiles } = useBindingsStore();
+const { addFiles, updateFileStatus, remove } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(
@@ -58,7 +64,31 @@ const shownData = computed(() => {
   }
 });
 
+const itemsCount = computed(() => {
+  if (showMode.value === 'DB') {
+    return transcriptData.value?.pagination.total ?? 0;
+  } else {
+    return getAll.value?.length ?? 0;
+  }
+});
+
 const fields = ['File name', 'Status', 'Actions'] as const;
+
+const sendPending = async () => {
+  const all = getAll.value;
+  all.forEach((entry) => updateFileStatus(entry.id, statuses.PROCESSING));
+  const promises = await Promise.allSettled(
+    all.map((entry) => post({ audio: entry.file })),
+  );
+  promises.forEach((promise, index) => {
+    if (promise.status === 'rejected') {
+      updateFileStatus(all[index].id, statuses.ERROR);
+    } else {
+      remove(all[index].id);
+    }
+  });
+  queryClient.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
+};
 </script>
 <template>
   <main>
@@ -72,6 +102,11 @@ const fields = ['File name', 'Status', 'Actions'] as const;
         () => {
           // data = data.set(statuses.PENDING, []);
         }
+      "
+      @submit="
+        () => {
+          sendPending();
+        }
       " />
 
     <DataTable
@@ -79,6 +114,7 @@ const fields = ['File name', 'Status', 'Actions'] as const;
       :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
       :item-keys="fields"
       :page-size="ENTRIES_PER_PAGE"
+      :items-count="itemsCount"
       @submit:page="
         (newPage: number) => {
           console.log(newPage);

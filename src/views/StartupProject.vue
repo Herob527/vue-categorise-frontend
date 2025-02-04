@@ -120,6 +120,7 @@ const sendPending = async () => {
       :items-count="itemsCount"
       @submit:page="
         (newPage: number) => {
+          paginationData.inDatabase = newPage;
           console.log(newPage);
         }
       ">

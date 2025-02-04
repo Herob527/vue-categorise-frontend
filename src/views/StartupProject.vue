@@ -9,28 +9,24 @@ import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
-import { computed, reactive, ref } from 'vue';
-
-const initialPagination = Object.fromEntries(
-  Object.values(statuses).map((entry) => [entry, 0]),
-);
+import { computed, ref } from 'vue';
 
 export type dataType = { id: string; fileName: string };
 
-const paginationData = reactive(initialPagination);
+const dbPagination = ref(0);
 
 const queryClient = useQueryClient();
 
 const { data: transcriptData } = useQuery({
-  queryKey: ['get-paginated-transcript', paginationData.inDatabase],
+  queryKey: ['get-paginated-transcript', dbPagination],
   queryFn: () =>
     getPaginated({
-      page: paginationData.inDatabase,
+      page: dbPagination.value,
       pageSize: ENTRIES_PER_PAGE,
     }),
   placeholderData: {
     bindings: [],
-    page: paginationData.inDatabase,
+    page: dbPagination.value,
     pagination: { total: 0 },
   },
 });
@@ -38,8 +34,17 @@ const { data: transcriptData } = useQuery({
 const { addFiles, updateFileStatus, remove } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
-const transformtedData = computed(
-  () =>
+const transformtedData = computed(() => {
+  const offset = Array.from({
+    length: dbPagination.value * ENTRIES_PER_PAGE,
+  }).map(() => ({
+    id: '',
+    file: new File([], ''),
+    status: statuses.IN_DB,
+    duration: 0,
+    filename: '',
+  }));
+  const data =
     transcriptData.value?.bindings.map(
       (entry) =>
         ({
@@ -49,8 +54,10 @@ const transformtedData = computed(
           duration: entry.audio.audio_length,
           filename: entry.audio.file_name,
         }) satisfies Entry,
-    ) ?? [],
-);
+    ) ?? [];
+  const merged = [...offset, ...data];
+  return merged;
+});
 
 type modes = 'DB' | 'LOCAL';
 
@@ -120,8 +127,10 @@ const sendPending = async () => {
       :items-count="itemsCount"
       @submit:page="
         (newPage: number) => {
-          paginationData.inDatabase = newPage;
-          console.log(newPage);
+          if (showMode === 'DB') {
+            dbPagination = newPage;
+            console.log(newPage);
+          }
         }
       ">
       <template #top-heading>

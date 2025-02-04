@@ -36,7 +36,7 @@ export const useBindingsStore = defineStore('bindings', {
     deleteAll() {
       this.entries = [];
     },
-    async delete(id: string) {
+    remove(id: string) {
       const item = this.entries.find((entry) => entry.id == id);
       if (!item)
         throw new Error(`Item with id ${id} not found in store somehow`);

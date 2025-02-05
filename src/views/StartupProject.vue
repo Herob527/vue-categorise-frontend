@@ -31,6 +31,8 @@ const { data: transcriptData, refetch } = useQuery({
   },
 });
 
+console.log(transcriptData.value);
+
 const { addFiles, updateFileStatus, remove, removeAll } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
@@ -162,7 +164,12 @@ const removeAllOnPage = async () => {
                 'cursor-pointer px-4 py-[4px] rounded-l-2xl transition-colors',
                 showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-450',
               ]"
-              :onClick="() => (showMode = 'DB')">
+              :onClick="
+                () => {
+                  showMode = 'DB';
+                  dbPagination = 0;
+                }
+              ">
               Remote
             </button>
             <button
@@ -171,7 +178,12 @@ const removeAllOnPage = async () => {
                 'cursor-pointer px-4 py-[4px] rounded-r-2xl transition-colors',
                 showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-450',
               ]"
-              :onClick="() => (showMode = 'LOCAL')">
+              :onClick="
+                () => {
+                  showMode = 'LOCAL';
+                  dbPagination = 0;
+                }
+              ">
               Local
             </button>
           </div>

@@ -24,7 +24,6 @@ export const useBindingsStore = defineStore('bindings', {
         filename: f.name,
         duration: null,
       }));
-      console.log(newFiles)
       this.entries = [...newFiles, ...this.entries]
     },
     updateFileStatus(id: string, status: statuses) {

@@ -9,7 +9,7 @@ export const splitToPages = (
     return [1];
   }
   const resultPages = [];
-  for (let i = 1; i <= Math.ceil(amountOfEntries / pageSize); i++) {
+  for (let i = 1; i <= Math.floor(amountOfEntries / pageSize); i++) {
     resultPages.push(i);
   }
   if (selectedPage <= 1) {

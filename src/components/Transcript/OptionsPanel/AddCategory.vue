@@ -39,7 +39,7 @@ const handleSubmit = async () => {
       v-model="categoryName"
       type="text"
       name="name"
-      class="p-2 text-black border-primary-600 border-2" />
+      class="p-2 border-primary-600 border-2 text-white" />
     <button
       :onclick="handleSubmit"
       type="button"

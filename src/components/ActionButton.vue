@@ -9,12 +9,11 @@ const props = defineProps<{
 
 <template>
   <button
-    @click="props.onClick()"
     type="button"
     :title="label"
     :class="className"
     :disabled="disabled || false"
-  >
+    @click="props.onClick()">
     <slot></slot>
     <!-- This is where the child content will be inserted -->
   </button>

@@ -119,6 +119,7 @@ const removeAllOnPage = async () => {
 <template>
   <main>
     <TableActionPanel
+      :disabled-buttons="showMode === 'DB' ? ['DELETE', 'SUBMIT'] : []"
       @upload="
         (files) => {
           addFiles(files);

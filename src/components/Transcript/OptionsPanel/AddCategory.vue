@@ -43,7 +43,7 @@ const handleSubmit = async () => {
     <button
       :onclick="handleSubmit"
       type="button"
-      class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600">
+      class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600 cursor-pointer">
       Submit
     </button>
   </section>

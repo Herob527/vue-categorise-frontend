@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { splitToPages } from '@/utils/splitToPages';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   data: T[];
@@ -10,6 +10,7 @@ const props = defineProps<{
   itemsCount?: number;
   isLoading?: boolean;
   pageSize?: number;
+  page?: number;
 }>();
 
 const itemsCount = computed(() => props?.itemsCount ?? props.data?.length);
@@ -20,7 +21,7 @@ defineEmits<{
   'submit:page': [value: number];
 }>();
 
-const selectedPage = ref<number>(0);
+const selectedPage = computed(() => props.page ?? 0);
 
 const pages = computed(() =>
   itemsCount.value
@@ -105,8 +106,6 @@ const pages = computed(() =>
           :class="`relative w-10 h-10 ${entryPage === selectedPage ? 'bg-primary-600 hover:bg-primary-700' : 'bg-primary-500 hover:bg-primary-600'} text-white first:rounded-l-2xl last:rounded-r-2xl`"
           @click="
             () => {
-              console.log(entryPage);
-              selectedPage = entryPage;
               $emit('submit:page', entryPage);
             }
           ">

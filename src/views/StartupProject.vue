@@ -147,11 +147,10 @@ const removeAllOnPage = async () => {
       :item-keys="fields"
       :page-size="ENTRIES_PER_PAGE"
       :items-count="itemsCount"
+      :page="dbPagination"
       @submit:page="
         (newPage: number) => {
-          if (showMode === 'DB') {
-            dbPagination = newPage;
-          }
+          dbPagination = newPage;
         }
       ">
       <template #top-heading>

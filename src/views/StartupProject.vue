@@ -31,8 +31,6 @@ const { data: transcriptData, refetch } = useQuery({
   },
 });
 
-console.log(transcriptData.value);
-
 const { addFiles, updateFileStatus, remove, removeAll } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 

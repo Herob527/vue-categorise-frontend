@@ -7,8 +7,6 @@ defineEmits<{
   (e: 'submit', value: number): void;
 }>();
 
-console.log('props', props);
-
 const page = ref<string | null>(null);
 
 const isValid = computed(() => {
@@ -22,12 +20,11 @@ const isValid = computed(() => {
 <template>
   <div class="inline-flex relative flex-col gap-3">
     <input
+      v-model="page"
       type="text"
       inputmode="numeric"
       class="w-10 h-10 text-center border-2 border-primary-500"
-      v-model="page"
-      placeholder="..."
-    />
+      placeholder="..." />
     <button
       type="button"
       class="flex justify-center items-center w-10 h-10 text-white border-2 bg-primary-600 border-primary-500 hover:bg-primary-500"
@@ -39,14 +36,12 @@ const isValid = computed(() => {
           $emit('submit', parsedPage - 1);
           page = null;
         }
-      "
-    >
+      ">
       Go
     </button>
     <span
       v-if="!isValid"
-      class="absolute right-1/2 top-full text-center text-red-500 translate-x-1/2"
-    >
+      class="absolute right-1/2 top-full text-center text-red-500 translate-x-1/2">
       Allowed range: {{ props.min + 1 }} - {{ props.max }}
     </span>
   </div>

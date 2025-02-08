@@ -4,21 +4,28 @@ defineEmits(['close']);
 </script>
 
 <template>
-  <ModalComponent @close="$emit('close')" title="Help">
+  <ModalComponent
+    title="Help"
+    @close="$emit('close')">
     <div class="flex flex-col gap-2">
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Omit empty texts</h3>
 
         <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked class="pointer-events-none" />
+            <input
+              type="checkbox"
+              checked
+              class="pointer-events-none" />
             <span
               >Empty transcripts will be <b>omitted</b> in generated
               transcript</span
             >
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" class="pointer-events-none" />
+            <input
+              type="checkbox"
+              class="pointer-events-none" />
             <span
               >Empty transcripts will be <b>incluced</b> in generated
               transcript</span
@@ -30,14 +37,19 @@ defineEmits(['close']);
         <h3 class="text-xl font-bold">Divide by category</h3>
         <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked class="pointer-events-none" />
+            <input
+              type="checkbox"
+              checked
+              class="pointer-events-none" />
             <span
               >Audio files will <b>be divided</b> by category (in different
               directories)</span
             >
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" class="pointer-events-none" />
+            <input
+              type="checkbox"
+              class="pointer-events-none" />
             <span>
               <span
                 >Audio files will <b>share</b> one directory regardless of
@@ -54,11 +66,16 @@ defineEmits(['close']);
         <h3 class="text-xl font-bold">Export transcript</h3>
         <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked class="pointer-events-none" />
+            <input
+              type="checkbox"
+              checked
+              class="pointer-events-none" />
             <span>Transcript <b>will</b> be generated</span>
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" class="pointer-events-none" />
+            <input
+              type="checkbox"
+              class="pointer-events-none" />
             <span>
               <span>Transcript <b>won't</b> be generated</span>
             </span>
@@ -70,11 +87,16 @@ defineEmits(['close']);
 
         <div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" checked class="pointer-events-none" />
+            <input
+              type="checkbox"
+              checked
+              class="pointer-events-none" />
             <span>Categories <b>will be</b> converted to <b>lowercase</b></span>
           </div>
           <div class="flex flex-row gap-2">
-            <input type="checkbox" class="pointer-events-none" />
+            <input
+              type="checkbox"
+              class="pointer-events-none" />
             <span
               >Categories <b>won't</b> be converted to <b>lowercase</b> at all
             </span>

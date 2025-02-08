@@ -97,16 +97,15 @@ const getProperSlice = (paginationData: number[]) => {
   <footer class="flex gap-2 justify-center items-start">
     <PaginationEntry
       v-for="page in paginationData.slice(0, 3)"
-      :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :key="page"
+      :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :page="page"
       @click="
         (newPage: number) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
-      "
-    />
+      " />
     <PageJumper
       v-if="currentPage - (paginationData?.at(3) ?? 0) > 1"
       :min="0"
@@ -117,20 +116,18 @@ const getProperSlice = (paginationData: number[]) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
-      "
-    />
+      " />
     <PaginationEntry
       v-for="page in getProperSlice(paginationData)"
-      :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :key="page"
+      :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :page="page"
       @click="
         (newPage: number) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
-      "
-    />
+      " />
     <PageJumper
       v-if="(paginationData?.at(-3) ?? 0) - currentPage > 2"
       :min="0"
@@ -141,19 +138,17 @@ const getProperSlice = (paginationData: number[]) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
-      "
-    />
+      " />
     <PaginationEntry
       v-for="page in paginationData.slice(-3)"
-      :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :key="page"
+      :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
       :page="page"
       @click="
         (newPage: number) => {
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
-      "
-    />
+      " />
   </footer>
 </template>

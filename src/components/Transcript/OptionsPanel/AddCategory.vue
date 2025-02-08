@@ -35,17 +35,15 @@ const handleSubmit = async () => {
     <h2 class="text-xl font-bold">Add category</h2>
     <label for="new_category_name">Name</label>
     <input
-      type="text"
       id="new_category_name"
-      name="name"
-      class="p-2 text-black"
       v-model="categoryName"
-    />
+      type="text"
+      name="name"
+      class="p-2 text-black border-primary-600 border-2" />
     <button
       :onclick="handleSubmit"
       type="button"
-      class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600"
-    >
+      class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600">
       Submit
     </button>
   </section>

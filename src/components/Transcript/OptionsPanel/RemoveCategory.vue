@@ -32,26 +32,33 @@ const handleChange = (event: Event) => {
 </script>
 <template>
   <section
-    class="flex flex-col gap-2 justify-between p-2 border-2 border-primary-800"
-  >
+    class="flex flex-col gap-2 justify-between p-2 border-2 border-primary-800">
     <h2 class="text-xl font-bold">Remove category</h2>
     <div class="flex flex-col gap-2">
-      <select @change="handleChange" class="p-2 text-black bg-white">
-        <option value="" v-if="!isLoading && data && data.length > 0">
+      <select
+        class="p-2 text-black bg-white"
+        @change="handleChange">
+        <option
+          v-if="!isLoading && data && data.length > 0"
+          value="">
           Select category
         </option>
-        <option value="" v-if="!isLoading && data && data.length == 0">
+        <option
+          v-if="!isLoading && data && data.length == 0"
+          value="">
           No categories to delete
         </option>
-        <option v-for="entry in data" :key="entry.name" :value="entry.name">
+        <option
+          v-for="entry in data"
+          :key="entry.name"
+          :value="entry.name">
           {{ entry.name }}
         </option>
       </select>
       <button
         type="button"
-        @click="handleClick"
-        class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600"
-      >
+        class="p-2 border-2 bg-primary-500 border-primary-600 hover:bg-primary-600 cursor-pointer"
+        @click="handleClick">
         Delete
       </button>
     </div>

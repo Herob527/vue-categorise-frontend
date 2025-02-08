@@ -40,15 +40,15 @@ const handleCategoryChange = (event: Event) => {
 <template>
   <div class="grid grid-flow-col auto-cols-fr gap-4">
     <FilenameItem :file-name="entry.audio.file_name" />
-    <AudioItem :audio-data="entry.audio" class="col-span-3" />
+    <AudioItem
+      :audio-data="entry.audio"
+      class="col-span-3 border-primary-500 border-2 rounded-xl overflow-clip p-1" />
     <TextItem
       :text-data="entry.text"
-      class="col-span-3 p-2 border-2 border-primary-500"
-    />
+      class="col-span-3 p-2 border-2 border-primary-500" />
     <CategoryItem
       :category-data="entry.category"
       class="col-span-1 self-center p-2 rounded-md border-2 border-primary-500"
-      :onchange="handleCategoryChange"
-    />
+      :onchange="handleCategoryChange" />
   </div>
 </template>

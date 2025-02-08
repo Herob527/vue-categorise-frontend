@@ -10,20 +10,16 @@ defineEmits(['close']);
     @click="$emit('close')"
   ></div>
   <div
-    class="flex overflow-auto fixed top-1/2 left-1/2 z-10 flex-col p-2 pt-0 text-white -translate-x-1/2 -translate-y-1/2 max-h-[95vh] bg-primary-500"
-  >
+    class="flex overflow-auto fixed top-1/2 left-1/2 z-10 flex-col p-2 pt-0 text-white -translate-x-1/2 -translate-y-1/2 max-h-[95vh] bg-primary-500">
     <div
-      class="flex sticky top-0 flex-row gap-2 justify-between items-center py-2 w-full bg-primary-500"
-    >
+      class="flex sticky top-0 flex-row gap-2 justify-between items-center py-2 w-full bg-primary-500">
       <h2 class="text-2xl font-bold">{{ title || '' }}</h2>
       <ActionButton
         :on-click="() => $emit('close')"
-        class-name="bg-primary-500 border-2 border-primary-600 hover:bg-primary-600 relative p-4 text-white rounded-xl"
-      >
+        class-name="bg-primary-500 border-2 border-primary-600 hover:bg-primary-600 relative p-4 text-white rounded-xl">
         <font-awesome-icon
           :icon="faXmark"
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       </ActionButton>
     </div>
     <slot />

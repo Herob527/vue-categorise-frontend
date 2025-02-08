@@ -11,7 +11,7 @@ const props = defineProps<{
   <button
     type="button"
     :title="label"
-    :class="className"
+    :class="[className, 'cursor-pointer disabled:cursor-auto']"
     :disabled="disabled || false"
     @click="props.onClick()">
     <slot></slot>

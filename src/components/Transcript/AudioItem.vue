@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import { type AudioModel } from '@/types/generated';
+import { API_URL } from '@/constants';
 
 const { audioData } = defineProps<{
   audioData: AudioModel;
@@ -10,7 +11,7 @@ const { audioData } = defineProps<{
 
 const splitUrl = audioData.url.split('/').slice(1).join('/');
 
-const fullUrl = `http://localhost:8000/static/${splitUrl}`;
+const fullUrl = `${API_URL}/static/${splitUrl}`;
 
 const wsInstance = ref<WaveSurfer | null>(null);
 const wsContainer = ref(null);

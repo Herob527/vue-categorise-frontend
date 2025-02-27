@@ -3,5 +3,6 @@
   "onServer": "Na serwerze",
   "processing": "Przetwarzanie",
   "error": "Błąd",
-  "pending": "Oczekiwanie"
+  "pending": "Oczekiwanie",
+  "test": "test"
 }

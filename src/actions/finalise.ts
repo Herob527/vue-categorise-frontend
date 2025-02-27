@@ -1,10 +1,12 @@
+import { API_URL } from '@/constants';
 import { FinaliseApi, type FinaliseConfigModel } from '@/types/generated';
 
 const finaliseApi = new FinaliseApi(
   {
     isJsonMime: (mime: string) => mime === 'application/json',
   },
-  'http://localhost:8000',
+
+  API_URL
 );
 
 export const post = async (params: FinaliseConfigModel = {}) => {

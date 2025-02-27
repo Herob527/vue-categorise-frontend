@@ -1,11 +1,12 @@
 import { axiosApi } from '@/axiosConfig';
+import { API_URL } from '@/constants';
 import { BindingsApi } from '@/types/generated';
 
 const bindingsApi = new BindingsApi(
   {
     isJsonMime: (mime: string) => mime === 'application/json',
   },
-  'http://localhost:8000',
+  API_URL,
 );
 
 export type postBindingType = {

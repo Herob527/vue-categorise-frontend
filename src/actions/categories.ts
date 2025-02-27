@@ -1,11 +1,13 @@
 import { axiosApi } from '@/axiosConfig';
+import { API_URL } from '@/constants';
 import { CategoryApi } from '@/types/generated';
 
 const categoryApi = new CategoryApi(
   {
     isJsonMime: (mime: string) => mime === 'application/json',
   },
-  'http://localhost:8000',
+
+  API_URL
 );
 
 export const getAll = async () => {

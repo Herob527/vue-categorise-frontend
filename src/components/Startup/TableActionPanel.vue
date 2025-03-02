@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import ActionButton from '@/components/ActionButton.vue';
 import { faFile, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { ref } from 'vue';
-
-const inputFileRef = ref<HTMLInputElement | null>(null);
 
 type buttons = 'UPLOAD' | 'SUBMIT' | 'DELETE';
 
@@ -15,20 +12,12 @@ const deleteAll = () => {
   emit('delete');
 };
 
-const handleFileUpload = (event: Event) => {
-  console.log('file-upload');
-  const files = (event.target as HTMLInputElement)?.files;
-  if (!files) return;
-  emit('upload', files);
-};
-
 const handleSubmitAll = () => {
   emit('submit');
 };
 
 const emit = defineEmits<{
-  (e: 'upload', files: FileList): void;
-  (e: 'submit' | 'delete'): void;
+  (e: 'submit' | 'delete' | 'uploadClick'): void;
 }>();
 </script>
 
@@ -39,16 +28,10 @@ const emit = defineEmits<{
     </div>
     <div class="flex flex-row gap-2 p-2 w-full">
       <ActionButton
-        :on-click="() => inputFileRef?.click()"
+        :on-click="() => $emit('uploadClick')"
         class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700 "
         :disabled="disabledButtons.includes('UPLOAD')"
         label="Add item(s)">
-        <input
-          ref="inputFileRef"
-          type="file"
-          class="hidden"
-          multiple
-          @change="handleFileUpload" />
         <font-awesome-icon
           :icon="faFile"
           class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />

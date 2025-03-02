@@ -3,6 +3,7 @@ import { deleteOne, getPaginated, post } from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
+import AddFilesModal from '@/components/Startup/AddFilesModal.vue';
 import { ENTRIES_PER_PAGE } from '@/constants';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
@@ -10,10 +11,17 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
+import ModalComponent from '@/components/ModalComponent.vue';
 
 export type dataType = { id: string; fileName: string };
 
+type modes = 'DB' | 'LOCAL';
+
+const showMode = ref<modes>('DB');
+
 const dbPagination = ref(0);
+
+const isAddFilesVisible = ref(true);
 
 const queryClient = useQueryClient();
 
@@ -58,10 +66,6 @@ const transformtedData = computed(() => {
   const merged = [...offset, ...data];
   return merged;
 });
-
-type modes = 'DB' | 'LOCAL';
-
-const showMode = ref<modes>('DB');
 
 const shownData = computed(() => {
   if (showMode.value === 'DB') {
@@ -118,9 +122,9 @@ const removeAllOnPage = async () => {
   <main>
     <TableActionPanel
       :disabled-buttons="showMode === 'DB' ? ['DELETE', 'SUBMIT'] : []"
-      @upload="
-        (files) => {
-          addFiles(files);
+      @upload-click="
+        () => {
+          isAddFilesVisible = true;
         }
       "
       @delete="
@@ -245,5 +249,11 @@ const removeAllOnPage = async () => {
         </span>
       </template>
     </DataTable>
+
+    <ModalComponent
+      title="Add Files"
+      @close="isAddFilesVisible = false">
+      <AddFilesModal v-if="isAddFilesVisible" />
+    </ModalComponent>
   </main>
 </template>

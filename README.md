@@ -4,8 +4,8 @@ Frontend app for categorising audio files that uses vue
 
 ## Software prerequisites
 
-- node v20
-- pnpm
+- node v22
+- bun
 
 ## Goals
 

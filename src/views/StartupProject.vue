@@ -21,7 +21,7 @@ const showMode = ref<modes>('DB');
 
 const dbPagination = ref(0);
 
-const isAddFilesVisible = ref(true);
+const isAddFilesVisible = ref(false);
 
 const queryClient = useQueryClient();
 

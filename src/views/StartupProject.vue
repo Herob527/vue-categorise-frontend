@@ -230,8 +230,8 @@ type="button" :class="[
       </template>
     </DataTable>
 
-    <ModalComponent title="Add Files" @close="isAddFilesVisible = false">
-      <AddFilesModal v-if="isAddFilesVisible" />
+    <ModalComponent v-if="isAddFilesVisible" title="Add Files" @close="isAddFilesVisible = false">
+      <AddFilesModal />
     </ModalComponent>
   </main>
 </template>

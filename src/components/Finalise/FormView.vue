@@ -53,29 +53,27 @@ defineEmits(['submit']);
 
 <template>
   <section
-    class="flex flex-col gap-2 p-2 rounded-xl border-2 border-primary-500"
-  >
+    class="flex flex-col gap-2 p-2 rounded-xl border-2 border-primary-500">
     <header class="flex flex-row gap-2 items-center">
       <h2 class="text-2xl font-bold">Finalise options</h2>
       <ActionButton
         class-name="bg-blue-500 text-white p-4 rounded-xl relative"
-        @click="isHelpOpen = !isHelpOpen"
-      >
+        @click="isHelpOpen = !isHelpOpen">
         <font-awesome-icon
           :icon="faQuestion"
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       </ActionButton>
     </header>
-    <HelpView v-if="isHelpOpen" @close="isHelpOpen = false" />
+    <HelpView
+      v-if="isHelpOpen"
+      @close="isHelpOpen = false" />
     <div class="flex flex-row gap-2">
       <input
         id="omit_empty"
         v-model="values.omit_empty"
         type="checkbox"
         name="omit_empty"
-        class="accent-primary-500"
-      />
+        class="accent-primary-500" />
       <label for="omit_empty">Omit empty texts</label>
     </div>
     <div class="flex flex-row gap-2">
@@ -84,8 +82,7 @@ defineEmits(['submit']);
         v-model="values.divide_by_category"
         type="checkbox"
         name="divide_by_category"
-        class="accent-primary-500"
-      />
+        class="accent-primary-500" />
       <label for="divide_by_category">Divide by category</label>
     </div>
 
@@ -95,8 +92,7 @@ defineEmits(['submit']);
         v-model="values.category_to_lower"
         type="checkbox"
         name="category_to_lower"
-        class="accent-primary-500"
-      />
+        class="accent-primary-500" />
       <label for="category_to_lower">Category to lower</label>
     </div>
     <div class="flex flex-row gap-2">
@@ -105,8 +101,7 @@ defineEmits(['submit']);
         v-model="values.export_transcript"
         type="checkbox"
         name="export_transcript"
-        class="accent-primary-500"
-      />
+        class="accent-primary-500" />
       <label for="export_transcript">Export transcript</label>
     </div>
     <div class="flex flex-col gap-1">
@@ -118,8 +113,7 @@ defineEmits(['submit']);
         v-model="values.category_space_replacer"
         type="text"
         name="category_space_replacer"
-        class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-      />
+        class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500" />
     </div>
     <div class="flex flex-col gap-1">
       <label for="uncategorized_name">Uncategorized name:</label>
@@ -129,10 +123,11 @@ defineEmits(['submit']);
         type="text"
         name="uncategorized_name"
         class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-        :disabled="!values.divide_by_category"
-      />
+        :disabled="!values.divide_by_category" />
 
-      <span v-if="errors.includes(ERRORS.EMPTY_CATEGORY)" class="text-red-500"
+      <span
+        v-if="errors.includes(ERRORS.EMPTY_CATEGORY)"
+        class="text-red-500"
         >Category cannot be empty</span
       >
     </div>
@@ -144,9 +139,10 @@ defineEmits(['submit']);
         type="text"
         name="line_format"
         class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-        :disabled="!values.export_transcript"
-      />
-      <span v-if="errors.includes(ERRORS.INVALID_FORMAT)" class="text-red-500"
+        :disabled="!values.export_transcript" />
+      <span
+        v-if="errors.includes(ERRORS.INVALID_FORMAT)"
+        class="text-red-500"
         >Invalid format</span
       >
     </div>
@@ -155,8 +151,7 @@ defineEmits(['submit']);
         type="button"
         class="p-2 text-white bg-blue-500 rounded-md disabled:bg-gray-300"
         :disabled="submitStatus === 'pending'"
-        @click="!(submitStatus === 'pending') && validate() && $emit('submit')"
-      >
+        @click="!(submitStatus === 'pending') && validate() && $emit('submit')">
         <span v-if="submitStatus !== 'error'"> Submit </span>
         <span v-else> Retry </span>
       </button>

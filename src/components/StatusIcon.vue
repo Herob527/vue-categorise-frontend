@@ -8,6 +8,5 @@ const { status } = defineProps<{ status?: `${statuses}` }>();
   <span
     :style="`background-color: ${status ? STATUS_COLORS[status] : STATUS_COLORS.inDatabase}`"
     class="absolute top-1/2 left-1/2 py-3 px-3 rounded-full -translate-x-1/2 -translate-y-1/2"
-    :title="status"
-  ></span>
+    :title="status"></span>
 </template>

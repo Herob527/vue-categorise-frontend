@@ -12,8 +12,8 @@ export const useBindingsStore = defineStore('bindings', {
       new Set(entries.map((e) => e.status)),
     getFieldsByStatus:
       ({ entries }) =>
-        (status: statuses) =>
-          entries.filter((e) => e.status === status),
+      (status: statuses) =>
+        entries.filter((e) => e.status === status),
   },
   actions: {
     addFiles(files: FileList) {
@@ -24,7 +24,7 @@ export const useBindingsStore = defineStore('bindings', {
         filename: f.name,
         duration: null,
       }));
-      this.entries = [...newFiles, ...this.entries]
+      this.entries = [...newFiles, ...this.entries];
     },
     updateFileStatus(id: string, status: statuses) {
       const index = this.entries.findIndex((entry) => entry.id == id);

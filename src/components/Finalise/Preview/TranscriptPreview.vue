@@ -30,21 +30,21 @@ const processLine = computed(() => (param: ExampleDataItem) => {
 </script>
 <template>
   <section
-    class="flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500"
-  >
+    class="flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500">
     <h2 class="px-2 my-2 text-2xl font-bold">Transcript preview</h2>
     <div class="flex flex-col">
       <div
         v-for="[index, example] in Object.entries(previewStore.filteredData)"
         :key="example.fileName"
-        class="flex entry-container"
-      >
+        class="flex entry-container">
         <span
           :style="`--length: ${TRANSCRIPT_ENTRIES.toString().length}`"
           class="py-2 text-left text-white index bg-primary-400"
           >{{ Number(index) + 1 }}</span
         >
-        <span class="flex flex-1 gap-4 p-2 line" :title="processLine(example)">
+        <span
+          class="flex flex-1 gap-4 p-2 line"
+          :title="processLine(example)">
           {{ processLine(example).substring(0, 50)
           }}{{ processLine(example).length > 50 ? '...' : '' }}
         </span>

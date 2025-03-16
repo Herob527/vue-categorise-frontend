@@ -6,7 +6,7 @@ const finaliseApi = new FinaliseApi(
     isJsonMime: (mime: string) => mime === 'application/json',
   },
 
-  API_URL
+  API_URL,
 );
 
 export const post = async (params: FinaliseConfigModel = {}) => {

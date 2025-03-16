@@ -9,7 +9,9 @@ const nameToDisplay =
     : fileName;
 </script>
 <template>
-  <span class="col-span-1 self-center break-words" :title="fileName">{{
-    nameToDisplay.replace(/\./g, '&#8203;.')
-  }}</span>
+  <span
+    class="col-span-1 self-center break-words"
+    :title="fileName"
+    >{{ nameToDisplay.replace(/\./g, '&#8203;.') }}</span
+  >
 </template>

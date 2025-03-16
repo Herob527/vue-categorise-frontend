@@ -21,6 +21,5 @@ const usedIcon =
   <font-awesome-icon
     width="16"
     :icon="usedIcon"
-    :class="`${isEvenIndex ? 'text-primary-700' : 'text-primary-500 '}`"
-  />
+    :class="`${isEvenIndex ? 'text-primary-700' : 'text-primary-500 '}`" />
 </template>

@@ -23,6 +23,9 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <textarea :value="textData.text" :class="className" @input="handleInput">
+  <textarea
+    :value="textData.text"
+    :class="className"
+    @input="handleInput">
   </textarea>
 </template>

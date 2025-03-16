@@ -7,7 +7,7 @@ const categoryApi = new CategoryApi(
     isJsonMime: (mime: string) => mime === 'application/json',
   },
 
-  API_URL
+  API_URL,
 );
 
 export const getAll = async () => {

@@ -30,8 +30,7 @@ const { data } = useQuery({
       <TranscriptItem
         v-for="entry in data?.bindings"
         :key="entry.binding.id"
-        :entry="entry"
-      />
+        :entry="entry" />
     </div>
   </div>
 </template>

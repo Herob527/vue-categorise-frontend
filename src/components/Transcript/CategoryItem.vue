@@ -14,19 +14,24 @@ const { data, isLoading } = useQuery({
 });
 </script>
 <template>
-  <select :class="className" :on-change="$emit('change')">
-    <option v-if="data?.length === 0 && !isLoading" value="0">
+  <select
+    :class="className"
+    :on-change="$emit('change')">
+    <option
+      v-if="data?.length === 0 && !isLoading"
+      value="0">
       No category
     </option>
-    <option v-if="data && data?.length > 0 && !isLoading" value="0">
+    <option
+      v-if="data && data?.length > 0 && !isLoading"
+      value="0">
       No category
     </option>
     <option
       v-for="entry in data"
       :key="entry.id"
       :value="entry.id"
-      :selected="entry.id === categoryData?.id"
-    >
+      :selected="entry.id === categoryData?.id">
       {{ entry.name }}
     </option>
   </select>

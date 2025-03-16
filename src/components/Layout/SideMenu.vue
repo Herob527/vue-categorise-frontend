@@ -43,12 +43,16 @@ const routes = [
   <nav class="inline-flex flex-col gap-4 h-svh bg-primary-500 min-w-36">
     <h2 class="px-4 mt-4 text-3xl font-bold text-white">Menu</h2>
     <div class="inline-flex flex-col flex-1 gap-4 mx-2 text-left">
-      <router-link v-for="route in routes" :key="route.text" :to="route.link">
+      <router-link
+        v-for="route in routes"
+        :key="route.text"
+        :to="route.link">
         <button
           :class="`py-2 flex flex-row gap-3 items-center justify-start px-4 w-full text-left rounded-xl  ${route.link === routeData.path ? 'font-bold bg-white text-primary-600' : 'text-white hover:bg-primary-600'}`"
-          type="button"
-        >
-          <font-awesome-icon :icon="route.icon" width="16" />
+          type="button">
+          <font-awesome-icon
+            :icon="route.icon"
+            width="16" />
           <span class="flex-1 font-bold uppercase">{{ route.text }}</span>
         </button>
       </router-link>

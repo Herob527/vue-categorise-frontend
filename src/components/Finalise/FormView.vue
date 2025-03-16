@@ -58,8 +58,8 @@ defineEmits(['submit']);
     <header class="flex flex-row gap-2 items-center">
       <h2 class="text-2xl font-bold">Finalise options</h2>
       <ActionButton
-        @click="isHelpOpen = !isHelpOpen"
         class-name="bg-blue-500 text-white p-4 rounded-xl relative"
+        @click="isHelpOpen = !isHelpOpen"
       >
         <font-awesome-icon
           :icon="faQuestion"
@@ -70,42 +70,42 @@ defineEmits(['submit']);
     <HelpView v-if="isHelpOpen" @close="isHelpOpen = false" />
     <div class="flex flex-row gap-2">
       <input
+        id="omit_empty"
+        v-model="values.omit_empty"
         type="checkbox"
         name="omit_empty"
-        id="omit_empty"
         class="accent-primary-500"
-        v-model="values.omit_empty"
       />
       <label for="omit_empty">Omit empty texts</label>
     </div>
     <div class="flex flex-row gap-2">
       <input
+        id="divide_by_category"
+        v-model="values.divide_by_category"
         type="checkbox"
         name="divide_by_category"
-        id="divide_by_category"
         class="accent-primary-500"
-        v-model="values.divide_by_category"
       />
       <label for="divide_by_category">Divide by category</label>
     </div>
 
     <div class="flex flex-row gap-2">
       <input
+        id="category_to_lower"
+        v-model="values.category_to_lower"
         type="checkbox"
         name="category_to_lower"
-        id="category_to_lower"
         class="accent-primary-500"
-        v-model="values.category_to_lower"
       />
       <label for="category_to_lower">Category to lower</label>
     </div>
     <div class="flex flex-row gap-2">
       <input
+        id="export_transcript"
+        v-model="values.export_transcript"
         type="checkbox"
         name="export_transcript"
-        id="export_transcript"
         class="accent-primary-500"
-        v-model="values.export_transcript"
       />
       <label for="export_transcript">Export transcript</label>
     </div>
@@ -114,21 +114,21 @@ defineEmits(['submit']);
         >Category whitespace substitution</label
       >
       <input
+        id="category_space_replacer"
+        v-model="values.category_space_replacer"
         type="text"
         name="category_space_replacer"
-        id="category_space_replacer"
         class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-        v-model="values.category_space_replacer"
       />
     </div>
     <div class="flex flex-col gap-1">
       <label for="uncategorized_name">Uncategorized name:</label>
       <input
+        id="uncategorized_name"
+        v-model="values.uncategorized_name"
         type="text"
         name="uncategorized_name"
-        id="uncategorized_name"
         class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-        v-model="values.uncategorized_name"
         :disabled="!values.divide_by_category"
       />
 
@@ -139,11 +139,11 @@ defineEmits(['submit']);
     <div class="flex flex-col gap-1">
       <label for="line_format">Line format:</label>
       <input
+        id="line_format"
+        v-model="values.line_format"
         type="text"
         name="line_format"
-        id="line_format"
         class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500"
-        v-model="values.line_format"
         :disabled="!values.export_transcript"
       />
       <span v-if="errors.includes(ERRORS.INVALID_FORMAT)" class="text-red-500"

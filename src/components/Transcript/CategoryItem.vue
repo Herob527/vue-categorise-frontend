@@ -15,10 +15,10 @@ const { data, isLoading } = useQuery({
 </script>
 <template>
   <select :class="className" :on-change="$emit('change')">
-    <option value="0" v-if="data?.length === 0 && !isLoading">
+    <option v-if="data?.length === 0 && !isLoading" value="0">
       No category
     </option>
-    <option value="0" v-if="data && data?.length > 0 && !isLoading">
+    <option v-if="data && data?.length > 0 && !isLoading" value="0">
       No category
     </option>
     <option

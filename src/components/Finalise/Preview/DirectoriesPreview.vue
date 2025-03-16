@@ -73,19 +73,19 @@ const categories = computed(() => [
         />
       </template>
       <template
-        v-else
         v-for="[index, entry] in Object.entries(getDataProps())"
+        v-else
         :key="entry.isDirectory ? entry.dirName : entry.fileName"
       >
         <DirectoryItem
+          v-if="entry.isDirectory"
           :name="entry.dirName"
           :data="entry.files"
-          v-if="entry.isDirectory"
         />
 
         <div
-          class="flex flex-row flex-1 gap-2 items-center py-3 px-4 rounded-xl border-2 border-primary-500"
           v-else
+          class="flex flex-row flex-1 gap-2 items-center py-3 px-4 rounded-xl border-2 border-primary-500"
         >
           <FileIcon
             :file-name="entry.fileName"

@@ -23,8 +23,8 @@ const store = useFinaliseRealPreviewStore();
           />
 
           <div
-            class="flex flex-row flex-1 gap-2 items-center py-3 px-4 rounded-xl border-2 border-primary-500"
             v-else
+            class="flex flex-row flex-1 gap-2 items-center py-3 px-4 rounded-xl border-2 border-primary-500"
           >
             <FileIcon
               :file-name="category.fileName"

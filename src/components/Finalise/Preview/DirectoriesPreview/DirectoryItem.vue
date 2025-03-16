@@ -15,8 +15,8 @@ const isOpen = ref(false);
   >
     <button
       type="button"
-      @click="isOpen = !isOpen"
       class="flex gap-2 items-center py-1 px-2 rounded-md hover:text-white group hover:bg-primary-500"
+      @click="isOpen = !isOpen"
     >
       <font-awesome-icon
         v-if="data.length > 0"

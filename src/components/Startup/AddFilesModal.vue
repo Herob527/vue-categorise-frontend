@@ -39,14 +39,14 @@ v-if="dummyCategoryList.length > 0"
         class="flex flex-col gap-2 p-2  border-primary-600 bg-white border-2 text-white max-h-48 overflow-y-scroll">
         <button
 v-for="category in dummyCategoryList" :key="category"
-          class="p-2 border-2 bg-primary-500  hover:bg-primary-600 cursor-pointer">
+          class="p-2 border-2 bg-primary-500  hover:bg-primary-600 cursor-pointer" @click="input = category">
           {{ category }}
         </button>
       </div>
 
       <template v-if="input.length > 0">
         <span v-if="isInCollection">Category <code class="border-2 border-gray-500 p-1 rounded-md">{{ input.trim()
-        }}</code>
+            }}</code>
           will be
           <b>reused</b></span>
         <span v-else> Category <code class="border-2 border-gray-500 p-1 rounded-md">{{ input.trim() }}</code> will be

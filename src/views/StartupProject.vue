@@ -39,7 +39,7 @@ const { data: transcriptData, refetch } = useQuery({
   },
 });
 
-const { addFiles, updateFileStatus, remove, removeAll } = useBindingsStore();
+const { updateFileStatus, remove, removeAll } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(() => {
@@ -121,13 +121,11 @@ const removeAllOnPage = async () => {
 <template>
   <main>
     <TableActionPanel
-      :disabled-buttons="showMode === 'DB' ? ['DELETE', 'SUBMIT'] : []"
-      @upload-click="
-        () => {
-          isAddFilesVisible = true;
-        }
-      "
-      @delete="
+:disabled-buttons="showMode === 'DB' ? ['DELETE', 'SUBMIT'] : []" @upload-click="
+      () => {
+        isAddFilesVisible = true;
+      }
+    " @delete="
         () => {
           console.log('test');
           if (showMode === 'DB') {
@@ -136,21 +134,15 @@ const removeAllOnPage = async () => {
             removeAll();
           }
         }
-      "
-      @submit="
+      " @submit="
         () => {
           sendPending();
         }
       " />
 
     <DataTable
-      :data="shownData ?? []"
-      :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
-      :item-keys="fields"
-      :page-size="ENTRIES_PER_PAGE"
-      :items-count="itemsCount"
-      :page="dbPagination"
-      @submit:page="
+:data="shownData ?? []" :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
+      :item-keys="fields" :page-size="ENTRIES_PER_PAGE" :items-count="itemsCount" :page="dbPagination" @submit:page="
         (newPage: number) => {
           dbPagination = newPage;
         }
@@ -158,34 +150,27 @@ const removeAllOnPage = async () => {
       <template #top-heading>
         <div class="flex flex-row bg-primary-600 p-2 justify-between">
           <p class="text-2xl font-bold text-white uppercase">Summary</p>
-          <div
-            class="text-white flex flex-row gap-2 items-center justify-center">
+          <div class="text-white flex flex-row gap-2 items-center justify-center">
             <button
-              type="button"
-              :class="[
-                'cursor-pointer px-4 py-[4px] rounded-l-2xl transition-colors',
-                showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-450',
-              ]"
-              :onClick="
-                () => {
+type="button" :class="[
+              'cursor-pointer px-4 py-[4px] rounded-l-2xl transition-colors',
+              showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-450',
+            ]" :onClick="() => {
                   showMode = 'DB';
                   dbPagination = 0;
                 }
-              ">
+                ">
               Remote
             </button>
             <button
-              type="button"
-              :class="[
-                'cursor-pointer px-4 py-[4px] rounded-r-2xl transition-colors',
-                showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-450',
-              ]"
-              :onClick="
-                () => {
+type="button" :class="[
+              'cursor-pointer px-4 py-[4px] rounded-r-2xl transition-colors',
+              showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-450',
+            ]" :onClick="() => {
                   showMode = 'LOCAL';
                   dbPagination = 0;
                 }
-              ">
+                ">
               Local
             </button>
           </div>
@@ -197,17 +182,15 @@ const removeAllOnPage = async () => {
 
       <template #item="{ index, entry }">
         <div
-          :class="[
-            'w-full text-center',
-            index % 2 == 0
-              ? 'bg-gray-200 hover:bg-gray-300'
-              : 'hover:bg-gray-100',
-            'flex flex-row justify-center items-center py-2',
-          ]">
+:class="[
+          'w-full text-center',
+          index % 2 == 0
+            ? 'bg-gray-200 hover:bg-gray-300'
+            : 'hover:bg-gray-100',
+          'flex flex-row justify-center items-center py-2',
+        ]">
           <div class="flex-1">
-            <span
-              class="py-1 px-2 rounded-lg cursor-text"
-              :title="entry.filename">
+            <span class="py-1 px-2 rounded-lg cursor-text" :title="entry.filename">
               {{
                 entry.filename.length > 15
                   ? entry.filename.slice(0, 15) + '...'
@@ -219,24 +202,21 @@ const removeAllOnPage = async () => {
           <div class="flex-1">
             <span class="flex flex-col justify-center items-center py-2 px-4">{{
               showMode === 'DB' ? entry.duration : $t(entry.status)
-            }}</span>
+              }}</span>
           </div>
 
           <div class="flex-1">
             <ActionButton
-              :on-click="
-                () => {
-                  if (showMode === 'DB') {
-                    removeFile(entry.id);
-                  } else {
-                    remove(entry.id);
-                  }
+:on-click="() => {
+                if (showMode === 'DB') {
+                  removeFile(entry.id);
+                } else {
+                  remove(entry.id);
                 }
-              "
-              class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 "
-              label="Delete">
+              }
+              " class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 " label="Delete">
               <font-awesome-icon
-                :icon="faTrash"
+:icon="faTrash"
                 class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />
             </ActionButton>
           </div>
@@ -250,9 +230,7 @@ const removeAllOnPage = async () => {
       </template>
     </DataTable>
 
-    <ModalComponent
-      title="Add Files"
-      @close="isAddFilesVisible = false">
+    <ModalComponent title="Add Files" @close="isAddFilesVisible = false">
       <AddFilesModal v-if="isAddFilesVisible" />
     </ModalComponent>
   </main>

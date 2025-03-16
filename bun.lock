@@ -41,7 +41,7 @@
         "jsdom": "^26.0.0",
         "npm-run-all": "^4.1.5",
         "postcss": "^8.5.3",
-        "prettier": "^3.5.3",
+        "prettier": "3.5.3",
         "tailwindcss": "^4.0.14",
         "typescript": "~5.7.3",
         "typescript-eslint": "^8.26.1",
@@ -870,7 +870,7 @@
 
     "prelude-ls": ["prelude-ls@1.2.1", "", {}, ""],
 
-    "prettier": ["prettier@3.4.2", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ=="],
+    "prettier": ["prettier@3.5.3", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw=="],
 
     "prettier-linter-helpers": ["prettier-linter-helpers@1.0.0", "", { "dependencies": { "fast-diff": "^1.1.2" } }, ""],
 

@@ -13,7 +13,7 @@ Frontend app for categorising audio files that uses vue
 - [x] Functional transcript panel
 - [x] Functional finalisation panel
 - [ ] Add heading to transcript panel
-- [ ] Redesign initialisation panel
+- [x] Redesign initialisation panel
 - [ ] Add possibility to rename categories
 - [x] Adjust pagination to handle large amount of data
 - [x] Add preview of finalisation

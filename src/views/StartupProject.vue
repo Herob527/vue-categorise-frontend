@@ -13,7 +13,7 @@ import { ENTRIES_PER_PAGE } from '@/constants';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';

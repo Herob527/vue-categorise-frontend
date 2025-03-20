@@ -145,7 +145,6 @@ const handleSubmit = async ({ files, category }: ReturnData) => {
       "
       @delete="
         () => {
-          console.log('test');
           if (showMode === 'DB') {
             removeAllOnPage();
           } else {

@@ -112,7 +112,6 @@ const getProperSlice = (paginationData: number[]) => {
       :max="paginationData.length"
       @submit="
         (newPage: number) => {
-          console.log(newPage);
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }
@@ -134,7 +133,6 @@ const getProperSlice = (paginationData: number[]) => {
       :max="paginationData.length"
       @submit="
         (newPage: number) => {
-          console.log(newPage);
           saveCurrentPage(newPage);
           handleNewPage(newPage);
         }

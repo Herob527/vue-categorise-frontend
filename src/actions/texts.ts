@@ -1,7 +1,6 @@
 import { API_URL } from '@/constants';
 import { TextsApi } from '@/types/generated';
 
-console.log('test');
 const textsApi = new TextsApi(
   {
     isJsonMime: (mime: string) => mime === 'application/json',

@@ -11,6 +11,5 @@ test('Split to pages utility - 309 entries - pageSize 20', () => {
     selectedPage: 0,
     pageSize: 20,
   });
-  console.log(pages);
   expect(pages).toEqual([0, 1, 2, 'dot', 15]);
 });

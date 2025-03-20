@@ -115,13 +115,14 @@ defineEmits<{
         >
       </template>
       <span v-else> Files will be <b>uncategorized</b> </span>
-      <button
-        type="button"
-        class="p-2 border-2 bg-primary-500 hover:bg-primary-600 cursor-pointer text-white"
-        @click="$emit('submit', { files, category: categoryInput })">
-        <span v-if="files.length === 0"> Submit </span>
-        <span v-else> Submit ({{ files.length }} files)</span>
-      </button>
     </section>
+
+    <button
+      type="button"
+      class="p-2 border-2 bg-primary-500 hover:bg-primary-600 cursor-pointer text-white"
+      @click="$emit('submit', { files, category: categoryInput })">
+      <span v-if="files.length === 0"> Submit </span>
+      <span v-else> Submit ({{ files.length }} files)</span>
+    </button>
   </div>
 </template>

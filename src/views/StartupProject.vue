@@ -148,7 +148,7 @@ const handleSubmit = async ({ files, category }: ReturnData) => {
 <template>
   <main>
     <TableActionPanel
-      :disabled-buttons="showMode === 'DB' ? ['DELETE', 'SUBMIT'] : []"
+      :disabled-buttons="showMode === 'DB' ? ['SUBMIT'] : []"
       @upload-click="
         () => {
           isAddFilesVisible = true;

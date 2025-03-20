@@ -116,12 +116,13 @@ const removeFile = async (id: string) => {
 };
 
 const removeAllOnPage = async () => {
-  const test = await Promise.allSettled(
+  await Promise.allSettled(
     transformtedData.value.map((entry) => deleteOne({ id: entry.id })),
   );
-  console.log(test);
-
-  refetch();
+  const { data } = await refetch();
+  if (data?.bindings.length !== 0) {
+    removeAllOnPage();
+  }
 };
 
 type ReturnData = {

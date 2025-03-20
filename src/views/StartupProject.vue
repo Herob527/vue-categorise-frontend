@@ -44,8 +44,7 @@ const { data: transcriptData, refetch } = useQuery({
   },
 });
 
-
-const { updateFileStatus, remove, removeAll } = useBindingsStore();
+const { updateFileStatus, remove, removeAll, addFiles } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(() => {

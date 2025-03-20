@@ -8,7 +8,7 @@ import { ENTRIES_PER_PAGE } from '@/constants';
 import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useQuery, useQueryClient } from '@tanstack/vue-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
@@ -36,6 +36,13 @@ const { data: transcriptData, refetch } = useQuery({
     bindings: [],
     page: dbPagination.value,
     pagination: { total: 0 },
+  },
+});
+
+const { mutate } = useMutation({
+  mutationFn: post,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
   },
 });
 
@@ -254,7 +261,18 @@ const removeAllOnPage = async () => {
       v-if="isAddFilesVisible"
       title="Add Files"
       @close="isAddFilesVisible = false">
-      <AddFilesModal />
+      <AddFilesModal
+        @submit="
+          ({ files, category }) => {
+            isAddFilesVisible = false;
+            files.forEach((audio) =>
+              mutate({
+                audio,
+                category: category === '' ? undefined : category,
+              }),
+            );
+          }
+        " />
     </ModalComponent>
   </main>
 </template>

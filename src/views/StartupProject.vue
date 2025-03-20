@@ -131,18 +131,8 @@ type ReturnData = {
 };
 const handleSubmit = async ({ files, category }: ReturnData) => {
   isAddFilesVisible.value = false;
-  await Promise.allSettled(
-    files.map((audio) => {
-      return mutateAsync({
-        audio,
-        category: category === '' ? undefined : category,
-      });
-    }),
-  );
-
-  queryClient.invalidateQueries({
-    queryKey: ['get-paginated-transcript'],
-  });
+  addFiles(files, category.trim() === '' ? undefined : category);
+  showMode.value = 'LOCAL';
 };
 </script>
 <template>

@@ -58,7 +58,7 @@ const files = ref<File[]>([]);
     </section>
     <section class="flex flex-col gap-2 p-2 border-4 border-primary-500 flex-1">
       <h2 class="text-xl font-bold">Category</h2>
-      <div class="bg-white flex">
+      <div class="bg-white flex flex-row flex-nowrap">
         <input
           v-model="input"
           maxlength="50"

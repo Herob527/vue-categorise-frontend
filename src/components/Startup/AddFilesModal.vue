@@ -61,6 +61,7 @@ const files = ref<File[]>([]);
       <div class="bg-white flex">
         <input
           v-model="input"
+          maxlength="50"
           class="p-2 text-black w-full border-2 border-primary-600 border-r-0 outline-none" />
         <button
           type="button"

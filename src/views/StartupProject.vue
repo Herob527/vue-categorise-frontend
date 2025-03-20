@@ -98,7 +98,7 @@ const sendPending = async () => {
   const all = getAll.value;
   all.forEach((entry) => updateFileStatus(entry.id, statuses.PROCESSING));
   const promises = await Promise.allSettled(
-    all.map((entry) => post({ audio: entry.file })),
+    all.map((entry) => post({ audio: entry.file, category: entry.category })),
   );
   promises.forEach((promise, index) => {
     if (promise.status === 'rejected') {

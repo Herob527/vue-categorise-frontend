@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { deleteOne, getPaginated, post } from '@/actions/bindings';
+import {
+  deleteOne,
+  getPaginated,
+  post,
+  type postBindingType,
+} from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
@@ -39,11 +44,8 @@ const { data: transcriptData, refetch } = useQuery({
   },
 });
 
-const { mutate } = useMutation({
+const { mutateAsync } = useMutation({
   mutationFn: post,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
-  },
 });
 
 const { updateFileStatus, remove, removeAll } = useBindingsStore();
@@ -123,6 +125,26 @@ const removeAllOnPage = async () => {
   console.log(test);
 
   refetch();
+};
+
+type ReturnData = {
+  files: File[];
+  category: string;
+};
+const handleSubmit = async ({ files, category }: ReturnData) => {
+  isAddFilesVisible.value = false;
+  await Promise.allSettled(
+    files.map((audio) => {
+      return mutateAsync({
+        audio,
+        category: category === '' ? undefined : category,
+      });
+    }),
+  );
+
+  queryClient.invalidateQueries({
+    queryKey: ['get-paginated-transcript'],
+  });
 };
 </script>
 <template>
@@ -262,17 +284,7 @@ const removeAllOnPage = async () => {
       title="Add Files"
       @close="isAddFilesVisible = false">
       <AddFilesModal
-        @submit="
-          ({ files, category }) => {
-            isAddFilesVisible = false;
-            files.forEach((audio) =>
-              mutate({
-                audio,
-                category: category === '' ? undefined : category,
-              }),
-            );
-          }
-        " />
+        @submit="({ files, category }) => handleSubmit({ files, category })" />
     </ModalComponent>
   </main>
 </template>

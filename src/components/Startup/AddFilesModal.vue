@@ -101,6 +101,7 @@ const files = ref<File[]>([]);
           will be <b>created</b></span
         >
       </template>
+      <span v-else> Files will be <b>uncategorized</b> </span>
       <button
         type="button"
         class="p-2 border-2 bg-primary-500 hover:bg-primary-600 cursor-pointer text-white">

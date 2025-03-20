@@ -62,7 +62,7 @@ defineEmits<{
         <span>Add files</span>
       </button>
     </section>
-    <section class="flex flex-col gap-2 p-2 border-4 border-primary-500 flex-1">
+    <section class="flex flex-col gap-2 p-2 border-3 border-primary-500 flex-1">
       <h2 class="text-xl font-bold">Category</h2>
       <div class="bg-white flex flex-row flex-nowrap">
         <input
@@ -86,7 +86,7 @@ defineEmits<{
             :key="category.name"
             class="p-2 border-2 bg-primary-500 hover:bg-primary-600 cursor-pointer text-white"
             @click="categoryInput = category.name">
-            {{ category }}
+            {{ category.name }}
           </button>
         </template>
         <p v-else-if="isLoading">Loading...</p>

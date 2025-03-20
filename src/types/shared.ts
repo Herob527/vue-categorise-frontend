@@ -11,6 +11,7 @@ export type Entry = {
   status: statuses;
   filename: string;
   file: File;
+  category?: string;
 };
 
 export type FileShape = {

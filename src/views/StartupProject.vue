@@ -44,9 +44,6 @@ const { data: transcriptData, refetch } = useQuery({
   },
 });
 
-const { mutateAsync } = useMutation({
-  mutationFn: post,
-});
 
 const { updateFileStatus, remove, removeAll } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());

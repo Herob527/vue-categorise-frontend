@@ -122,8 +122,8 @@ defineEmits<{
       :disabled="files.length === 0"
       class="p-2 border-2 bg-primary-500 hover:bg-primary-600 cursor-pointer text-white disabled:bg-gray-400 disabled:cursor-not-allowed"
       @click="$emit('submit', { files, category: categoryInput })">
-      <span v-if="files.length === 0"> Submit </span>
-      <span v-else> Submit ({{ files.length }} files)</span>
+      <span v-if="files.length === 0"> Add </span>
+      <span v-else> Add ({{ files.length }} files)</span>
     </button>
   </div>
 </template>

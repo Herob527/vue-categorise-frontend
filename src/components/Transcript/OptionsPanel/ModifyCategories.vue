@@ -44,7 +44,7 @@ const sendDebouncedUpdate = useDebounceFn((id: string, newName: string) => {
       <ModifyCategoryItem
         v-for="category in data"
         :id="category.id"
-        :key="category.name"
+        :key="category.id"
         :initial-value="category.name"
         :disabled="!isIdle"
         @delete="

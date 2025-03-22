@@ -35,8 +35,8 @@ const handleSubmit = async () => {
 <template>
   <section class="flex flex-col">
     <h2 class="text-xl font-bold">Add category</h2>
-    <label for="new_category_name">Name</label>
-    <div class="flex flex-row mt-2">
+    <label for="new_category_name">Name:</label>
+    <div class="flex flex-row">
       <input
         id="new_category_name"
         v-model="categoryName"

@@ -17,12 +17,12 @@ const { mutate, isPending, isSuccess } = useMutation({
 });
 
 const { mutate: updateName } = useMutation({
-  mutationFn: async ({ name, newName }: { name: string; newName: string }) =>
-    updateOne({ name, newName }),
+  mutationFn: async ({ id, newName }: { id: string; newName: string }) =>
+    updateOne({ id, newName }),
 });
 
-const debouncedFn = useDebounceFn((oldValue: string, newName: string) => {
-  updateName({ name: oldValue, newName });
+const debouncedFn = useDebounceFn((id: string, newName: string) => {
+  updateName({ id, newName });
 }, 1000);
 </script>
 <template>
@@ -34,6 +34,7 @@ const debouncedFn = useDebounceFn((oldValue: string, newName: string) => {
       class="flex flex-row flex-wrap gap-2 justify-start">
       <ModifyCategoryItem
         v-for="category in data"
+        :id="category.id"
         :key="category.name"
         :initial-value="category.name"
         :disabled="isPending || isSuccess"

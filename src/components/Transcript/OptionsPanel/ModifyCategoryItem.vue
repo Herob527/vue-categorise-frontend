@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const props = defineProps<{
+  id: string;
   initialValue: string;
   disabled?: boolean;
 }>();
@@ -10,7 +11,7 @@ const props = defineProps<{
 const category = ref(props.initialValue);
 
 defineEmits<{
-  (e: 'update', oldValue: string, newValue: string): void;
+  (e: 'update', id: string, newValue: string): void;
   (e: 'delete'): void;
 }>();
 </script>
@@ -23,10 +24,9 @@ defineEmits<{
       :disabled="disabled"
       @input="
         (event: Event) => {
-          const oldValue = category;
           const inputValue = (event.target as HTMLInputElement).value;
           category = inputValue;
-          $emit('update', oldValue, inputValue);
+          $emit('update', props.id, inputValue);
         }
       " />
     <button

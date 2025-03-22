@@ -1364,14 +1364,12 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Post New Category
-         * @param {string | null} id 
          * @param {string} category 
+         * @param {string | null} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postNewCategoryCategoriesPost: async (id: string | null, category: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('postNewCategoryCategoriesPost', 'id', id)
+        postNewCategoryCategoriesPost: async (category: string, id?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'category' is not null or undefined
             assertParamExists('postNewCategoryCategoriesPost', 'category', category)
             const localVarPath = `/categories`;
@@ -1387,11 +1385,11 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new URLSearchParams();
 
-
-            if (id !== undefined) { 
-                localVarFormParams.set('id', id as any);
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
             }
-    
+
+
             if (category !== undefined) { 
                 localVarFormParams.set('category', category as any);
             }
@@ -1513,13 +1511,13 @@ export const CategoryApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Post New Category
-         * @param {string | null} id 
          * @param {string} category 
+         * @param {string | null} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postNewCategoryCategoriesPost(id: string | null, category: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postNewCategoryCategoriesPost(id, category, options);
+        async postNewCategoryCategoriesPost(category: string, id?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postNewCategoryCategoriesPost(category, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CategoryApi.postNewCategoryCategoriesPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1573,13 +1571,13 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Post New Category
-         * @param {string | null} id 
          * @param {string} category 
+         * @param {string | null} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postNewCategoryCategoriesPost(id: string | null, category: string, options?: any): AxiosPromise<any> {
-            return localVarFp.postNewCategoryCategoriesPost(id, category, options).then((request) => request(axios, basePath));
+        postNewCategoryCategoriesPost(category: string, id?: string | null, options?: any): AxiosPromise<any> {
+            return localVarFp.postNewCategoryCategoriesPost(category, id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1626,14 +1624,14 @@ export class CategoryApi extends BaseAPI {
     /**
      * 
      * @summary Post New Category
-     * @param {string | null} id 
      * @param {string} category 
+     * @param {string | null} [id] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoryApi
      */
-    public postNewCategoryCategoriesPost(id: string | null, category: string, options?: RawAxiosRequestConfig) {
-        return CategoryApiFp(this.configuration).postNewCategoryCategoriesPost(id, category, options).then((request) => request(this.axios, this.basePath));
+    public postNewCategoryCategoriesPost(category: string, id?: string | null, options?: RawAxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).postNewCategoryCategoriesPost(category, id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

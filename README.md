@@ -22,3 +22,4 @@ Frontend app for categorising audio files that uses vue
 - [ ] Add possibility to handle more than just one project
 - [ ] Handle multiple languages
 - [ ] Configuration panel
+- [ ] Take a look on components library

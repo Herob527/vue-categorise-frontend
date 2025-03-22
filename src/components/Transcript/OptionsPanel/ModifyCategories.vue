@@ -2,6 +2,7 @@
 import { deleteOne, getAll, updateOne } from '@/actions/categories';
 import { useMutation, useQuery } from '@tanstack/vue-query';
 import ModifyCategoryItem from './ModifyCategoryItem.vue';
+import { useDebounceFn } from '@vueuse/core';
 
 const { data, isLoading, refetch } = useQuery({
   queryKey: ['category', 'get'],
@@ -19,6 +20,10 @@ const { mutate: updateName } = useMutation({
   mutationFn: async ({ name, newName }: { name: string; newName: string }) =>
     updateOne({ name, newName }),
 });
+
+const debouncedFn = useDebounceFn((oldValue: string, newName: string) => {
+  updateName({ name: oldValue, newName });
+}, 1000);
 </script>
 <template>
   <section>
@@ -37,10 +42,7 @@ const { mutate: updateName } = useMutation({
             mutate(category.name);
           }
         "
-        @update="
-          (oldValue: string, newName: string) =>
-            updateName({ name: oldValue, newName })
-        " />
+        @update="debouncedFn" />
     </div>
     <p v-else-if="isLoading">Loading...</p>
     <p v-else>No categories to modify</p>

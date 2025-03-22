@@ -22,6 +22,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@tailwindcss/vite": "^4.0.14",
     "@tanstack/vue-query": "^5.68.0",
+    "@vueuse/core": "^13.0.0",
     "axios": "^1.8.3",
     "convert": "^5.8.0",
     "pinia": "^3.0.1",

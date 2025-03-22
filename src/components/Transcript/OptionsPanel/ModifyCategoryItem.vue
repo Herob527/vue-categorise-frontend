@@ -7,21 +7,28 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
-const value = ref(props.initialValue);
+const category = ref(props.initialValue);
 
 defineEmits<{
-  (e: 'change', value: string): void;
+  (e: 'update', oldValue: string, newValue: string): void;
   (e: 'delete'): void;
 }>();
 </script>
 <template>
   <div class="flex flex-row">
     <input
-      v-model="value"
       type="text"
       class="bg-white text-black px-2 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500"
+      :value="category"
       :disabled="disabled"
-      @input="$emit('change', value)" />
+      @input="
+        (event: Event) => {
+          const oldValue = category;
+          const inputValue = (event.target as HTMLInputElement).value;
+          category = inputValue;
+          $emit('update', oldValue, inputValue);
+        }
+      " />
     <button
       class="relative bg-red-500 text-white p-4 hover:cursor-pointer hover:bg-red-700 disabled:bg-gray-500 disabled:text-gray-400 disabled:cursor-not-allowed"
       type="button"

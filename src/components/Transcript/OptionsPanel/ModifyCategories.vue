@@ -37,8 +37,9 @@ const { mutate: updateName } = useMutation({
             mutate(category.name);
           }
         "
-        @change="
-          (newName: string) => updateName({ name: category.name, newName })
+        @update="
+          (oldValue: string, newName: string) =>
+            updateName({ name: oldValue, newName })
         " />
     </div>
     <p v-else-if="isLoading">Loading...</p>

@@ -9,7 +9,8 @@ const { data, isLoading, refetch } = useQuery({
   queryFn: () => getAll(),
 });
 
-const { mutate, isPending, isSuccess } = useMutation({
+const { mutate, isPending, isSuccess, isIdle } = useMutation({
+  mutationKey: ['category', 'delete'],
   mutationFn: async (name: string) => deleteOne({ name }),
   onSuccess: () => {
     refetch();
@@ -17,11 +18,15 @@ const { mutate, isPending, isSuccess } = useMutation({
 });
 
 const { mutate: updateName } = useMutation({
-  mutationFn: async ({ id, newName }: { id: string; newName: string }) =>
+  mutationKey: ['category', 'update'],
+  mutationFn: ({ id, newName }: { id: string; newName: string }) =>
     updateOne({ id, newName }),
 });
 
-const debouncedFn = useDebounceFn((id: string, newName: string) => {
+const sendDebouncedUpdate = useDebounceFn((id: string, newName: string) => {
+  const category = data.value?.filter((c) => c.name === newName);
+  if (category && category?.length) return;
+
   updateName({ id, newName });
 }, 1000);
 </script>
@@ -37,13 +42,13 @@ const debouncedFn = useDebounceFn((id: string, newName: string) => {
         :id="category.id"
         :key="category.name"
         :initial-value="category.name"
-        :disabled="isPending || isSuccess"
+        :disabled="!isIdle"
         @delete="
           () => {
             mutate(category.name);
           }
         "
-        @update="debouncedFn" />
+        @update="sendDebouncedUpdate" />
     </div>
     <p v-else-if="isLoading">Loading...</p>
     <p v-else>No categories to modify</p>

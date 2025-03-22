@@ -8,8 +8,10 @@ const { data, isLoading, refetch } = useQuery({
   queryFn: () => getAll(),
 });
 
-const { mutate } = useMutation({
-  mutationFn: (name: string) => deleteOne({ name }),
+const { mutate, isPending, isSuccess } = useMutation({
+  mutationFn: async (name: string) => {
+    return deleteOne({ name });
+  },
   onSuccess: () => {
     refetch();
   },
@@ -26,6 +28,7 @@ const { mutate } = useMutation({
         v-for="category in data"
         :key="category.name"
         :initial-value="category.name"
+        :disabled="isPending || isSuccess"
         @delete="
           () => {
             mutate(category.name);

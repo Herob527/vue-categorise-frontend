@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import { deleteOne, getAll, updateOne } from '@/actions/categories';
-import { useMutation, useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import ModifyCategoryItem from './ModifyCategoryItem.vue';
 import { useDebounceFn } from '@vueuse/core';
+
+const client = useQueryClient();
 
 const { data, isLoading, refetch } = useQuery({
   queryKey: ['category', 'get'],
   queryFn: () => getAll(),
 });
 
-const { mutate, isPending, isSuccess, isIdle } = useMutation({
+const { mutate, isIdle } = useMutation({
   mutationKey: ['category', 'delete'],
   mutationFn: async (name: string) => deleteOne({ name }),
   onSuccess: () => {
@@ -21,14 +23,16 @@ const { mutate: updateName } = useMutation({
   mutationKey: ['category', 'update'],
   mutationFn: ({ id, newName }: { id: string; newName: string }) =>
     updateOne({ id, newName }),
+  onSuccess: () => {
+    client.refetchQueries({ queryKey: ['category', 'get'] });
+  },
 });
 
 const sendDebouncedUpdate = useDebounceFn((id: string, newName: string) => {
   const category = data.value?.filter((c) => c.name === newName);
   if (category && category?.length) return;
-
   updateName({ id, newName });
-}, 1000);
+}, 200);
 </script>
 <template>
   <section>

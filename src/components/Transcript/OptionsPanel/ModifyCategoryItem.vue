@@ -21,7 +21,7 @@ defineEmits<{
       type="text"
       class="bg-white text-black px-2 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500"
       :disabled="disabled"
-      @change="$emit('change', value)" />
+      @input="$emit('change', value)" />
     <button
       class="relative bg-red-500 text-white p-4 hover:cursor-pointer hover:bg-red-700 disabled:bg-gray-500 disabled:text-gray-400 disabled:cursor-not-allowed"
       type="button"

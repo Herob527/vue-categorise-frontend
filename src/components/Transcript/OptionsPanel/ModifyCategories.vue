@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { deleteOne, getAll } from '@/actions/categories';
+import { deleteOne, getAll, updateOne } from '@/actions/categories';
 import { useMutation, useQuery } from '@tanstack/vue-query';
 import ModifyCategoryItem from './ModifyCategoryItem.vue';
 
@@ -13,6 +13,11 @@ const { mutate, isPending, isSuccess } = useMutation({
   onSuccess: () => {
     refetch();
   },
+});
+
+const { mutate: updateName } = useMutation({
+  mutationFn: async ({ name, newName }: { name: string; newName: string }) =>
+    updateOne({ name, newName }),
 });
 </script>
 <template>
@@ -31,6 +36,9 @@ const { mutate, isPending, isSuccess } = useMutation({
           () => {
             mutate(category.name);
           }
+        "
+        @change="
+          (newName: string) => updateName({ name: category.name, newName })
         " />
     </div>
     <p v-else-if="isLoading">Loading...</p>

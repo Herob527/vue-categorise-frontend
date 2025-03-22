@@ -1,4 +1,3 @@
-import { axiosApi } from '@/axiosConfig';
 import { API_URL } from '@/constants';
 import { CategoryApi } from '@/types/generated';
 
@@ -21,11 +20,9 @@ export const deleteOne = async ({ name }: { name: string }) => {
   return data;
 };
 
-export const updateOne = async ({ id, name }: { id: string; name: string }) => {
-  const formData = new FormData();
-  formData.set('new_category_name', name);
-  const res = await axiosApi.patch(`categories/${id}`, formData);
-  return res.data;
+export const updateOne = async ({ name, newName }: { name: string; newName: string }) => {
+  const { data } = await categoryApi.updateCategoryCategoriesCategoryNamePatch(name, newName);
+  return data;
 };
 export const post = async ({ name }: { name: string }) => {
   const { data } = await categoryApi.postNewCategoryCategoriesPost(name);

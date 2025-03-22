@@ -9,9 +9,7 @@ const { data, isLoading, refetch } = useQuery({
 });
 
 const { mutate, isPending, isSuccess } = useMutation({
-  mutationFn: async (name: string) => {
-    return deleteOne({ name });
-  },
+  mutationFn: async (name: string) => deleteOne({ name }),
   onSuccess: () => {
     refetch();
   },

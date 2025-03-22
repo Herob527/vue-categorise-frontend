@@ -25,6 +25,6 @@ export const updateOne = async ({ id, newName }: { id: string; newName: string }
   return data;
 };
 export const post = async ({ name }: { name: string }) => {
-  const { data } = await categoryApi.postNewCategoryCategoriesPost(null, name);
+  const { data } = await categoryApi.postNewCategoryCategoriesPost(name);
   return data;
 };

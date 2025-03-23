@@ -12,7 +12,7 @@ defineEmits(['close']);
     @click="$emit('close')"></div>
   <div
     class="flex fixed top-1/2 left-1/2 z-10 flex-col gap-4 p-2 text-white -translate-x-1/2 -translate-y-1/2 bg-primary-500">
-    <div class="inline-flex justify-end items-center">
+    <div class="inline-flex justify-end items-center gap-4">
       <span class="text-2xl font-bold flex-1"> Manage transcript </span>
       <ActionButton
         :on-click="() => $emit('close')"
@@ -24,7 +24,6 @@ defineEmits(['close']);
     </div>
     <AddCategory />
     <div class="h-0 border-b-2 border-primary-600/60"></div>
-
     <ModifyCategories />
   </div>
 </template>

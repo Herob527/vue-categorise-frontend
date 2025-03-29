@@ -11,7 +11,7 @@ defineEmits<{
 <template>
   <button
     type="button"
-    :class="`relative p-5 text-white bg-primary-500 ${className || ''}`"
+    :class="`relative p-5 text-white bg-primary-500 cursor-pointer ${className || ''}`"
     @click="
       () => {
         $emit('click', props.page);

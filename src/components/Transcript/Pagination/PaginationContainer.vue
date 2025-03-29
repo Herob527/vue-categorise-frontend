@@ -66,9 +66,12 @@ const processPageIndexed = (
   ];
 };
 
-const currentAmountOfPages = computed(() =>
-  Math.trunc((count ?? 0) / pageSize),
-);
+const currentAmountOfPages = computed(() => {
+  const calculated = Math.trunc((count ?? 0) / pageSize);
+  // Edge case, when count is divisible by page size
+  if (count % pageSize === 0) return calculated - 1;
+  return calculated;
+});
 const paginationData = computed(() => {
   return processPageIndexed(currentPage.value, currentAmountOfPages.value);
 });

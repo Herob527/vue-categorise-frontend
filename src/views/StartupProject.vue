@@ -128,6 +128,13 @@ const handleSubmit = async ({ files, category }: ReturnData) => {
   addFiles(files, category.trim() === '' ? undefined : category);
   showMode.value = 'LOCAL';
 };
+
+const paginationKey = computed(() => {
+  if (showMode.value === 'DB') {
+    return 'db';
+  }
+  return 'local';
+});
 </script>
 <template>
   <main>
@@ -160,7 +167,7 @@ const handleSubmit = async ({ files, category }: ReturnData) => {
       :page-size="ENTRIES_PER_PAGE"
       :items-count="itemsCount"
       :page="dbPagination"
-      :pagination-key="showMode === 'DB' ? 'db' : 'local'"
+      :pagination-key="paginationKey"
       @submit:page="
         (newPage: number) => {
           dbPagination = newPage;

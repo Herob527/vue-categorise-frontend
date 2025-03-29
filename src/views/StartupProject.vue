@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  deleteOne,
-  getPaginated,
-  post,
-  type postBindingType,
-} from '@/actions/bindings';
+import { deleteOne, getPaginated, post } from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
@@ -165,6 +160,7 @@ const handleSubmit = async ({ files, category }: ReturnData) => {
       :page-size="ENTRIES_PER_PAGE"
       :items-count="itemsCount"
       :page="dbPagination"
+      :pagination-key="showMode === 'DB' ? 'db' : 'local'"
       @submit:page="
         (newPage: number) => {
           dbPagination = newPage;

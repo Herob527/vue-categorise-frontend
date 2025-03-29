@@ -12,6 +12,6 @@ export const STATUS_COLORS: Record<`${statuses}`, string> = {
   inDatabase: 'orange',
 };
 
-export const ENTRIES_PER_PAGE = 20;
+export const ENTRIES_PER_PAGE = 10;
 
 export const LOCALSTORAGE_PAGE_KEY = 'lastPage';

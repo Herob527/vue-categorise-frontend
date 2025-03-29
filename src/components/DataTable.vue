@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T">
 import { splitToPages } from '@/utils/splitToPages';
 import { computed } from 'vue';
+import PaginationContainer from './Transcript/Pagination/PaginationContainer.vue';
 
 const props = defineProps<{
   data: T[];
@@ -11,6 +12,7 @@ const props = defineProps<{
   isLoading?: boolean;
   pageSize?: number;
   page?: number;
+  paginationKey: string;
 }>();
 
 const itemsCount = computed(() => props?.itemsCount ?? props.data?.length);
@@ -96,32 +98,12 @@ const pages = computed(() =>
     <div
       v-if="pages.length > 1"
       class="inline-flex flex-row gap-2 mt-2 m-2">
-      <!-- Pagination -->
-      <template
-        v-for="entryPage in pages"
-        :key="entryPage">
-        <button
-          v-if="entryPage !== 'dot'"
-          type="button"
-          :class="`relative w-10 h-10 ${entryPage === selectedPage ? 'bg-primary-600 hover:bg-primary-700' : 'bg-primary-500 hover:bg-primary-600'} text-white first:rounded-l-2xl last:rounded-r-2xl`"
-          @click="
-            () => {
-              $emit('submit:page', entryPage);
-            }
-          ">
-          <span>{{ entryPage + 1 }}</span>
-        </button>
-        <div
-          v-else
-          class="flex flex-col gap-2 w-10">
-          <input
-            type="text"
-            disabled
-            inputmode="numeric"
-            class="w-10 h-10 text-center border-2 border-primary-500"
-            placeholder="..." />
-        </div>
-      </template>
+      <PaginationContainer
+        v-if="itemsCount !== undefined"
+        :count="itemsCount"
+        :page-size="pageSize || DEFAULT_PAGE_SIZE"
+        :storage-key="paginationKey"
+        @change:page="$emit('submit:page', $event)" />
     </div>
   </div>
 </template>

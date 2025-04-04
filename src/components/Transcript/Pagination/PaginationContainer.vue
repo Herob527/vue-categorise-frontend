@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { LOCALSTORAGE_PAGE_KEY } from '@/constants';
 import PaginationEntry from './PaginationEntry.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import PageJumper from './PageJumper.vue';
 
 const {
@@ -23,8 +23,26 @@ const currentPageFromStorage = parseInt(
   10,
 );
 
-const currentPage = ref(page ?? currentPageFromStorage);
+const currentAmountOfPages = computed(() => {
+  const calculated = Math.trunc((count ?? 0) / pageSize);
+  // Edge case, when count is divisible by page size
+  if (count % pageSize === 0) return calculated - 1;
+  return calculated;
+});
 
+const usedPage = computed(() => {
+  const newPage = page ?? currentPageFromStorage;
+
+  if (newPage >= currentAmountOfPages.value) return currentAmountOfPages.value;
+  return newPage;
+});
+
+const currentPage = ref(usedPage.value);
+
+watchEffect(() => {
+  console.log(usedPage.value);
+  currentPage.value = usedPage.value;
+});
 const saveCurrentPage = (newPage: number) => {
   currentPage.value = newPage;
   localStorage.setItem(storageKey, `${newPage}`);
@@ -67,13 +85,6 @@ const processPageIndexed = (
     currentAmountOfPages,
   ];
 };
-
-const currentAmountOfPages = computed(() => {
-  const calculated = Math.trunc((count ?? 0) / pageSize);
-  // Edge case, when count is divisible by page size
-  if (count % pageSize === 0) return calculated - 1;
-  return calculated;
-});
 const paginationData = computed(() => {
   return processPageIndexed(currentPage.value, currentAmountOfPages.value);
 });
@@ -101,7 +112,7 @@ defineEmits<{
       <PageJumper
         v-else
         :min="0"
-        :max="currentAmountOfPages - 1"
+        :max="currentAmountOfPages + 1"
         @submit="
           (newPage: number) => {
             saveCurrentPage(newPage);

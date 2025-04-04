@@ -103,6 +103,7 @@ const pages = computed(() =>
         :count="itemsCount"
         :page-size="pageSize || DEFAULT_PAGE_SIZE"
         :storage-key="paginationKey"
+        :page="selectedPage"
         @change:page="$emit('submit:page', $event)" />
     </div>
   </div>

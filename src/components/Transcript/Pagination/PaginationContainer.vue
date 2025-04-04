@@ -8,10 +8,12 @@ const {
   count,
   pageSize,
   storageKey: key,
+  page,
 } = defineProps<{
   count: number;
   pageSize: number;
   storageKey: string;
+  page?: number;
 }>();
 
 const storageKey = `${LOCALSTORAGE_PAGE_KEY}-${key}`;
@@ -21,7 +23,7 @@ const currentPageFromStorage = parseInt(
   10,
 );
 
-const currentPage = ref(currentPageFromStorage);
+const currentPage = ref(page ?? currentPageFromStorage);
 
 const saveCurrentPage = (newPage: number) => {
   currentPage.value = newPage;

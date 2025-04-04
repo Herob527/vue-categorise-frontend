@@ -105,8 +105,11 @@ const sendPending = async () => {
 };
 
 const removeFile = async (id: string) => {
-  deleteOne({ id });
-  refetch();
+  await deleteOne({ id });
+  const result = await refetch();
+  if (result.data?.bindings.length === 0 && dbPagination.value > 0) {
+    dbPagination.value -= 1;
+  }
 };
 
 const removeAllOnPage = async () => {

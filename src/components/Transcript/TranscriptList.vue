@@ -4,8 +4,10 @@ import { getPaginated } from '@/actions/bindings';
 import TranscriptItem from './TranscriptItem.vue';
 import { ENTRIES_PER_PAGE, LOCALSTORAGE_PAGE_KEY } from '@/constants';
 
+const storageKey = `${LOCALSTORAGE_PAGE_KEY}-transcript`;
+
 const getPageFromStorage = () =>
-  parseInt(localStorage.getItem(LOCALSTORAGE_PAGE_KEY) || '0', 10);
+  parseInt(localStorage.getItem(storageKey) || '0', 10);
 
 const { data } = useQuery({
   queryKey: ['get-paginated-transcript'],
@@ -17,7 +19,7 @@ const { data } = useQuery({
     const { page, pageSize } = meta as { page: () => number; pageSize: number };
     const value = await getPaginated({ page: page(), pageSize });
     if (value.bindings.length === 0) {
-      localStorage.setItem(LOCALSTORAGE_PAGE_KEY, '0');
+      localStorage.setItem(storageKey, '0');
       return getPaginated({ page: 0, pageSize });
     }
     return value;

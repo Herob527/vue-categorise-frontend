@@ -33,16 +33,19 @@ const currentAmountOfPages = computed(() => {
 const usedPage = computed(() => {
   const newPage = page ?? currentPageFromStorage;
 
-  if (newPage >= currentAmountOfPages.value) return currentAmountOfPages.value;
+  if (newPage >= currentAmountOfPages.value) {
+    localStorage.setItem(storageKey, `${newPage}`);
+    return currentAmountOfPages.value;
+  }
   return newPage;
 });
 
 const currentPage = ref(usedPage.value);
 
 watchEffect(() => {
-  console.log(usedPage.value);
   currentPage.value = usedPage.value;
 });
+
 const saveCurrentPage = (newPage: number) => {
   currentPage.value = newPage;
   localStorage.setItem(storageKey, `${newPage}`);

@@ -99,12 +99,14 @@ defineEmits<{
 <template>
   <footer class="flex gap-2 justify-center items-start">
     <template
-      v-for="page in paginationData"
-      :key="page">
+      v-for="dataPage in paginationData"
+      :key="dataPage">
       <PaginationEntry
-        v-if="page !== JUMP_MARK"
-        :class-name="currentPage === page ? 'bg-primary-500' : 'bg-primary-600'"
-        :page="page"
+        v-if="dataPage !== JUMP_MARK"
+        :class-name="
+          currentPage === dataPage ? 'bg-primary-500' : 'bg-primary-600'
+        "
+        :page="dataPage"
         @click="
           (newPage: number) => {
             saveCurrentPage(newPage);

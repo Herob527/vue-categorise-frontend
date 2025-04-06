@@ -58,7 +58,7 @@ const processPageIndexed = (
   currentAmountOfPages: number,
 ): (typeof JUMP_MARK | number)[] => {
   if (currentAmountOfPages < 5)
-    return Array(currentAmountOfPages >= 1 ? currentAmountOfPages : 0)
+    return Array(currentAmountOfPages >= 1 ? currentAmountOfPages + 1 : 0)
       .fill(0)
       .map((_, index) => index);
   if (currentPage < 2) {

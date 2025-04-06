@@ -27,7 +27,7 @@ const currentAmountOfPages = computed(() => {
   const calculated = Math.trunc((count ?? 0) / pageSize);
   // Edge case, when count is divisible by page size
   if (count % pageSize === 0) return calculated - 1;
-  return calculated;
+  return calculated + 1;
 });
 
 const usedPage = computed(() => {

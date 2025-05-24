@@ -11,7 +11,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --fix",
-    "generate-api-types": "openapi-generator-cli generate -i http://localhost:80/openapi.json -g typescript-axios -o src/types/generated",
+    "generate-api-types": "openapi-generator-cli generate -i http://localhost:3051/openapi.json -g typescript-axios -o src/types/generated",
     "format": "prettier --write src/",
     "analyse-bundle": "vite-bundle-visualizer"
   },

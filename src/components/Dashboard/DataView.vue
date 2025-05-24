@@ -61,7 +61,7 @@ const processedData = computed(
       <h2 class="text-2xl font-bold">Audio data</h2>
       <span
         >Total audio duration:
-        {{ processedData.total_audio_duration ?? 0 }} seconds</span
+        {{ processedData.total_audio_duration }} seconds</span
       >
     </div>
   </div>

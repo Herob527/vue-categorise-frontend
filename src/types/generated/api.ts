@@ -150,6 +150,61 @@ export interface CategoryModel {
 /**
  * 
  * @export
+ * @interface DashboardModel
+ */
+export interface DashboardModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'categories_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'total_bindings_count': number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DashboardModel
+     */
+    'category_with_most_bindings': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'uncategorizaed_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'categorized_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'total_audio_duration': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'filled_transcript_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardModel
+     */
+    'empty_transcript_count': number;
+}
+/**
+ * 
+ * @export
  * @interface DirectoryModel
  */
 export interface DirectoryModel {
@@ -1657,6 +1712,107 @@ export class CategoryApi extends BaseAPI {
      */
     public updateCategoryCategoriesIdPatch(id: string, newCategoryName: string, options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).updateCategoryCategoriesIdPatch(id, newCategoryName, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * DashboardApi - axios parameter creator
+ * @export
+ */
+export const DashboardApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get Dashboard
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDashboardDashboardGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/dashboard/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DashboardApi - functional programming interface
+ * @export
+ */
+export const DashboardApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DashboardApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get Dashboard
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDashboardDashboardGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDashboardDashboardGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardApi.getDashboardDashboardGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * DashboardApi - factory interface
+ * @export
+ */
+export const DashboardApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DashboardApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get Dashboard
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDashboardDashboardGet(options?: any): AxiosPromise<DashboardModel> {
+            return localVarFp.getDashboardDashboardGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DashboardApi - object-oriented interface
+ * @export
+ * @class DashboardApi
+ * @extends {BaseAPI}
+ */
+export class DashboardApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get Dashboard
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public getDashboardDashboardGet(options?: RawAxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).getDashboardDashboardGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

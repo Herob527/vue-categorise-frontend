@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { DashboardModel } from '@/types/generated';
 import { computed } from 'vue';
+import DashboardCard from './DashboardCard.vue';
 
 const props = defineProps<{ data: DashboardModel }>();
 
@@ -22,47 +23,52 @@ const processedData = computed(
 <template>
   <h1 class="text-4xl font-bold mb-4">Dashboard</h1>
   <div class="inline-grid grid-cols-2 grid-rows-2 gap-2">
-    <div class="bg-primary-500 text-white p-4">
-      <h2 class="text-2xl font-bold">Categorization progress</h2>
+    <DashboardCard title="Categorization progress">
       <div class="flex flex-col">
-        <span>Categorized lines: {{ processedData.categorized_count }}</span>
         <span
-          >Uncategorized lines: {{ processedData.uncategorizaed_count }}</span
+          >Categorized lines: <b>{{ processedData.categorized_count }}</b></span
+        >
+        <span
+          >Uncategorized lines:
+          <b>{{ processedData.uncategorizaed_count }}</b></span
         >
       </div>
-    </div>
+    </DashboardCard>
 
-    <div class="bg-primary-500 text-white p-4">
-      <h2 class="text-2xl font-bold">Transcript progress</h2>
+    <DashboardCard title="Transcript progress">
       <div class="flex flex-col">
         <span
-          >Filled transcripts: {{ processedData.filled_transcript_count }}</span
+          >Filled transcripts:
+          <b>{{ processedData.filled_transcript_count }}</b></span
         >
         <span
-          >Empty transcripts: {{ processedData.empty_transcript_count }}</span
+          >Empty transcripts:
+          <b>{{ processedData.empty_transcript_count }}</b></span
         >
       </div>
-    </div>
-
-    <div class="bg-primary-500 text-white p-4">
-      <h2 class="text-2xl font-bold">Category data</h2>
+    </DashboardCard>
+    <DashboardCard title="Category data">
       <div class="flex flex-col">
-        <span>Categories count: {{ processedData.categories_count }}</span>
+        <span
+          >Categories count: <b>{{ processedData.categories_count }}</b></span
+        >
         <span v-if="processedData.category_with_most_bindings[0] !== ''"
           >Category with most bindings:
-          {{ processedData.category_with_most_bindings[0] }} ({{
-            processedData.category_with_most_bindings[1]
-          }})</span
+          <b
+            >{{ processedData.category_with_most_bindings[0] }} ({{
+              processedData.category_with_most_bindings[1]
+            }})</b
+          ></span
         >
         <span v-else>No categories assigned yet</span>
       </div>
-    </div>
-    <div class="bg-primary-500 text-white p-4">
-      <h2 class="text-2xl font-bold">Audio data</h2>
+    </DashboardCard>
+
+    <DashboardCard title="Audio data">
       <span
         >Total audio duration:
-        {{ processedData.total_audio_duration }} seconds</span
+        <b>{{ processedData.total_audio_duration }} seconds</b></span
       >
-    </div>
+    </DashboardCard>
   </div>
 </template>

@@ -21,58 +21,48 @@ const processedData = computed(
 
 <template>
   <h1 class="text-4xl font-bold mb-4">Dashboard</h1>
-  <div v-if="!props.data">No data yet</div>
-  <div v-else-if="props.data.total_bindings_count == 0">
-    <p>No data yet.</p>
-    <router-link to="/startup"
-      ><span class="text-blue-500">Go to startup</span></router-link
-    >
-  </div>
-  <template v-else>
-    <div class="inline-grid grid-cols-2 grid-rows-2 gap-2">
-      <div class="bg-blue-500 text-white p-4">
-        <h2 class="text-2xl font-bold">Categorization progress</h2>
-        <div class="flex flex-col">
-          <span>Categorized lines: {{ processedData.categorized_count }}</span>
-          <span
-            >Uncategorized lines: {{ processedData.uncategorizaed_count }}</span
-          >
-        </div>
-      </div>
-
-      <div class="bg-blue-500 text-white p-4">
-        <h2 class="text-2xl font-bold">Transcript progress</h2>
-        <div class="flex flex-col">
-          <span
-            >Filled transcripts:
-            {{ processedData.filled_transcript_count }}</span
-          >
-          <span
-            >Empty transcripts: {{ processedData.empty_transcript_count }}</span
-          >
-        </div>
-      </div>
-
-      <div class="bg-blue-500 text-white p-4">
-        <h2 class="text-2xl font-bold">Category data</h2>
-        <div class="flex flex-col">
-          <span>Categories count: {{ processedData.categories_count }}</span>
-          <span v-if="processedData.category_with_most_bindings[0] !== ''"
-            >Category with most bindings:
-            {{ processedData.category_with_most_bindings[0] }} ({{
-              processedData.category_with_most_bindings[1]
-            }})</span
-          >
-          <span v-else>No categories assigned yet</span>
-        </div>
-      </div>
-      <div class="bg-blue-500 text-white p-4">
-        <h2 class="text-2xl font-bold">Audio data</h2>
+  <div class="inline-grid grid-cols-2 grid-rows-2 gap-2">
+    <div class="bg-blue-500 text-white p-4">
+      <h2 class="text-2xl font-bold">Categorization progress</h2>
+      <div class="flex flex-col">
+        <span>Categorized lines: {{ processedData.categorized_count }}</span>
         <span
-          >Total audio duration:
-          {{ processedData.total_audio_duration ?? 0 }} seconds</span
+          >Uncategorized lines: {{ processedData.uncategorizaed_count }}</span
         >
       </div>
     </div>
-  </template>
+
+    <div class="bg-blue-500 text-white p-4">
+      <h2 class="text-2xl font-bold">Transcript progress</h2>
+      <div class="flex flex-col">
+        <span
+          >Filled transcripts: {{ processedData.filled_transcript_count }}</span
+        >
+        <span
+          >Empty transcripts: {{ processedData.empty_transcript_count }}</span
+        >
+      </div>
+    </div>
+
+    <div class="bg-blue-500 text-white p-4">
+      <h2 class="text-2xl font-bold">Category data</h2>
+      <div class="flex flex-col">
+        <span>Categories count: {{ processedData.categories_count }}</span>
+        <span v-if="processedData.category_with_most_bindings[0] !== ''"
+          >Category with most bindings:
+          {{ processedData.category_with_most_bindings[0] }} ({{
+            processedData.category_with_most_bindings[1]
+          }})</span
+        >
+        <span v-else>No categories assigned yet</span>
+      </div>
+    </div>
+    <div class="bg-blue-500 text-white p-4">
+      <h2 class="text-2xl font-bold">Audio data</h2>
+      <span
+        >Total audio duration:
+        {{ processedData.total_audio_duration ?? 0 }} seconds</span
+      >
+    </div>
+  </div>
 </template>

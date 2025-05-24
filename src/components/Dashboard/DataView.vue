@@ -2,6 +2,12 @@
 import type { DashboardModel } from '@/types/generated';
 import { computed } from 'vue';
 import DashboardCard from './DashboardCard.vue';
+import {
+  faFileAudio,
+  faKeyboard,
+  faList,
+  faTableList,
+} from '@fortawesome/free-solid-svg-icons';
 
 const props = defineProps<{ data: DashboardModel }>();
 
@@ -22,8 +28,11 @@ const processedData = computed(
 
 <template>
   <h1 class="text-4xl font-bold mb-4">Dashboard</h1>
-  <div class="inline-grid grid-cols-2 grid-rows-2 gap-2">
-    <DashboardCard title="Categorization progress">
+  <div
+    class="inline-grid grid-cols-1 grid-rows-4 sm:grid-cols-2 sm:grid-rows-2 gap-2">
+    <DashboardCard
+      title="Categorization progress"
+      :icon="faList">
       <div class="flex flex-col">
         <span
           >Categorized lines: <b>{{ processedData.categorized_count }}</b></span
@@ -35,7 +44,9 @@ const processedData = computed(
       </div>
     </DashboardCard>
 
-    <DashboardCard title="Transcript progress">
+    <DashboardCard
+      title="Transcript progress"
+      :icon="faKeyboard">
       <div class="flex flex-col">
         <span
           >Filled transcripts:
@@ -47,7 +58,9 @@ const processedData = computed(
         >
       </div>
     </DashboardCard>
-    <DashboardCard title="Category data">
+    <DashboardCard
+      title="Category data"
+      :icon="faTableList">
       <div class="flex flex-col">
         <span
           >Categories count: <b>{{ processedData.categories_count }}</b></span
@@ -64,7 +77,9 @@ const processedData = computed(
       </div>
     </DashboardCard>
 
-    <DashboardCard title="Audio data">
+    <DashboardCard
+      title="Audio data"
+      :icon="faFileAudio">
       <span
         >Total audio duration:
         <b>{{ processedData.total_audio_duration }} seconds</b></span

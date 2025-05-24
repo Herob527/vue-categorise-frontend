@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import { axiosApi } from '@/axiosConfig';
-import { API_URL } from '@/constants';
 import { useQuery } from '@tanstack/vue-query';
+import { get } from '@/actions/dashboard';
+import DataView from '@/components/Dashboard/DataView.vue';
 
-const queryFn = async () => {
-  try {
-    const res = await axiosApi.get(`${API_URL}/bindings/count`);
-    return res.data;
-  } catch (e) {
-    return null;
-  }
-};
+const queryFn = async () => get();
 
 const { data, isLoading, isError } = useQuery({
   queryKey: ['bindingsCount'],
@@ -21,5 +14,7 @@ const { data, isLoading, isError } = useQuery({
 <template>
   <div v-if="isLoading">Loading</div>
   <div v-else-if="isError">Error</div>
-  <div v-else>Bindings: {{ data }}</div>
+  <DataView
+    v-else-if="data"
+    :data="data" />
 </template>

@@ -22,7 +22,7 @@ const processedData = computed(
 <template>
   <h1 class="text-4xl font-bold mb-4">Dashboard</h1>
   <div class="inline-grid grid-cols-2 grid-rows-2 gap-2">
-    <div class="bg-blue-500 text-white p-4">
+    <div class="bg-primary-500 text-white p-4">
       <h2 class="text-2xl font-bold">Categorization progress</h2>
       <div class="flex flex-col">
         <span>Categorized lines: {{ processedData.categorized_count }}</span>
@@ -32,7 +32,7 @@ const processedData = computed(
       </div>
     </div>
 
-    <div class="bg-blue-500 text-white p-4">
+    <div class="bg-primary-500 text-white p-4">
       <h2 class="text-2xl font-bold">Transcript progress</h2>
       <div class="flex flex-col">
         <span
@@ -44,7 +44,7 @@ const processedData = computed(
       </div>
     </div>
 
-    <div class="bg-blue-500 text-white p-4">
+    <div class="bg-primary-500 text-white p-4">
       <h2 class="text-2xl font-bold">Category data</h2>
       <div class="flex flex-col">
         <span>Categories count: {{ processedData.categories_count }}</span>
@@ -57,7 +57,7 @@ const processedData = computed(
         <span v-else>No categories assigned yet</span>
       </div>
     </div>
-    <div class="bg-blue-500 text-white p-4">
+    <div class="bg-primary-500 text-white p-4">
       <h2 class="text-2xl font-bold">Audio data</h2>
       <span
         >Total audio duration:

@@ -7,14 +7,14 @@ const props = defineProps<{ data: DashboardModel }>();
 const processedData = computed(
   () =>
     ({
-      categories_count: props.data?.categories_count,
-      total_bindings_count: props.data?.total_bindings_count,
-      category_with_most_bindings: props.data?.category_with_most_bindings,
-      uncategorizaed_count: props.data?.uncategorizaed_count,
-      categorized_count: props.data?.categorized_count,
-      total_audio_duration: props.data?.total_audio_duration,
-      filled_transcript_count: props.data?.filled_transcript_count,
-      empty_transcript_count: props.data?.empty_transcript_count,
+      categories_count: props.data.categories_count,
+      total_bindings_count: props.data.total_bindings_count,
+      category_with_most_bindings: props.data.category_with_most_bindings,
+      uncategorizaed_count: props.data.uncategorizaed_count,
+      categorized_count: props.data.categorized_count,
+      total_audio_duration: props.data.total_audio_duration,
+      filled_transcript_count: props.data.filled_transcript_count,
+      empty_transcript_count: props.data.empty_transcript_count,
     }) as const satisfies Record<keyof DashboardModel, unknown>,
 );
 </script>

@@ -91,13 +91,17 @@ const fields = computed(() => {
 const sendPending = async () => {
   const all = getAll.value;
   all.forEach((entry) => updateFileStatus(entry.id, statuses.PROCESSING));
-  const promises = await Promise.allSettled(
-    all.map((entry) => post({ audio: entry.file, category: entry.category })),
+  const requests = all.map((entry) =>
+    post({ audio: entry.file, category: entry.category }),
   );
-  promises.forEach((promise, index) => {
-    if (promise.status === 'rejected') {
+  requests.forEach(async (request, index) => {
+    const response = await request;
+    if (response.status === 'rejected') {
       updateFileStatus(all[index].id, statuses.ERROR);
     } else {
+      updateFileStatus(all[index].id, statuses.IN_DB);
+      // sleep for 2 seconds
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       remove(all[index].id);
     }
   });

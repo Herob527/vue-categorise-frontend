@@ -59,5 +59,5 @@ onUnmounted(() => {
 <template>
   <div
     ref="wsContainer"
-    :class="`${className || ''}`.trim()"></div>
+    :class="`min-h-[140px] ${className || ''}`.trim()"></div>
 </template>

@@ -11,6 +11,9 @@ const audioApi = new AudioApi(
 export const getOne = async (id: string) => {
   const data = await audioApi.downloadAudioAudioDownloadAudioIdGet(id, {
     responseType: 'blob',
+    headers: {
+      'Cache-Control': 'max-age=604800',
+    },
   });
   return data.data as Blob;
 };

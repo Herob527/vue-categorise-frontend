@@ -504,40 +504,6 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * Get audio file metadata
-         * @summary Get Audio Info
-         * @param {string} audioId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAudioInfoAudioAudioIdGet: async (audioId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'audioId' is not null or undefined
-            assertParamExists('getAudioInfoAudioAudioIdGet', 'audioId', audioId)
-            const localVarPath = `/audio/{audio_id}`
-                .replace(`{${"audio_id"}}`, encodeURIComponent(String(audioId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Get presigned URL for audio file access
          * @summary Get Audio Url
          * @param {string} audioId 
@@ -564,36 +530,6 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             if (expires !== undefined) {
                 localVarQueryParameter['expires'] = expires;
             }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List all audio files from database
-         * @summary List Audio Files
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listAudioFilesAudioListGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/audio/list`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
 
 
     
@@ -694,19 +630,6 @@ export const AudioApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get audio file metadata
-         * @summary Get Audio Info
-         * @param {string} audioId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAudioInfoAudioAudioIdGet(audioId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AudioModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAudioInfoAudioAudioIdGet(audioId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AudioApi.getAudioInfoAudioAudioIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Get presigned URL for audio file access
          * @summary Get Audio Url
          * @param {string} audioId 
@@ -721,18 +644,6 @@ export const AudioApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * List all audio files from database
-         * @summary List Audio Files
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async listAudioFilesAudioListGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listAudioFilesAudioListGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AudioApi.listAudioFilesAudioListGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {File} file 
@@ -741,7 +652,7 @@ export const AudioApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AudioModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(file, uuid, folder, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AudioApi.uploadAudioAudioUploadPost']?.[localVarOperationServerIndex]?.url;
@@ -778,16 +689,6 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.downloadAudioAudioDownloadAudioIdGet(audioId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Get audio file metadata
-         * @summary Get Audio Info
-         * @param {string} audioId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAudioInfoAudioAudioIdGet(audioId: string, options?: any): AxiosPromise<AudioModel> {
-            return localVarFp.getAudioInfoAudioAudioIdGet(audioId, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Get presigned URL for audio file access
          * @summary Get Audio Url
          * @param {string} audioId 
@@ -799,15 +700,6 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.getAudioUrlAudioUrlAudioIdGet(audioId, expires, options).then((request) => request(axios, basePath));
         },
         /**
-         * List all audio files from database
-         * @summary List Audio Files
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listAudioFilesAudioListGet(options?: any): AxiosPromise<any> {
-            return localVarFp.listAudioFilesAudioListGet(options).then((request) => request(axios, basePath));
-        },
-        /**
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {File} file 
@@ -816,7 +708,7 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: any): AxiosPromise<any> {
+        uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: any): AxiosPromise<AudioModel> {
             return localVarFp.uploadAudioAudioUploadPost(file, uuid, folder, options).then((request) => request(axios, basePath));
         },
     };
@@ -854,18 +746,6 @@ export class AudioApi extends BaseAPI {
     }
 
     /**
-     * Get audio file metadata
-     * @summary Get Audio Info
-     * @param {string} audioId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AudioApi
-     */
-    public getAudioInfoAudioAudioIdGet(audioId: string, options?: RawAxiosRequestConfig) {
-        return AudioApiFp(this.configuration).getAudioInfoAudioAudioIdGet(audioId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Get presigned URL for audio file access
      * @summary Get Audio Url
      * @param {string} audioId 
@@ -876,17 +756,6 @@ export class AudioApi extends BaseAPI {
      */
     public getAudioUrlAudioUrlAudioIdGet(audioId: string, expires?: number, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).getAudioUrlAudioUrlAudioIdGet(audioId, expires, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List all audio files from database
-     * @summary List Audio Files
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AudioApi
-     */
-    public listAudioFilesAudioListGet(options?: RawAxiosRequestConfig) {
-        return AudioApiFp(this.configuration).listAudioFilesAudioListGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1053,40 +922,6 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             if (category !== undefined) {
                 localVarQueryParameter['category'] = category;
             }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get Binding
-         * @param {string} bindingId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getBindingBindingsBindingIdGet: async (bindingId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bindingId' is not null or undefined
-            assertParamExists('getBindingBindingsBindingIdGet', 'bindingId', bindingId)
-            const localVarPath = `/bindings/{binding_id}`
-                .replace(`{${"binding_id"}}`, encodeURIComponent(String(bindingId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
 
 
     
@@ -1269,19 +1104,6 @@ export const BindingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Binding
-         * @param {string} bindingId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getBindingBindingsBindingIdGet(bindingId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BindingModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getBindingBindingsBindingIdGet(bindingId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['BindingsApi.getBindingBindingsBindingIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Get Count
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1373,16 +1195,6 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Get Binding
-         * @param {string} bindingId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getBindingBindingsBindingIdGet(bindingId: string, options?: any): AxiosPromise<BindingModel> {
-            return localVarFp.getBindingBindingsBindingIdGet(bindingId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get Count
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1469,18 +1281,6 @@ export class BindingsApi extends BaseAPI {
      */
     public getAllBindingsBindingsAllGet(category?: string | null, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).getAllBindingsBindingsAllGet(category, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get Binding
-     * @param {string} bindingId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BindingsApi
-     */
-    public getBindingBindingsBindingIdGet(bindingId: string, options?: RawAxiosRequestConfig) {
-        return BindingsApiFp(this.configuration).getBindingBindingsBindingIdGet(bindingId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2179,159 +1979,6 @@ export const TextsApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
-         * @summary Get All Texts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllTextsTextsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/texts/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get Text
-         * @param {string} textId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTextTextsTextIdGet: async (textId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'textId' is not null or undefined
-            assertParamExists('getTextTextsTextIdGet', 'textId', textId)
-            const localVarPath = `/texts/{text_id}`
-                .replace(`{${"text_id"}}`, encodeURIComponent(String(textId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Post New Text
-         * @param {string} id 
-         * @param {string} text 
-         * @param {any} [commit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postNewTextTextsPost: async (id: string, text: string, commit?: any, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('postNewTextTextsPost', 'id', id)
-            // verify required parameter 'text' is not null or undefined
-            assertParamExists('postNewTextTextsPost', 'text', text)
-            const localVarPath = `/texts/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new URLSearchParams();
-
-            if (id !== undefined) {
-                localVarQueryParameter['id'] = id;
-            }
-
-            if (commit !== undefined) {
-                for (const [key, value] of Object.entries(commit)) {
-                    localVarQueryParameter[key] = value;
-                }
-            }
-
-
-            if (text !== undefined) { 
-                localVarFormParams.set('text', text as any);
-            }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams.toString();
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Remove Text
-         * @param {string} textId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        removeTextTextsTextIdDelete: async (textId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'textId' is not null or undefined
-            assertParamExists('removeTextTextsTextIdDelete', 'textId', textId)
-            const localVarPath = `/texts/{text_id}`
-                .replace(`{${"text_id"}}`, encodeURIComponent(String(textId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Update Text
          * @param {string} textId 
          * @param {string} newText 
@@ -2383,59 +2030,6 @@ export const TextsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get All Texts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAllTextsTextsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllTextsTextsGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TextsApi.getAllTextsTextsGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get Text
-         * @param {string} textId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTextTextsTextIdGet(textId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TextModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTextTextsTextIdGet(textId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TextsApi.getTextTextsTextIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Post New Text
-         * @param {string} id 
-         * @param {string} text 
-         * @param {any} [commit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postNewTextTextsPost(id: string, text: string, commit?: any, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postNewTextTextsPost(id, text, commit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TextsApi.postNewTextTextsPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Remove Text
-         * @param {string} textId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async removeTextTextsTextIdDelete(textId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.removeTextTextsTextIdDelete(textId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TextsApi.removeTextTextsTextIdDelete']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Update Text
          * @param {string} textId 
          * @param {string} newText 
@@ -2460,47 +2054,6 @@ export const TextsApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
-         * @summary Get All Texts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllTextsTextsGet(options?: any): AxiosPromise<any> {
-            return localVarFp.getAllTextsTextsGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get Text
-         * @param {string} textId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTextTextsTextIdGet(textId: string, options?: any): AxiosPromise<TextModel> {
-            return localVarFp.getTextTextsTextIdGet(textId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Post New Text
-         * @param {string} id 
-         * @param {string} text 
-         * @param {any} [commit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postNewTextTextsPost(id: string, text: string, commit?: any, options?: any): AxiosPromise<any> {
-            return localVarFp.postNewTextTextsPost(id, text, commit, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Remove Text
-         * @param {string} textId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        removeTextTextsTextIdDelete(textId: string, options?: any): AxiosPromise<any> {
-            return localVarFp.removeTextTextsTextIdDelete(textId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Update Text
          * @param {string} textId 
          * @param {string} newText 
@@ -2520,55 +2073,6 @@ export const TextsApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class TextsApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get All Texts
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TextsApi
-     */
-    public getAllTextsTextsGet(options?: RawAxiosRequestConfig) {
-        return TextsApiFp(this.configuration).getAllTextsTextsGet(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get Text
-     * @param {string} textId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TextsApi
-     */
-    public getTextTextsTextIdGet(textId: string, options?: RawAxiosRequestConfig) {
-        return TextsApiFp(this.configuration).getTextTextsTextIdGet(textId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Post New Text
-     * @param {string} id 
-     * @param {string} text 
-     * @param {any} [commit] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TextsApi
-     */
-    public postNewTextTextsPost(id: string, text: string, commit?: any, options?: RawAxiosRequestConfig) {
-        return TextsApiFp(this.configuration).postNewTextTextsPost(id, text, commit, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Remove Text
-     * @param {string} textId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TextsApi
-     */
-    public removeTextTextsTextIdDelete(textId: string, options?: RawAxiosRequestConfig) {
-        return TextsApiFp(this.configuration).removeTextTextsTextIdDelete(textId, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @summary Update Text

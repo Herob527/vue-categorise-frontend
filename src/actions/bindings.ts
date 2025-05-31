@@ -50,11 +50,6 @@ export const deleteOne = async ({ id }: { id: UUID }) => {
   return res.data;
 };
 
-export const getCount = async () => {
-  const { data } = await bindingsApi.getCountBindingsCountGet();
-  return data as number;
-};
-
 export const updateOneCategory = async ({
   bindingId,
   categoryId,

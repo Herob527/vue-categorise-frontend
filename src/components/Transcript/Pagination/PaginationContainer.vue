@@ -57,15 +57,21 @@ const processPageIndexed = (
   currentPage: number,
   currentAmountOfPages: number,
 ): (typeof JUMP_MARK | number)[] => {
+  const distance = 2;
   if (currentAmountOfPages < 5)
     return Array(currentAmountOfPages >= 1 ? currentAmountOfPages + 1 : 0)
       .fill(0)
       .map((_, index) => index);
-  if (currentPage < 2) {
-    return [0, 1, 2, JUMP_MARK, currentAmountOfPages];
+  if (currentPage < distance) {
+    return [
+      ...Array.from({ length: distance }).map((_, index) => index),
+      distance,
+      JUMP_MARK,
+      currentAmountOfPages,
+    ];
   }
   if (currentPage === currentAmountOfPages)
-    return [0, JUMP_MARK, currentPage - 2, currentPage - 1, currentPage];
+    return [0, JUMP_MARK, currentPage - distance, currentPage - 1, currentPage];
   if (currentPage + 2 === currentAmountOfPages) {
     return [
       0,
@@ -80,13 +86,13 @@ const processPageIndexed = (
     return [0, JUMP_MARK, currentPage - 1, currentPage, currentPage + 1];
   return [
     0,
-    JUMP_MARK,
+    currentPage - 2 === 0 ? null : JUMP_MARK,
     currentPage - 1,
     currentPage,
     currentPage + 1,
-    JUMP_MARK,
+    currentPage + 2 === currentAmountOfPages ? null : JUMP_MARK,
     currentAmountOfPages,
-  ];
+  ].filter((el) => el !== null) as (typeof JUMP_MARK | number)[];
 };
 const paginationData = computed(() => {
   return processPageIndexed(currentPage.value, currentAmountOfPages.value);

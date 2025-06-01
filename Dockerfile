@@ -13,3 +13,13 @@ COPY . /app
 EXPOSE 5173
 
 CMD [ "bun", "run", "start" ]
+
+FROM base AS prod
+
+COPY . /app
+
+RUN bun run build
+
+EXPOSE 4173
+
+CMD ["bun", "run", "preview"]

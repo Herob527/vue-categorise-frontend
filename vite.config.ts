@@ -8,7 +8,15 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), svgLoader(), tailwindcss(), analyzer({ enabled: !!process.env.DOCKER === false })],
+  plugins: [
+    vue(),
+    svgLoader(),
+    tailwindcss(),
+    analyzer({
+      enabled: !!process.env.DOCKER === false,
+      openAnalyzer: !!process.env.DOCKER === false,
+    }),
+  ],
   server: {
     strictPort: true,
     host: true,

@@ -504,6 +504,40 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * 
+         * @summary Download Url
+         * @param {string} audioId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadUrlAudioDownloadAudioIdUrlGet: async (audioId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'audioId' is not null or undefined
+            assertParamExists('downloadUrlAudioDownloadAudioIdUrlGet', 'audioId', audioId)
+            const localVarPath = `/audio/download/{audio_id}/url`
+                .replace(`{${"audio_id"}}`, encodeURIComponent(String(audioId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get presigned URL for audio file access
          * @summary Get Audio Url
          * @param {string} audioId 
@@ -630,6 +664,19 @@ export const AudioApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 
+         * @summary Download Url
+         * @param {string} audioId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async downloadUrlAudioDownloadAudioIdUrlGet(audioId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.downloadUrlAudioDownloadAudioIdUrlGet(audioId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AudioApi.downloadUrlAudioDownloadAudioIdUrlGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get presigned URL for audio file access
          * @summary Get Audio Url
          * @param {string} audioId 
@@ -689,6 +736,16 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.downloadAudioAudioDownloadAudioIdGet(audioId, options).then((request) => request(axios, basePath));
         },
         /**
+         * 
+         * @summary Download Url
+         * @param {string} audioId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadUrlAudioDownloadAudioIdUrlGet(audioId: string, options?: any): AxiosPromise<any> {
+            return localVarFp.downloadUrlAudioDownloadAudioIdUrlGet(audioId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get presigned URL for audio file access
          * @summary Get Audio Url
          * @param {string} audioId 
@@ -743,6 +800,18 @@ export class AudioApi extends BaseAPI {
      */
     public downloadAudioAudioDownloadAudioIdGet(audioId: string, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).downloadAudioAudioDownloadAudioIdGet(audioId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Download Url
+     * @param {string} audioId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AudioApi
+     */
+    public downloadUrlAudioDownloadAudioIdUrlGet(audioId: string, options?: RawAxiosRequestConfig) {
+        return AudioApiFp(this.configuration).downloadUrlAudioDownloadAudioIdUrlGet(audioId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1335,7 +1404,7 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
          * @throws {RequiredError}
          */
         getAllCategoriesCategoriesGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/categories`;
+            const localVarPath = `/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1369,7 +1438,7 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
         postNewCategoryCategoriesPost: async (category: string, id?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'category' is not null or undefined
             assertParamExists('postNewCategoryCategoriesPost', 'category', category)
-            const localVarPath = `/categories`;
+            const localVarPath = `/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

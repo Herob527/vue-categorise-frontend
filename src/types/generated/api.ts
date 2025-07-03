@@ -52,18 +52,6 @@ export interface AudioModel {
      * @type {number}
      * @memberof AudioModel
      */
-    'channels': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AudioModel
-     */
-    'frequency': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AudioModel
-     */
     'audio_length': number;
 }
 /**
@@ -167,10 +155,10 @@ export interface DashboardModel {
     'total_bindings_count': number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<any>}
      * @memberof DashboardModel
      */
-    'category_with_most_bindings': Array<string>;
+    'category_with_most_bindings': Array<any>;
     /**
      * 
      * @type {number}
@@ -219,7 +207,7 @@ export interface DirectoryModel {
      * @type {boolean}
      * @memberof DirectoryModel
      */
-    'is_dir': boolean;
+    'is_dir': DirectoryModelIsDirEnum;
     /**
      * 
      * @type {Array<DirectoryModelFilesInner>}
@@ -227,6 +215,13 @@ export interface DirectoryModel {
      */
     'files': Array<DirectoryModelFilesInner>;
 }
+
+export const DirectoryModelIsDirEnum = {
+    True: true
+} as const;
+
+export type DirectoryModelIsDirEnum = typeof DirectoryModelIsDirEnum[keyof typeof DirectoryModelIsDirEnum];
+
 /**
  * 
  * @export
@@ -244,7 +239,7 @@ export interface DirectoryModelFilesInner {
      * @type {boolean}
      * @memberof DirectoryModelFilesInner
      */
-    'is_dir': boolean;
+    'is_dir': DirectoryModelFilesInnerIsDirEnum;
     /**
      * 
      * @type {string}
@@ -258,6 +253,13 @@ export interface DirectoryModelFilesInner {
      */
     'files': Array<DirectoryModelFilesInner>;
 }
+
+export const DirectoryModelFilesInnerIsDirEnum = {
+    True: true
+} as const;
+
+export type DirectoryModelFilesInnerIsDirEnum = typeof DirectoryModelFilesInnerIsDirEnum[keyof typeof DirectoryModelFilesInnerIsDirEnum];
+
 /**
  * 
  * @export
@@ -275,8 +277,15 @@ export interface FileModel {
      * @type {boolean}
      * @memberof FileModel
      */
-    'is_dir': boolean;
+    'is_dir': FileModelIsDirEnum;
 }
+
+export const FileModelIsDirEnum = {
+    False: false
+} as const;
+
+export type FileModelIsDirEnum = typeof FileModelIsDirEnum[keyof typeof FileModelIsDirEnum];
+
 /**
  * 
  * @export
@@ -722,7 +731,7 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteAudioAudioAudioIdDelete(audioId: string, options?: any): AxiosPromise<any> {
+        deleteAudioAudioAudioIdDelete(audioId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.deleteAudioAudioAudioIdDelete(audioId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -732,7 +741,7 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadAudioAudioDownloadAudioIdGet(audioId: string, options?: any): AxiosPromise<any> {
+        downloadAudioAudioDownloadAudioIdGet(audioId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.downloadAudioAudioDownloadAudioIdGet(audioId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -742,7 +751,7 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadUrlAudioDownloadAudioIdUrlGet(audioId: string, options?: any): AxiosPromise<any> {
+        downloadUrlAudioDownloadAudioIdUrlGet(audioId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.downloadUrlAudioDownloadAudioIdUrlGet(audioId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -753,7 +762,7 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAudioUrlAudioUrlAudioIdGet(audioId: string, expires?: number, options?: any): AxiosPromise<any> {
+        getAudioUrlAudioUrlAudioIdGet(audioId: string, expires?: number, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.getAudioUrlAudioUrlAudioIdGet(audioId, expires, options).then((request) => request(axios, basePath));
         },
         /**
@@ -765,7 +774,7 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: any): AxiosPromise<AudioModel> {
+        uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<AudioModel> {
             return localVarFp.uploadAudioAudioUploadPost(file, uuid, folder, options).then((request) => request(axios, basePath));
         },
     };
@@ -1227,7 +1236,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(bindingId: string, options?: any): AxiosPromise<any> {
+        bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(bindingId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(bindingId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1238,7 +1247,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(bindingId: string, categoryId: string, options?: any): AxiosPromise<any> {
+        bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(bindingId: string, categoryId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(bindingId, categoryId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1249,7 +1258,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost(audio: File, category?: string | null, options?: any): AxiosPromise<any> {
+        createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.createBindingBindingsPost(audio, category, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1259,7 +1268,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllBindingsBindingsAllGet(category?: string | null, options?: any): AxiosPromise<Array<BindingModel>> {
+        getAllBindingsBindingsAllGet(category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<Array<BindingModel>> {
             return localVarFp.getAllBindingsBindingsAllGet(category, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1268,7 +1277,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCountBindingsCountGet(options?: any): AxiosPromise<any> {
+        getCountBindingsCountGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.getCountBindingsCountGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -1279,7 +1288,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: any): AxiosPromise<PaginatedBindingModel> {
+        getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedBindingModel> {
             return localVarFp.getPaginatedBindingsBindingsGet(page, perPage, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1289,7 +1298,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeBindingBindingsBindingIdDelete(bindingId: string, options?: any): AxiosPromise<any> {
+        removeBindingBindingsBindingIdDelete(bindingId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.removeBindingBindingsBindingIdDelete(bindingId, options).then((request) => request(axios, basePath));
         },
     };
@@ -1631,7 +1640,7 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllCategoriesCategoriesGet(options?: any): AxiosPromise<Array<CategoryModel>> {
+        getAllCategoriesCategoriesGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<CategoryModel>> {
             return localVarFp.getAllCategoriesCategoriesGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -1642,7 +1651,7 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postNewCategoryCategoriesPost(category: string, id?: string | null, options?: any): AxiosPromise<any> {
+        postNewCategoryCategoriesPost(category: string, id?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.postNewCategoryCategoriesPost(category, id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1652,7 +1661,7 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeCategoryCategoriesCategoryNameDelete(categoryName: string, options?: any): AxiosPromise<any> {
+        removeCategoryCategoriesCategoryNameDelete(categoryName: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.removeCategoryCategoriesCategoryNameDelete(categoryName, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1663,7 +1672,7 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCategoryCategoriesIdPatch(id: string, newCategoryName: string, options?: any): AxiosPromise<any> {
+        updateCategoryCategoriesIdPatch(id: string, newCategoryName: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.updateCategoryCategoriesIdPatch(id, newCategoryName, options).then((request) => request(axios, basePath));
         },
     };
@@ -1802,7 +1811,7 @@ export const DashboardApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboardDashboardGet(options?: any): AxiosPromise<DashboardModel> {
+        getDashboardDashboardGet(options?: RawAxiosRequestConfig): AxiosPromise<DashboardModel> {
             return localVarFp.getDashboardDashboardGet(options).then((request) => request(axios, basePath));
         },
     };
@@ -1903,7 +1912,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rootGet(options?: any): AxiosPromise<any> {
+        rootGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.rootGet(options).then((request) => request(axios, basePath));
         },
     };
@@ -2012,7 +2021,7 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: any): AxiosPromise<DirectoryModel> {
+        finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): AxiosPromise<DirectoryModel> {
             return localVarFp.finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(axios, basePath));
         },
     };
@@ -2129,7 +2138,7 @@ export const TextsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTextTextsTextIdPatch(textId: string, newText: string, options?: any): AxiosPromise<any> {
+        updateTextTextsTextIdPatch(textId: string, newText: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.updateTextTextsTextIdPatch(textId, newText, options).then((request) => request(axios, basePath));
         },
     };

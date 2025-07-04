@@ -18,6 +18,7 @@ Frontend app for categorising audio files that uses vue
   - [ ] Rework transcript paginaction
 - [x] Add preview of finalisation
 - [x] Add navigation menu accessible from every subpage
+- [ ] Add auth
 - [ ] Add possibility to handle more than just one project
 - [ ] Handle multiple languages
 - [ ] Configuration panel

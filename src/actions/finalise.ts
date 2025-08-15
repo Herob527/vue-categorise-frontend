@@ -9,8 +9,13 @@ const finaliseApi = new FinaliseApi(
   API_URL,
 );
 
-export const post = async (params: FinaliseConfigModel = {}) => {
+export const post = async (params: FinaliseConfigModel) => {
   const { data } = await finaliseApi.finaliseFinalisePost(params);
 
+  return data;
+};
+
+export const getLink = async (objectId: string) => {
+  const { data } = await finaliseApi.getDirFinaliseObjectIdGet(objectId);
   return data;
 };

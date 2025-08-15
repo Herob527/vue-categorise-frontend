@@ -333,7 +333,7 @@ export interface FinaliseConfigModel {
      * @type {string}
      * @memberof FinaliseConfigModel
      */
-    'uncaterized_name'?: string;
+    'uncategorized_name': string;
 }
 /**
  * 

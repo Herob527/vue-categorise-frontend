@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **category_to_lower** | **boolean** |  | [optional] [default to false]
 **category_space_replacer** | **string** |  | [optional] [default to ' ']
 **export_transcript** | **boolean** |  | [optional] [default to true]
-**uncaterized_name** | **string** |  | [optional] [default to 'Uncategorized']
+**uncategorized_name** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -25,7 +25,7 @@ const instance: FinaliseConfigModel = {
     category_to_lower,
     category_space_replacer,
     export_transcript,
-    uncaterized_name,
+    uncategorized_name,
 };
 ```
 

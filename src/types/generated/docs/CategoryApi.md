@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getAllCategoriesCategoriesGet**](#getallcategoriescategoriesget) | **GET** /categories/ | Get All Categories|
+|[**getAllCategoriesCategoriesGet**](#getallcategoriescategoriesget) | **GET** /categories | Get All Categories|
 |[**postNewCategoryCategoriesPost**](#postnewcategorycategoriespost) | **POST** /categories/ | Post New Category|
 |[**removeCategoryCategoriesCategoryNameDelete**](#removecategorycategoriescategorynamedelete) | **DELETE** /categories/{category_name} | Remove Category|
 |[**updateCategoryCategoriesIdPatch**](#updatecategorycategoriesidpatch) | **PATCH** /categories/{id} | Update Category|

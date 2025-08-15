@@ -1413,7 +1413,7 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
          * @throws {RequiredError}
          */
         getAllCategoriesCategoriesGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/categories/`;
+            const localVarPath = `/categories`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1981,6 +1981,40 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Get Dir
+         * @param {string} objectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDirFinaliseObjectIdGet: async (objectId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'objectId' is not null or undefined
+            assertParamExists('getDirFinaliseObjectIdGet', 'objectId', objectId)
+            const localVarPath = `/finalise/{object_id}`
+                .replace(`{${"object_id"}}`, encodeURIComponent(String(objectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2004,6 +2038,19 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.finaliseFinalisePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Get Dir
+         * @param {string} objectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDirFinaliseObjectIdGet(objectId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDirFinaliseObjectIdGet(objectId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.getDirFinaliseObjectIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -2023,6 +2070,16 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          */
         finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): AxiosPromise<DirectoryModel> {
             return localVarFp.finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Dir
+         * @param {string} objectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDirFinaliseObjectIdGet(objectId: string, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.getDirFinaliseObjectIdGet(objectId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2044,6 +2101,18 @@ export class FinaliseApi extends BaseAPI {
      */
     public finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Dir
+     * @param {string} objectId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinaliseApi
+     */
+    public getDirFinaliseObjectIdGet(objectId: string, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).getDirFinaliseObjectIdGet(objectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

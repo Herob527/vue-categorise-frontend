@@ -237,7 +237,7 @@ const configuration = new Configuration();
 const apiInstance = new AudioApi(configuration);
 
 let file: File; // (default to undefined)
-let uuid: string; // (optional) (default to '3d05bb09-dcc2-4cf0-90ca-7766b5be9ecb')
+let uuid: string; // (optional) (default to '86fbda91-c3be-4dbb-98dc-49160e1f92a7')
 let folder: string; // (optional) (default to 'audio')
 
 const { status, data } = await apiInstance.uploadAudioAudioUploadPost(
@@ -252,7 +252,7 @@ const { status, data } = await apiInstance.uploadAudioAudioUploadPost(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **file** | [**File**] |  | defaults to undefined|
-| **uuid** | [**string**] |  | (optional) defaults to '3d05bb09-dcc2-4cf0-90ca-7766b5be9ecb'|
+| **uuid** | [**string**] |  | (optional) defaults to '86fbda91-c3be-4dbb-98dc-49160e1f92a7'|
 | **folder** | [**string**] |  | (optional) defaults to 'audio'|
 
 

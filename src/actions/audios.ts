@@ -17,3 +17,8 @@ export const getOne = async (id: string) => {
   });
   return data.data as Blob;
 };
+
+export const uploadAudio = async (id: string, file: File) => {
+  const data = await audioApi.uploadAudioAudioUploadPost(id, file);
+  return data.data;
+};

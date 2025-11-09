@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [default to undefined]
+**url** | **string** |  | [default to undefined]
 **file_name** | **string** |  | [default to undefined]
 **audio_length** | **number** |  | [default to undefined]
 **audio_status** | [**StatusEnum**](StatusEnum.md) |  | [default to undefined]
@@ -17,6 +18,7 @@ import { AudioModel } from './api';
 
 const instance: AudioModel = {
     id,
+    url,
     file_name,
     audio_length,
     audio_status,

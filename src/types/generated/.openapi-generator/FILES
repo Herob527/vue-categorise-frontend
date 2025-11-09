@@ -11,6 +11,7 @@ docs/BindingModel.md
 docs/BindingsApi.md
 docs/CategoryApi.md
 docs/CategoryModel.md
+docs/CreateResponseModel.md
 docs/DashboardApi.md
 docs/DashboardModel.md
 docs/DefaultApi.md
@@ -22,6 +23,7 @@ docs/FinaliseConfigModel.md
 docs/HTTPValidationError.md
 docs/PaginatedBindingModel.md
 docs/PaginationModel.md
+docs/StatusEnum.md
 docs/TextModel.md
 docs/TextsApi.md
 docs/ValidationError.md

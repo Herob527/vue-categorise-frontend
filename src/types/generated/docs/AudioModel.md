@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **url** | **string** |  | [default to undefined]
 **file_name** | **string** |  | [default to undefined]
 **audio_length** | **number** |  | [default to undefined]
+**status** | [**StatusEnum**](StatusEnum.md) |  | [default to undefined]
 
 ## Example
 
@@ -20,6 +21,7 @@ const instance: AudioModel = {
     url,
     file_name,
     audio_length,
+    status,
 };
 ```
 

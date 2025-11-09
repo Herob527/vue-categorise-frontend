@@ -53,7 +53,15 @@ export interface AudioModel {
      * @memberof AudioModel
      */
     'audio_length': number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof AudioModel
+     */
+    'status': StatusEnum;
 }
+
+
 /**
  * 
  * @export
@@ -134,6 +142,19 @@ export interface CategoryModel {
      * @memberof CategoryModel
      */
     'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateResponseModel
+ */
+export interface CreateResponseModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateResponseModel
+     */
+    'binding_id': string;
 }
 /**
  * 
@@ -389,6 +410,20 @@ export interface PaginationModel {
 /**
  * 
  * @export
+ * @enum {number}
+ */
+
+export const StatusEnum = {
+    NUMBER_0: 0,
+    NUMBER_1: 1
+} as const;
+
+export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
+
+
+/**
+ * 
+ * @export
  * @interface TextModel
  */
 export interface TextModel {
@@ -588,13 +623,15 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
+         * @param {string} uuid 
          * @param {File} file 
-         * @param {string} [uuid] 
          * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost: async (file: File, uuid?: string, folder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadAudioAudioUploadPost: async (uuid: string, file: File, folder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uuid' is not null or undefined
+            assertParamExists('uploadAudioAudioUploadPost', 'uuid', uuid)
             // verify required parameter 'file' is not null or undefined
             assertParamExists('uploadAudioAudioUploadPost', 'file', file)
             const localVarPath = `/audio/upload`;
@@ -702,14 +739,14 @@ export const AudioApiFp = function(configuration?: Configuration) {
         /**
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
+         * @param {string} uuid 
          * @param {File} file 
-         * @param {string} [uuid] 
          * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AudioModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(file, uuid, folder, options);
+        async uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(uuid, file, folder, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AudioApi.uploadAudioAudioUploadPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -768,14 +805,14 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
         /**
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
+         * @param {string} uuid 
          * @param {File} file 
-         * @param {string} [uuid] 
          * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<AudioModel> {
-            return localVarFp.uploadAudioAudioUploadPost(file, uuid, folder, options).then((request) => request(axios, basePath));
+        uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -839,15 +876,15 @@ export class AudioApi extends BaseAPI {
     /**
      * Upload audio file to MinIO and save metadata to database
      * @summary Upload Audio
+     * @param {string} uuid 
      * @param {File} file 
-     * @param {string} [uuid] 
      * @param {string} [folder] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AudioApi
      */
-    public uploadAudioAudioUploadPost(file: File, uuid?: string, folder?: string, options?: RawAxiosRequestConfig) {
-        return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(file, uuid, folder, options).then((request) => request(this.axios, this.basePath));
+    public uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig) {
+        return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1161,7 +1198,7 @@ export const BindingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createBindingBindingsPost(audio, category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.createBindingBindingsPost']?.[localVarOperationServerIndex]?.url;
@@ -1258,7 +1295,7 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<CreateResponseModel> {
             return localVarFp.createBindingBindingsPost(audio, category, options).then((request) => request(axios, basePath));
         },
         /**

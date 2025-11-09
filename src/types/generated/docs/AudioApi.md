@@ -221,7 +221,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **uploadAudioAudioUploadPost**
-> AudioModel uploadAudioAudioUploadPost()
+> any uploadAudioAudioUploadPost()
 
 Upload audio file to MinIO and save metadata to database
 
@@ -236,13 +236,13 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AudioApi(configuration);
 
+let uuid: string; // (default to undefined)
 let file: File; // (default to undefined)
-let uuid: string; // (optional) (default to '86fbda91-c3be-4dbb-98dc-49160e1f92a7')
 let folder: string; // (optional) (default to 'audio')
 
 const { status, data } = await apiInstance.uploadAudioAudioUploadPost(
-    file,
     uuid,
+    file,
     folder
 );
 ```
@@ -251,14 +251,14 @@ const { status, data } = await apiInstance.uploadAudioAudioUploadPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **uuid** | [**string**] |  | defaults to undefined|
 | **file** | [**File**] |  | defaults to undefined|
-| **uuid** | [**string**] |  | (optional) defaults to '86fbda91-c3be-4dbb-98dc-49160e1f92a7'|
 | **folder** | [**string**] |  | (optional) defaults to 'audio'|
 
 
 ### Return type
 
-**AudioModel**
+**any**
 
 ### Authorization
 

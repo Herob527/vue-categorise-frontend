@@ -40,25 +40,19 @@ export interface AudioModel {
      * @type {string}
      * @memberof AudioModel
      */
-    'url': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AudioModel
-     */
     'file_name': string;
     /**
      * 
      * @type {number}
      * @memberof AudioModel
      */
-    'audio_length': number;
+    'audio_length': number | null;
     /**
      * 
      * @type {StatusEnum}
      * @memberof AudioModel
      */
-    'status': StatusEnum;
+    'audio_status': StatusEnum;
 }
 
 

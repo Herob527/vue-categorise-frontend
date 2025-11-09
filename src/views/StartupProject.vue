@@ -109,32 +109,29 @@ const sendPending = async () => {
 
   for await (const [chunkIndex, chunk] of chunkArray.entries()) {
     for (let index = 0; index < chunk.length; index++) {
-      updateFileStatus(
-        all[index + chunkIndex * CHUNK_SIZE].id,
-        statuses.PROCESSING,
-      );
+      const file = all[index + chunkIndex * CHUNK_SIZE];
+      console.assert(file !== undefined, 'File is undefined');
+      if (file !== undefined) {
+        updateFileStatus(file.id, statuses.PROCESSING);
+      }
     }
 
-    await Promise.allSettled(chunk.map((request) => request())).then(
-      (responses) => {
-        responses.forEach(async (response, index) => {
-          if (response.status === 'rejected') {
-            updateFileStatus(
-              all[index + chunkIndex * CHUNK_SIZE].id,
-              statuses.ERROR,
-            );
-          } else {
-            updateFileStatus(
-              all[index + chunkIndex * CHUNK_SIZE].id,
-              statuses.IN_DB,
-            );
-            // sleep for 2 seconds
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            remove(all[index + chunkIndex * CHUNK_SIZE].id);
-          }
-        });
-      },
+    const responses = await Promise.allSettled(
+      chunk.map((request) => request()),
     );
+
+    responses.forEach(async (response, index) => {
+      const file = all[index + chunkIndex * CHUNK_SIZE];
+      if (!file) return;
+      if (response.status === 'rejected') {
+        updateFileStatus(file.id, statuses.ERROR);
+      } else {
+        updateFileStatus(file.id, statuses.IN_DB);
+        // sleep for 2 seconds
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        remove(file.id);
+      }
+    });
   }
 
   console.log(chunkArray);

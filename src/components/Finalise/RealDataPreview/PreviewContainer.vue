@@ -19,6 +19,7 @@ const onDownload = async () => {
   link.href = test;
   link.download = 'transcript.zip';
   link.click();
+  URL.revokeObjectURL(test);
 };
 </script>
 <template>

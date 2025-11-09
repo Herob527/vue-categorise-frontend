@@ -21,7 +21,10 @@ export const getLink = async (objectId: string) => {
 };
 
 export const download = async () => {
-  const { data } =
-    await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet();
+  const { data } = await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet(
+    {
+      responseType: 'blob',
+    },
+  );
   return data;
 };

@@ -12,6 +12,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
+import { uploadAudio } from '@/actions/audios';
 
 export type dataType = { id: string; fileName: string };
 
@@ -91,9 +92,13 @@ const fields = computed(() => {
 const sendPending = async () => {
   const all = getAll.value;
   all.forEach((entry) => updateFileStatus(entry.id, statuses.PROCESSING));
-  const requests = all.map(
-    (entry) => () => post({ audio: entry.file, category: entry.category }),
-  );
+  const requests = all.map((entry) => async () => {
+    const postData = await post({
+      audio: entry.file,
+      category: entry.category,
+    });
+    await uploadAudio(postData.binding_id, entry.file);
+  });
   const CHUNK_SIZE = 10;
   // Chunk the requests into groups of CHUNK_SIZE
   const chunkAmount = Math.ceil(requests.length / CHUNK_SIZE);
@@ -131,52 +136,9 @@ const sendPending = async () => {
       },
     );
   }
-  //
-  // await Promise.allSettled(
-  //   chunkArray.map(async (chunkRequests, chunkIndex) => {
-  //     const chunk = chunkRequests.map((request) => request());
-  //
-  //     for (let index = 0; index < chunk.length; index++) {
-  //       updateFileStatus(
-  //         all[index + chunkIndex * CHUNK_SIZE].id,
-  //         statuses.PROCESSING,
-  //       );
-  //     }
-  //
-  //     await Promise.allSettled(chunk).then((responses) => {
-  //       responses.forEach(async (response, index) => {
-  //         if (response.status === 'rejected') {
-  //           updateFileStatus(
-  //             all[index + chunkIndex * CHUNK_SIZE].id,
-  //             statuses.ERROR,
-  //           );
-  //         } else {
-  //           updateFileStatus(
-  //             all[index + chunkIndex * CHUNK_SIZE].id,
-  //             statuses.IN_DB,
-  //           );
-  //           // sleep for 2 seconds
-  //           await new Promise((resolve) => setTimeout(resolve, 2000));
-  //           remove(all[index + chunkIndex * CHUNK_SIZE].id);
-  //         }
-  //       });
-  //     });
-  //   }),
-  // );
 
   console.log(chunkArray);
 
-  // requests.forEach(async (request, index) => {
-  //   const response = await request;
-  //   if (response.status === 'rejected') {
-  //     updateFileStatus(all[index].id, statuses.ERROR);
-  //   } else {
-  //     updateFileStatus(all[index].id, statuses.IN_DB);
-  //     // sleep for 2 seconds
-  //     await new Promise((resolve) => setTimeout(resolve, 2000));
-  //     remove(all[index].id);
-  //   }
-  // });
   queryClient.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
 };
 

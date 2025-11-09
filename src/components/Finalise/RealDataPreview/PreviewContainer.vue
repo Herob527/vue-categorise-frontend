@@ -6,11 +6,20 @@ import { useMutation } from '@tanstack/vue-query';
 import { download } from '@/actions/finalise';
 
 const store = useFinaliseRealPreviewStore();
-const { mutateAsync } = useMutation({
+const { mutateAsync: getArchive } = useMutation({
   mutationFn: () => {
     return download();
   },
 });
+const onDownload = async () => {
+  const data = await getArchive();
+  const blob = new Blob([data], { type: 'application/zip' });
+  const test = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = test;
+  link.download = 'transcript.zip';
+  link.click();
+};
 </script>
 <template>
   <section
@@ -20,12 +29,7 @@ const { mutateAsync } = useMutation({
       <button
         type="button"
         class="text-white px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded-full"
-        @click="
-          async () => {
-            const data = await mutateAsync();
-            console.log(data);
-          }
-        ">
+        @click="onDownload">
         Download
       </button>
     </header>

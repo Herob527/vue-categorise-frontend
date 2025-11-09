@@ -19,3 +19,9 @@ export const getLink = async (objectId: string) => {
   const { data } = await finaliseApi.getDirFinaliseObjectIdGet(objectId);
   return data;
 };
+
+export const download = async () => {
+  const { data } =
+    await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet();
+  return data;
+};

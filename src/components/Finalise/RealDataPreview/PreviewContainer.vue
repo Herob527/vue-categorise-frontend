@@ -3,12 +3,12 @@ import { useFinaliseRealPreviewStore } from '@/stores/finalisationDataStore';
 import DirectoryItem from '../Preview/DirectoriesPreview/DirectoryItem.vue';
 import FileIcon from '../Preview/DirectoriesPreview/FileIcon.vue';
 import { useMutation } from '@tanstack/vue-query';
-import { getLink } from '@/actions/finalise';
+import { download } from '@/actions/finalise';
 
 const store = useFinaliseRealPreviewStore();
 const { mutateAsync } = useMutation({
-  mutationFn: (objectName: string) => {
-    return getLink(objectName);
+  mutationFn: () => {
+    return download();
   },
 });
 </script>
@@ -22,8 +22,8 @@ const { mutateAsync } = useMutation({
         class="text-white px-4 py-2 bg-primary-500 hover:bg-primary-600 rounded-full"
         @click="
           async () => {
-            const link = await mutateAsync('temp');
-            console.log(link);
+            const data = await mutateAsync();
+            console.log(data);
           }
         ">
         Download

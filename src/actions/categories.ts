@@ -20,8 +20,17 @@ export const deleteOne = async ({ name }: { name: string }) => {
   return data;
 };
 
-export const updateOne = async ({ id, newName }: { id: string; newName: string }) => {
-  const { data } = await categoryApi.updateCategoryCategoriesIdPatch(id, newName);
+export const updateOne = async ({
+  id,
+  newName,
+}: {
+  id: string;
+  newName: string;
+}) => {
+  const { data } = await categoryApi.updateCategoryCategoriesIdPatch(
+    id,
+    newName,
+  );
   return data;
 };
 export const post = async ({ name }: { name: string }) => {

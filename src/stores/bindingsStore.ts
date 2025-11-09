@@ -12,8 +12,8 @@ export const useBindingsStore = defineStore('bindings', {
       new Set(entries.map((e) => e.status)),
     getFieldsByStatus:
       ({ entries }) =>
-        (status: statuses) =>
-          entries.filter((e) => e.status === status),
+      (status: statuses) =>
+        entries.filter((e) => e.status === status),
   },
   actions: {
     addFiles(files: FileList | File[], category?: string) {

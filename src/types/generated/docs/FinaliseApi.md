@@ -6,10 +6,9 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**downloadFinalizedZipFinaliseDownloadZipGet**](#downloadfinalizedzipfinalisedownloadzipget) | **GET** /finalise/download/zip | Download Finalized Zip|
 |[**finaliseFinalisePost**](#finalisefinalisepost) | **POST** /finalise/ | Finalise|
-|[**getDirFinaliseObjectIdGet**](#getdirfinaliseobjectidget) | **GET** /finalise/{object_id} | Get Dir|
 
 # **downloadFinalizedZipFinaliseDownloadZipGet**
-> any downloadFinalizedZipFinaliseDownloadZipGet()
+> string downloadFinalizedZipFinaliseDownloadZipGet()
 
 Downloads all finalized files from the temp directory as a zip file.
 
@@ -33,7 +32,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**any**
+**string**
 
 ### Authorization
 
@@ -42,14 +41,14 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/zip
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Returns a zip file containing all finalized files |  -  |
-|**404** | No finalized files found |  -  |
+|**200** | Successful Response |  -  |
+|**404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -94,58 +93,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | Successful Response |  -  |
-|**404** | Not found |  -  |
-|**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getDirFinaliseObjectIdGet**
-> string getDirFinaliseObjectIdGet()
-
-
-### Example
-
-```typescript
-import {
-    FinaliseApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new FinaliseApi(configuration);
-
-let objectId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.getDirFinaliseObjectIdGet(
-    objectId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **objectId** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: application/json
 
 

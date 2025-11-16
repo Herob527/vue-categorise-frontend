@@ -15,10 +15,6 @@ export const post = async (params: FinaliseConfigModel) => {
   return data;
 };
 
-export const getLink = async (objectId: string) => {
-  const { data } = await finaliseApi.getDirFinaliseObjectIdGet(objectId);
-  return data;
-};
 
 export const download = async () => {
   const { data } = await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet(

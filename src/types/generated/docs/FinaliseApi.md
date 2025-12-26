@@ -5,7 +5,8 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**downloadFinalizedZipFinaliseDownloadZipGet**](#downloadfinalizedzipfinalisedownloadzipget) | **GET** /finalise/download/zip | Download Finalized Zip|
-|[**finaliseFinalisePost**](#finalisefinalisepost) | **POST** /finalise/ | Finalise|
+|[**generatePreviewFinaliseGeneratePreviewPost**](#generatepreviewfinalisegeneratepreviewpost) | **POST** /finalise/generate_preview | Generate Preview|
+|[**scheduleFinaliseFinaliseScheduleCategoryGet**](#schedulefinalisefinaliseschedulecategoryget) | **GET** /finalise/schedule/{category} | Schedule Finalise|
 
 # **downloadFinalizedZipFinaliseDownloadZipGet**
 > string downloadFinalizedZipFinaliseDownloadZipGet()
@@ -52,8 +53,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **finaliseFinalisePost**
-> DirectoryModel finaliseFinalisePost(finaliseConfigModel)
+# **generatePreviewFinaliseGeneratePreviewPost**
+> DirectoryModel generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel)
 
 
 ### Example
@@ -70,7 +71,7 @@ const apiInstance = new FinaliseApi(configuration);
 
 let finaliseConfigModel: FinaliseConfigModel; //
 
-const { status, data } = await apiInstance.finaliseFinalisePost(
+const { status, data } = await apiInstance.generatePreviewFinaliseGeneratePreviewPost(
     finaliseConfigModel
 );
 ```
@@ -93,6 +94,58 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful Response |  -  |
+|**404** | Not found |  -  |
+|**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **scheduleFinaliseFinaliseScheduleCategoryGet**
+> string scheduleFinaliseFinaliseScheduleCategoryGet()
+
+
+### Example
+
+```typescript
+import {
+    FinaliseApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new FinaliseApi(configuration);
+
+let category: string; // (default to undefined)
+
+const { status, data } = await apiInstance.scheduleFinaliseFinaliseScheduleCategoryGet(
+    category
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **category** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 

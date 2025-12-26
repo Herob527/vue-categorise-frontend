@@ -406,6 +406,48 @@ export interface PaginationModel {
      * @memberof PaginationModel
      */
     'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationModel
+     */
+    'current_page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationModel
+     */
+    'total_pages': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationModel
+     */
+    'per_page': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaginationModel
+     */
+    'has_next': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaginationModel
+     */
+    'has_previous': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationModel
+     */
+    'next_page'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationModel
+     */
+    'previous_page'?: number | null;
 }
 /**
  * 
@@ -2014,15 +2056,15 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Finalise
+         * @summary Generate Preview
          * @param {FinaliseConfigModel} finaliseConfigModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        finaliseFinalisePost: async (finaliseConfigModel: FinaliseConfigModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        generatePreviewFinaliseGeneratePreviewPost: async (finaliseConfigModel: FinaliseConfigModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'finaliseConfigModel' is not null or undefined
-            assertParamExists('finaliseFinalisePost', 'finaliseConfigModel', finaliseConfigModel)
-            const localVarPath = `/finalise/`;
+            assertParamExists('generatePreviewFinaliseGeneratePreviewPost', 'finaliseConfigModel', finaliseConfigModel)
+            const localVarPath = `/finalise/generate_preview`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2042,6 +2084,40 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(finaliseConfigModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Schedule Finalise
+         * @param {string | null} category 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        scheduleFinaliseFinaliseScheduleCategoryGet: async (category: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'category' is not null or undefined
+            assertParamExists('scheduleFinaliseFinaliseScheduleCategoryGet', 'category', category)
+            const localVarPath = `/finalise/schedule/{category}`
+                .replace(`{${"category"}}`, encodeURIComponent(String(category)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2072,15 +2148,28 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Finalise
+         * @summary Generate Preview
          * @param {FinaliseConfigModel} finaliseConfigModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DirectoryModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.finaliseFinalisePost(finaliseConfigModel, options);
+        async generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DirectoryModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.finaliseFinalisePost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.generatePreviewFinaliseGeneratePreviewPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Schedule Finalise
+         * @param {string | null} category 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.scheduleFinaliseFinaliseScheduleCategoryGet(category, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -2104,13 +2193,23 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Finalise
+         * @summary Generate Preview
          * @param {FinaliseConfigModel} finaliseConfigModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): AxiosPromise<DirectoryModel> {
-            return localVarFp.finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(axios, basePath));
+        generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig): AxiosPromise<DirectoryModel> {
+            return localVarFp.generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Schedule Finalise
+         * @param {string | null} category 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.scheduleFinaliseFinaliseScheduleCategoryGet(category, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2135,14 +2234,26 @@ export class FinaliseApi extends BaseAPI {
 
     /**
      * 
-     * @summary Finalise
+     * @summary Generate Preview
      * @param {FinaliseConfigModel} finaliseConfigModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FinaliseApi
      */
-    public finaliseFinalisePost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig) {
-        return FinaliseApiFp(this.configuration).finaliseFinalisePost(finaliseConfigModel, options).then((request) => request(this.axios, this.basePath));
+    public generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Schedule Finalise
+     * @param {string | null} category 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinaliseApi
+     */
+    public scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseScheduleCategoryGet(category, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

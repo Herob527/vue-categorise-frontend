@@ -9,18 +9,24 @@ const finaliseApi = new FinaliseApi(
   API_URL,
 );
 
-export const post = async (params: FinaliseConfigModel) => {
-  const { data } = await finaliseApi.finaliseFinalisePost(params);
+const finalize = () => {
+  const post = async (params: FinaliseConfigModel) => {
+    const { data } =
+      await finaliseApi.finaliseFinaliseGeneratePreviewPost(params);
 
-  return data;
+    return data;
+  };
+
+  const download = async () => {
+    const { data } =
+      await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet({
+        responseType: 'blob',
+      });
+    return data;
+  };
+  return {
+    post,
+    download,
+  };
 };
-
-
-export const download = async () => {
-  const { data } = await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet(
-    {
-      responseType: 'blob',
-    },
-  );
-  return data;
-};
+export default finalize;

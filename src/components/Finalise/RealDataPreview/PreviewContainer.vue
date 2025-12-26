@@ -3,12 +3,12 @@ import { useFinaliseRealPreviewStore } from '@/stores/finalisationDataStore';
 import DirectoryItem from '../Preview/DirectoriesPreview/DirectoryItem.vue';
 import FileIcon from '../Preview/DirectoriesPreview/FileIcon.vue';
 import { useMutation } from '@tanstack/vue-query';
-import { download } from '@/actions/finalise';
+import finalize from '@/actions/finalise';
 
 const store = useFinaliseRealPreviewStore();
 const { mutateAsync: getArchive } = useMutation({
   mutationFn: () => {
-    return download();
+    return finalize().download();
   },
 });
 const onDownload = async () => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMutation } from '@tanstack/vue-query';
-import { post } from '@/actions/finalise';
+import finalize from '@/actions/finalise';
 import FormView from '@/components/Finalise/FormView.vue';
 import { useFinaliseStore } from '@/stores/finaliseStore';
 import TranscriptPreview from '@/components/Finalise/Preview/TranscriptPreview.vue';
@@ -12,7 +12,7 @@ const previewStore = useFinaliseRealPreviewStore();
 
 const store = useFinaliseStore();
 const { mutate, status } = useMutation({
-  mutationFn: () => post(store.$state),
+  mutationFn: () => finalize().post(store.$state),
   onSuccess: (result) => {
     previewStore.setData(result);
   },

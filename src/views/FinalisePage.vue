@@ -12,9 +12,12 @@ const previewStore = useFinaliseRealPreviewStore();
 
 const store = useFinaliseStore();
 const { mutate, status } = useMutation({
-  mutationFn: () => finalize().post(store.$state),
+  mutationFn: () => finalize.post(store.$state),
   onSuccess: (result) => {
     previewStore.setData(result);
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 </script>

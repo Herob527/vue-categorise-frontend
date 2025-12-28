@@ -12,22 +12,26 @@ const isOpen = ref(false);
 <template>
   <div
     :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-primary-500 border-2 p-2 rounded-xl'} `">
-    <button
-      type="button"
-      class="flex gap-2 items-center py-1 px-2 rounded-md hover:text-white group hover:bg-primary-500"
-      @click="isOpen = !isOpen">
-      <font-awesome-icon
-        v-if="data.length > 0"
-        width="16"
-        :icon="isOpen ? faFolderOpen : faFolder"
-        class="group-hover:text-white text-primary-600" />
-      <EmptyDir
-        v-else
-        width="16"
-        class="fill-primary-600 group-hover:fill-white" />
+    <div class="flex gap-2 items-center rounded-md">
+      <button
+        type="button"
+        class="group flex flex-row gap-2 items-center hover:bg-primary-500 hover:text-white px-2 rounded-md py-1 cursor-pointer"
+        @click="isOpen = !isOpen">
+        <font-awesome-icon
+          v-if="data.length > 0"
+          width="16"
+          :icon="isOpen ? faFolderOpen : faFolder"
+          class="group-hover:text-white text-primary-600" />
+        <EmptyDir
+          v-else
+          width="16"
+          class="fill-primary-600 group-hover:fill-white" />
 
-      <span>{{ name }}</span>
-    </button>
+        <span>{{ name }}</span>
+      </button>
+      <span class="flex-1"></span>
+      <slot name="buttons" />
+    </div>
     <div
       v-if="isOpen"
       class="flex flex-col flex-wrap ml-3.5 border-l-2 border-primary-500">

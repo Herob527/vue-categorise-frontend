@@ -241,6 +241,12 @@ export interface DirectoryModel {
      * @memberof DirectoryModel
      */
     'original_name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DirectoryModel
+     */
+    'category_id'?: string | null;
 }
 
 export const DirectoryModelIsDirEnum = {
@@ -285,6 +291,12 @@ export interface DirectoryModelFilesInner {
      * @memberof DirectoryModelFilesInner
      */
     'original_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DirectoryModelFilesInner
+     */
+    'category_id'?: string;
 }
 
 export const DirectoryModelFilesInnerIsDirEnum = {

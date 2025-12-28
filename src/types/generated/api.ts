@@ -235,6 +235,12 @@ export interface DirectoryModel {
      * @memberof DirectoryModel
      */
     'files': Array<DirectoryModelFilesInner>;
+    /**
+     * 
+     * @type {string}
+     * @memberof DirectoryModel
+     */
+    'original_name'?: string | null;
 }
 
 export const DirectoryModelIsDirEnum = {
@@ -273,6 +279,12 @@ export interface DirectoryModelFilesInner {
      * @memberof DirectoryModelFilesInner
      */
     'files': Array<DirectoryModelFilesInner>;
+    /**
+     * 
+     * @type {string}
+     * @memberof DirectoryModelFilesInner
+     */
+    'original_name'?: string;
 }
 
 export const DirectoryModelFilesInnerIsDirEnum = {
@@ -2166,7 +2178,7 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+        async scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.scheduleFinaliseFinaliseScheduleCategoryGet(category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet']?.[localVarOperationServerIndex]?.url;
@@ -2208,7 +2220,7 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+        scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.scheduleFinaliseFinaliseScheduleCategoryGet(category, options).then((request) => request(axios, basePath));
         },
     };

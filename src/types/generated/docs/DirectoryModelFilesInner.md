@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **is_dir** | **boolean** |  | [default to undefined]
 **dir_name** | **string** |  | [default to undefined]
 **files** | [**Array&lt;DirectoryModelFilesInner&gt;**](DirectoryModelFilesInner.md) |  | [default to undefined]
+**original_name** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,6 +21,7 @@ const instance: DirectoryModelFilesInner = {
     is_dir,
     dir_name,
     files,
+    original_name,
 };
 ```
 

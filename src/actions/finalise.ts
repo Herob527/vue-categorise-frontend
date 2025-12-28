@@ -1,15 +1,16 @@
 import { API_URL } from '@/constants';
-import { FinaliseApi, type FinaliseConfigModel } from '@/types/generated';
-
-const finaliseApi = new FinaliseApi(
-  {
-    isJsonMime: (mime: string) => mime === 'application/json',
-  },
-
-  API_URL,
-);
+import {
+  Configuration,
+  FinaliseApi,
+  type FinaliseConfigModel,
+} from '@/types/generated';
 
 const finalize = (() => {
+  const finaliseApi = new FinaliseApi(
+    new Configuration({
+      basePath: API_URL,
+    }),
+  );
   const getPreview = async (params: FinaliseConfigModel) => {
     const { data } =
       await finaliseApi.generatePreviewFinaliseGeneratePreviewPost(params);
@@ -17,11 +18,8 @@ const finalize = (() => {
     return data;
   };
 
-  const schedule = async (category: string | null) => {
-    const { data } =
-      await finaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet(category);
-    return data;
-  };
+  const schedule = async (category: string | null) =>
+    await finaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet(category);
 
   const download = async () => {
     const { data } =

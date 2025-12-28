@@ -9,11 +9,17 @@ const finaliseApi = new FinaliseApi(
   API_URL,
 );
 
-const finalize = () => {
-  const post = async (params: FinaliseConfigModel) => {
+const finalize = (() => {
+  const getPreview = async (params: FinaliseConfigModel) => {
     const { data } =
-      await finaliseApi.finaliseFinaliseGeneratePreviewPost(params);
+      await finaliseApi.generatePreviewFinaliseGeneratePreviewPost(params);
 
+    return data;
+  };
+
+  const schedule = async (category: string | null) => {
+    const { data } =
+      await finaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet(category);
     return data;
   };
 
@@ -24,9 +30,11 @@ const finalize = () => {
       });
     return data;
   };
+
   return {
-    post,
+    post: getPreview,
+    schedule,
     download,
   };
-};
+})();
 export default finalize;

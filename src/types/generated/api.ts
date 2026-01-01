@@ -241,12 +241,6 @@ export interface DirectoryModel {
      * @memberof DirectoryModel
      */
     'original_name'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModel
-     */
-    'category_id'?: string | null;
 }
 
 export const DirectoryModelIsDirEnum = {
@@ -291,12 +285,6 @@ export interface DirectoryModelFilesInner {
      * @memberof DirectoryModelFilesInner
      */
     'original_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModelFilesInner
-     */
-    'category_id'?: string;
 }
 
 export const DirectoryModelFilesInnerIsDirEnum = {
@@ -2117,15 +2105,12 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Schedule Finalise
-         * @param {string | null} category 
+         * @param {Array<string | null> | null} [requestBody] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        scheduleFinaliseFinaliseScheduleCategoryGet: async (category: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'category' is not null or undefined
-            assertParamExists('scheduleFinaliseFinaliseScheduleCategoryGet', 'category', category)
-            const localVarPath = `/finalise/schedule/{category}`
-                .replace(`{${"category"}}`, encodeURIComponent(String(category)));
+        scheduleFinaliseFinaliseScheduleGet: async (requestBody?: Array<string | null> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/finalise/schedule`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2139,9 +2124,12 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2186,14 +2174,14 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Schedule Finalise
-         * @param {string | null} category 
+         * @param {Array<string | null> | null} [requestBody] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.scheduleFinaliseFinaliseScheduleCategoryGet(category, options);
+        async scheduleFinaliseFinaliseScheduleGet(requestBody?: Array<string | null> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.scheduleFinaliseFinaliseScheduleGet(requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.scheduleFinaliseFinaliseScheduleGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -2228,12 +2216,12 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Schedule Finalise
-         * @param {string | null} category 
+         * @param {Array<string | null> | null} [requestBody] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.scheduleFinaliseFinaliseScheduleCategoryGet(category, options).then((request) => request(axios, basePath));
+        scheduleFinaliseFinaliseScheduleGet(requestBody?: Array<string | null> | null, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.scheduleFinaliseFinaliseScheduleGet(requestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2271,13 +2259,13 @@ export class FinaliseApi extends BaseAPI {
     /**
      * 
      * @summary Schedule Finalise
-     * @param {string | null} category 
+     * @param {Array<string | null> | null} [requestBody] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FinaliseApi
      */
-    public scheduleFinaliseFinaliseScheduleCategoryGet(category: string | null, options?: RawAxiosRequestConfig) {
-        return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseScheduleCategoryGet(category, options).then((request) => request(this.axios, this.basePath));
+    public scheduleFinaliseFinaliseScheduleGet(requestBody?: Array<string | null> | null, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseScheduleGet(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

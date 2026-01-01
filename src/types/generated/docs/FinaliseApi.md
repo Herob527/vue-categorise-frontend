@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**downloadFinalizedZipFinaliseDownloadZipGet**](#downloadfinalizedzipfinalisedownloadzipget) | **GET** /finalise/download/zip | Download Finalized Zip|
 |[**generatePreviewFinaliseGeneratePreviewPost**](#generatepreviewfinalisegeneratepreviewpost) | **POST** /finalise/generate_preview | Generate Preview|
-|[**scheduleFinaliseFinaliseScheduleCategoryGet**](#schedulefinalisefinaliseschedulecategoryget) | **GET** /finalise/schedule/{category} | Schedule Finalise|
+|[**scheduleFinaliseFinaliseScheduleGet**](#schedulefinalisefinalisescheduleget) | **GET** /finalise/schedule | Schedule Finalise|
 
 # **downloadFinalizedZipFinaliseDownloadZipGet**
 > string downloadFinalizedZipFinaliseDownloadZipGet()
@@ -106,8 +106,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **scheduleFinaliseFinaliseScheduleCategoryGet**
-> any scheduleFinaliseFinaliseScheduleCategoryGet()
+# **scheduleFinaliseFinaliseScheduleGet**
+> any scheduleFinaliseFinaliseScheduleGet()
 
 
 ### Example
@@ -121,10 +121,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new FinaliseApi(configuration);
 
-let category: string; // (default to undefined)
+let requestBody: Array<string | null>; // (optional)
 
-const { status, data } = await apiInstance.scheduleFinaliseFinaliseScheduleCategoryGet(
-    category
+const { status, data } = await apiInstance.scheduleFinaliseFinaliseScheduleGet(
+    requestBody
 );
 ```
 
@@ -132,7 +132,7 @@ const { status, data } = await apiInstance.scheduleFinaliseFinaliseScheduleCateg
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **category** | [**string**] |  | defaults to undefined|
+| **requestBody** | **Array<string | null>**|  | |
 
 
 ### Return type
@@ -145,7 +145,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 

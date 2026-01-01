@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**downloadFinalizedZipFinaliseDownloadZipGet**](#downloadfinalizedzipfinalisedownloadzipget) | **GET** /finalise/download/zip | Download Finalized Zip|
 |[**generatePreviewFinaliseGeneratePreviewPost**](#generatepreviewfinalisegeneratepreviewpost) | **POST** /finalise/generate_preview | Generate Preview|
-|[**scheduleFinaliseFinaliseScheduleGet**](#schedulefinalisefinalisescheduleget) | **GET** /finalise/schedule | Schedule Finalise|
+|[**scheduleFinaliseFinaliseSchedulePost**](#schedulefinalisefinaliseschedulepost) | **POST** /finalise/schedule | Schedule Finalise|
 
 # **downloadFinalizedZipFinaliseDownloadZipGet**
 > string downloadFinalizedZipFinaliseDownloadZipGet()
@@ -106,8 +106,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **scheduleFinaliseFinaliseScheduleGet**
-> any scheduleFinaliseFinaliseScheduleGet()
+# **scheduleFinaliseFinaliseSchedulePost**
+> any scheduleFinaliseFinaliseSchedulePost()
 
 
 ### Example
@@ -115,16 +115,17 @@ No authorization required
 ```typescript
 import {
     FinaliseApi,
-    Configuration
+    Configuration,
+    ScheduleData
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new FinaliseApi(configuration);
 
-let requestBody: Array<string | null>; // (optional)
+let scheduleData: ScheduleData; // (optional)
 
-const { status, data } = await apiInstance.scheduleFinaliseFinaliseScheduleGet(
-    requestBody
+const { status, data } = await apiInstance.scheduleFinaliseFinaliseSchedulePost(
+    scheduleData
 );
 ```
 
@@ -132,7 +133,7 @@ const { status, data } = await apiInstance.scheduleFinaliseFinaliseScheduleGet(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | **Array<string | null>**|  | |
+| **scheduleData** | **ScheduleData**|  | |
 
 
 ### Return type

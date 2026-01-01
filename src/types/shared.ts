@@ -23,6 +23,7 @@ export type DirectoryShape = {
   dirName: string;
   files: (FileShape | DirectoryShape)[];
   isDirectory: true;
+  categoryId: string;
 };
 
 export type DataProp = FileShape | DirectoryShape;

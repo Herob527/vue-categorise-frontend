@@ -6,6 +6,7 @@ function mapBackendToFrontend(data: DirectoryModel): DirectoryShape {
   return {
     dirName: data.dir_name,
     isDirectory: true,
+    categoryId: data.category_id,
     files: data.files.map((file) => {
       if (file.is_dir) {
         return mapBackendToFrontend(file);

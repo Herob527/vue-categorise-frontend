@@ -18,8 +18,10 @@ const finalize = (() => {
     return data;
   };
 
-  const schedule = async (category: string | null) =>
-    await finaliseApi.scheduleFinaliseFinaliseScheduleCategoryGet(category);
+  const schedule = async (categories: string[] | null) =>
+    await finaliseApi.scheduleFinaliseFinaliseSchedulePost({
+      categories,
+    });
 
   const download = async () => {
     const { data } =

@@ -9,15 +9,12 @@ import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 const store = useFinaliseRealPreviewStore();
 
 const { mutateAsync: schedule } = useMutation({
-  mutationFn: (category: string) => {
-    console.log(finalize);
-    return finalize.schedule(category);
-  },
+  mutationFn: (category: string) => finalize.schedule([category]),
 });
 </script>
 <template>
   <section
-    class="container flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-[500px] border-primary-500">
+    class="container flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-125 border-primary-500">
     <header class="flex justify-between flex-row p-2">
       <h2 class="text-2xl font-bold">Folder preview (Real)</h2>
     </header>
@@ -34,7 +31,7 @@ const { mutateAsync: schedule } = useMutation({
               <button
                 type="button"
                 class="group flex flex-row gap-2 items-center hover:bg-primary-500 hover:text-white p-2 rounded-md cursor-pointer"
-                @click="() => schedule(category.dirName)">
+                @click="() => schedule(category.categoryId)">
                 <font-awesome-icon
                   width="16"
                   :icon="faBoxArchive"

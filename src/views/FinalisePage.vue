@@ -12,7 +12,7 @@ const previewStore = useFinaliseRealPreviewStore();
 
 const store = useFinaliseStore();
 const { mutate, status } = useMutation({
-  mutationFn: () => finalize.post(store.$state),
+  mutationFn: () => finalize.getPreview(store.$state),
   onSuccess: (result) => {
     previewStore.setData(result);
   },

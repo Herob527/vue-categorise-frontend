@@ -32,7 +32,7 @@ const finalize = (() => {
   };
 
   return {
-    post: getPreview,
+    getPreview,
     schedule,
     download,
   };

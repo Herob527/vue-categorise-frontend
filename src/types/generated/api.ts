@@ -313,6 +313,12 @@ export type DirectoryModelFilesInnerIsDirEnum = typeof DirectoryModelFilesInnerI
 export interface ExportModel {
     /**
      * 
+     * @type {string}
+     * @memberof ExportModel
+     */
+    'id': string;
+    /**
+     * 
      * @type {ExportStatus}
      * @memberof ExportModel
      */

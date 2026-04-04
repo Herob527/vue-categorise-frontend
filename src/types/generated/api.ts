@@ -1962,6 +1962,36 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Health
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        healthHealthGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/health`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Root
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2002,6 +2032,18 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Health
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async healthHealthGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.healthHealthGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.healthHealthGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Root
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2024,6 +2066,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Health
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        healthHealthGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.healthHealthGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Root
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2041,6 +2092,17 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Health
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public healthHealthGet(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).healthHealthGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Root
@@ -2129,6 +2191,36 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary Get Statuses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getStatusesFinaliseStatusGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/finalise/status`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Schedule Finalise
          * @param {ScheduleData} [scheduleData] 
          * @param {*} [options] Override http request option.
@@ -2198,6 +2290,18 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get Statuses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getStatusesFinaliseStatusGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.getStatusesFinaliseStatusGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Schedule Finalise
          * @param {ScheduleData} [scheduleData] 
          * @param {*} [options] Override http request option.
@@ -2240,6 +2344,15 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @summary Get Statuses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.getStatusesFinaliseStatusGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Schedule Finalise
          * @param {ScheduleData} [scheduleData] 
          * @param {*} [options] Override http request option.
@@ -2279,6 +2392,17 @@ export class FinaliseApi extends BaseAPI {
      */
     public generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Statuses
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinaliseApi
+     */
+    public getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).getStatusesFinaliseStatusGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

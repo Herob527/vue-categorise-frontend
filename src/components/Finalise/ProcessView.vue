@@ -10,8 +10,14 @@ const { data } = useQuery({
 });
 </script>
 
-<template>
-  <div>
-    <p>{{ data }}</p>
+<template v-if="data && Array.isArray(data)">
+  <div
+    v-for="item in data"
+    :key="item.id"
+    class="grid grid-cols-4 gap-4">
+    <span>{{ item.created_at }}</span>
+    <span>{{ item.updated_at }}</span>
+    <span>{{ item.status }}</span>
+    <span>{{ item.archive_url }}</span>
   </div>
 </template>

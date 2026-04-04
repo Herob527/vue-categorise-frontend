@@ -11,6 +11,11 @@ const finalize = (() => {
       basePath: API_URL,
     }),
   );
+
+  const getAll = async () => {
+    const { data } = await finaliseApi.getStatusesFinaliseStatusGet();
+    return data;
+  };
   const getPreview = async (params: FinaliseConfigModel) => {
     const { data } =
       await finaliseApi.generatePreviewFinaliseGeneratePreviewPost(params);
@@ -35,6 +40,7 @@ const finalize = (() => {
     getPreview,
     schedule,
     download,
+    getAll,
   };
 })();
 export default finalize;

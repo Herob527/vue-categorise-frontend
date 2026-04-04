@@ -308,6 +308,55 @@ export type DirectoryModelFilesInnerIsDirEnum = typeof DirectoryModelFilesInnerI
 /**
  * 
  * @export
+ * @interface ExportModel
+ */
+export interface ExportModel {
+    /**
+     * 
+     * @type {ExportStatus}
+     * @memberof ExportModel
+     */
+    'status': ExportStatus;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExportModel
+     */
+    'created_at': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExportModel
+     */
+    'updated_at': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExportModel
+     */
+    'archive_url': string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @enum {number}
+ */
+
+export const ExportStatus = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+
+export type ExportStatus = typeof ExportStatus[keyof typeof ExportStatus];
+
+
+/**
+ * 
+ * @export
  * @interface FileModel
  */
 export interface FileModel {
@@ -2294,7 +2343,7 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExportModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getStatusesFinaliseStatusGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.getStatusesFinaliseStatusGet']?.[localVarOperationServerIndex]?.url;
@@ -2348,7 +2397,7 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ExportModel>> {
             return localVarFp.getStatusesFinaliseStatusGet(options).then((request) => request(axios, basePath));
         },
         /**

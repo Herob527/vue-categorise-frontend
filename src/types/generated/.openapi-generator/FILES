@@ -17,6 +17,8 @@ docs/DashboardModel.md
 docs/DefaultApi.md
 docs/DirectoryModel.md
 docs/DirectoryModelFilesInner.md
+docs/ExportModel.md
+docs/ExportStatus.md
 docs/FileModel.md
 docs/FinaliseApi.md
 docs/FinaliseConfigModel.md

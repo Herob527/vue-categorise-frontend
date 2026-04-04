@@ -4,6 +4,7 @@ import finalize from '@/actions/finalise';
 import FormView from '@/components/Finalise/FormView.vue';
 import { useFinaliseStore } from '@/stores/finaliseStore';
 import TranscriptPreview from '@/components/Finalise/Preview/TranscriptPreview.vue';
+import ProcessView from '@/components/Finalise/ProcessView.vue';
 import DirectoriesPreview from '@/components/Finalise/Preview/DirectoriesPreview.vue';
 import { useFinaliseRealPreviewStore } from '@/stores/finalisationDataStore';
 import PreviewContainer from '@/components/Finalise/RealDataPreview/PreviewContainer.vue';
@@ -30,5 +31,6 @@ const { mutate, status } = useMutation({
     <TranscriptPreview />
     <DirectoriesPreview />
     <PreviewContainer />
+    <ProcessView />
   </main>
 </template>

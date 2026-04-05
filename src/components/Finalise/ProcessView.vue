@@ -12,7 +12,7 @@ const { data } = useQuery({
   queryFn: () => finalize.getAll(),
   // TODO: Switch to SSE when backend ready
   refetchIntervalInBackground: true,
-  refetchInterval: 1000,
+  refetchInterval: 100000,
 });
 
 const handleClick = async (exportId: string) => {

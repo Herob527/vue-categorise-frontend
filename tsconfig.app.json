@@ -17,7 +17,7 @@
       "DOM.Iterable"
     ],
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": [
         "./src/*"

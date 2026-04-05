@@ -6,6 +6,7 @@
     "lib": [
       "es2022"
     ],
+    "moduleResolution": "bundler",
     "types": [
       "node",
       "jsdom"

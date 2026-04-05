@@ -159,7 +159,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **scheduleFinaliseFinaliseSchedulePost**
-> any scheduleFinaliseFinaliseSchedulePost()
+> any scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost)
 
 
 ### Example
@@ -168,16 +168,16 @@ No authorization required
 import {
     FinaliseApi,
     Configuration,
-    ScheduleData
+    BodyScheduleFinaliseFinaliseSchedulePost
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new FinaliseApi(configuration);
 
-let scheduleData: ScheduleData; // (optional)
+let bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost; //
 
 const { status, data } = await apiInstance.scheduleFinaliseFinaliseSchedulePost(
-    scheduleData
+    bodyScheduleFinaliseFinaliseSchedulePost
 );
 ```
 
@@ -185,7 +185,7 @@ const { status, data } = await apiInstance.scheduleFinaliseFinaliseSchedulePost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **scheduleData** | **ScheduleData**|  | |
+| **bodyScheduleFinaliseFinaliseSchedulePost** | **BodyScheduleFinaliseFinaliseSchedulePost**|  | |
 
 
 ### Return type

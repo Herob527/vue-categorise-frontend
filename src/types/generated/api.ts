@@ -127,6 +127,25 @@ export interface BindingModel {
 /**
  * 
  * @export
+ * @interface BodyScheduleFinaliseFinaliseSchedulePost
+ */
+export interface BodyScheduleFinaliseFinaliseSchedulePost {
+    /**
+     * 
+     * @type {FinaliseConfigModel}
+     * @memberof BodyScheduleFinaliseFinaliseSchedulePost
+     */
+    'config': FinaliseConfigModel;
+    /**
+     * 
+     * @type {ScheduleData}
+     * @memberof BodyScheduleFinaliseFinaliseSchedulePost
+     */
+    'params'?: ScheduleData | null;
+}
+/**
+ * 
+ * @export
  * @interface CategoryModel
  */
 export interface CategoryModel {
@@ -536,10 +555,10 @@ export interface PaginationModel {
 export interface ScheduleData {
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<string | null>}
      * @memberof ScheduleData
      */
-    'categories'?: Array<string> | null;
+    'categories'?: Array<string | null> | null;
 }
 /**
  * 
@@ -2281,11 +2300,13 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Schedule Finalise
-         * @param {ScheduleData} [scheduleData] 
+         * @param {BodyScheduleFinaliseFinaliseSchedulePost} bodyScheduleFinaliseFinaliseSchedulePost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        scheduleFinaliseFinaliseSchedulePost: async (scheduleData?: ScheduleData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        scheduleFinaliseFinaliseSchedulePost: async (bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bodyScheduleFinaliseFinaliseSchedulePost' is not null or undefined
+            assertParamExists('scheduleFinaliseFinaliseSchedulePost', 'bodyScheduleFinaliseFinaliseSchedulePost', bodyScheduleFinaliseFinaliseSchedulePost)
             const localVarPath = `/finalise/schedule`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2305,7 +2326,7 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(scheduleData, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(bodyScheduleFinaliseFinaliseSchedulePost, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2363,12 +2384,12 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Schedule Finalise
-         * @param {ScheduleData} [scheduleData] 
+         * @param {BodyScheduleFinaliseFinaliseSchedulePost} bodyScheduleFinaliseFinaliseSchedulePost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async scheduleFinaliseFinaliseSchedulePost(scheduleData?: ScheduleData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.scheduleFinaliseFinaliseSchedulePost(scheduleData, options);
+        async scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.scheduleFinaliseFinaliseSchedulePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2415,12 +2436,12 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Schedule Finalise
-         * @param {ScheduleData} [scheduleData] 
+         * @param {BodyScheduleFinaliseFinaliseSchedulePost} bodyScheduleFinaliseFinaliseSchedulePost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        scheduleFinaliseFinaliseSchedulePost(scheduleData?: ScheduleData, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.scheduleFinaliseFinaliseSchedulePost(scheduleData, options).then((request) => request(axios, basePath));
+        scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2470,13 +2491,13 @@ export class FinaliseApi extends BaseAPI {
     /**
      * 
      * @summary Schedule Finalise
-     * @param {ScheduleData} [scheduleData] 
+     * @param {BodyScheduleFinaliseFinaliseSchedulePost} bodyScheduleFinaliseFinaliseSchedulePost 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FinaliseApi
      */
-    public scheduleFinaliseFinaliseSchedulePost(scheduleData?: ScheduleData, options?: RawAxiosRequestConfig) {
-        return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseSchedulePost(scheduleData, options).then((request) => request(this.axios, this.basePath));
+    public scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

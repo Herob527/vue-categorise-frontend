@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**categories** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**categories** | **Array&lt;string | null&gt;** |  | [optional] [default to undefined]
 
 ## Example
 

@@ -22,8 +22,8 @@ const { mutateAsync: schedule } = useMutation({
       archive_url: null,
     };
     queryClient.setQueryData<ExportModel[]>(['finalize-get-all'], (old) => [
-      ...(old ?? []),
       newEntry,
+      ...(old ?? []),
     ]);
   },
 });

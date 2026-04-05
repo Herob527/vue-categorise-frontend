@@ -10,6 +10,7 @@ import { ExportStatus } from '@/types/generated';
 const { data } = useQuery({
   queryKey: ['finalize-get-all'],
   queryFn: () => finalize.getAll(),
+  // TODO: Switch to SSE when backend ready
   refetchIntervalInBackground: true,
   refetchInterval: 1000,
 });

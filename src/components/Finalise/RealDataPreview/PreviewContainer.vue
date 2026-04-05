@@ -2,14 +2,30 @@
 import { useFinaliseRealPreviewStore } from '@/stores/finalisationDataStore';
 import DirectoryItem from '../Preview/DirectoriesPreview/DirectoryItem.vue';
 import FileIcon from '../Preview/DirectoriesPreview/FileIcon.vue';
-import { useMutation } from '@tanstack/vue-query';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import finalize from '@/actions/finalise';
 import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
+import { ExportStatus, type ExportModel } from '@/types/generated';
 
 const store = useFinaliseRealPreviewStore();
+const queryClient = useQueryClient();
 
 const { mutateAsync: schedule } = useMutation({
   mutationFn: (category: string) => finalize.schedule([category]),
+  onSuccess: () => {
+    const now = new Date().toISOString();
+    const newEntry: ExportModel = {
+      id: crypto.randomUUID(),
+      status: ExportStatus.NUMBER_0,
+      created_at: now,
+      updated_at: now,
+      archive_url: null,
+    };
+    queryClient.setQueryData<ExportModel[]>(['finalize-get-all'], (old) => [
+      ...(old ?? []),
+      newEntry,
+    ]);
+  },
 });
 </script>
 <template>

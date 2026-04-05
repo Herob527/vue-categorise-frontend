@@ -21,10 +21,11 @@ const handleClick = async (exportId: string) => {
   a.click();
   URL.revokeObjectURL(url);
 };
-const processDate = (date: string) => {
-  console.log(Temporal.PlainDateTime.from(date));
-  return Temporal.PlainDateTime.from(date).toString();
-};
+const processDate = (date: string) =>
+  new Intl.DateTimeFormat('pl-PL', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  }).format(new Date(date));
 
 const fields = ['Id', 'Created at', 'Updated at', 'Status', 'Actions'];
 </script>

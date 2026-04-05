@@ -28,6 +28,7 @@ const processDate = (date: string) =>
   new Intl.DateTimeFormat('pl-PL', {
     dateStyle: 'short',
     timeStyle: 'short',
+    timeZone: 'Europe/Warsaw',
   }).format(new Date(date));
 
 const fields = ['Created at', 'Updated at', 'Status', 'Actions'];

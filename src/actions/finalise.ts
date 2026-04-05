@@ -28,11 +28,14 @@ const finalize = (() => {
       categories,
     });
 
-  const download = async () => {
+  const download = async (params: { exportId: string }) => {
     const { data } =
-      await finaliseApi.downloadFinalizedZipFinaliseDownloadZipGet({
-        responseType: 'blob',
-      });
+      await finaliseApi.downloadFinalizedZipFinaliseDownloadExportIdGet(
+        params.exportId,
+        {
+          responseType: 'blob',
+        },
+      );
     return data;
   };
 

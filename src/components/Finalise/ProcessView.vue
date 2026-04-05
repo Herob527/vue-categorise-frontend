@@ -4,9 +4,7 @@ import { useQuery } from '@tanstack/vue-query';
 
 const { data } = useQuery({
   queryKey: ['finalize-get-all'],
-  queryFn: () => {
-    return finalize.getAll();
-  },
+  queryFn: () => finalize.getAll(),
 });
 </script>
 

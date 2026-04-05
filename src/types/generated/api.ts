@@ -2179,13 +2179,17 @@ export class DefaultApi extends BaseAPI {
 export const FinaliseApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Downloads all finalized files from the temp directory as a zip file.
+         * 
          * @summary Download Finalized Zip
+         * @param {string} exportId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadFinalizedZipFinaliseDownloadZipGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/finalise/download/zip`;
+        downloadFinalizedZipFinaliseDownloadExportIdGet: async (exportId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'exportId' is not null or undefined
+            assertParamExists('downloadFinalizedZipFinaliseDownloadExportIdGet', 'exportId', exportId)
+            const localVarPath = `/finalise/download/{export_id}`
+                .replace(`{${"export_id"}}`, encodeURIComponent(String(exportId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2319,15 +2323,16 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FinaliseApiAxiosParamCreator(configuration)
     return {
         /**
-         * Downloads all finalized files from the temp directory as a zip file.
+         * 
          * @summary Download Finalized Zip
+         * @param {string} exportId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async downloadFinalizedZipFinaliseDownloadZipGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.downloadFinalizedZipFinaliseDownloadZipGet(options);
+        async downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.downloadFinalizedZipFinaliseDownloadExportIdGet(exportId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.downloadFinalizedZipFinaliseDownloadZipGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.downloadFinalizedZipFinaliseDownloadExportIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2379,13 +2384,14 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = FinaliseApiFp(configuration)
     return {
         /**
-         * Downloads all finalized files from the temp directory as a zip file.
+         * 
          * @summary Download Finalized Zip
+         * @param {string} exportId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadFinalizedZipFinaliseDownloadZipGet(options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.downloadFinalizedZipFinaliseDownloadZipGet(options).then((request) => request(axios, basePath));
+        downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.downloadFinalizedZipFinaliseDownloadExportIdGet(exportId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2427,14 +2433,15 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
  */
 export class FinaliseApi extends BaseAPI {
     /**
-     * Downloads all finalized files from the temp directory as a zip file.
+     * 
      * @summary Download Finalized Zip
+     * @param {string} exportId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FinaliseApi
      */
-    public downloadFinalizedZipFinaliseDownloadZipGet(options?: RawAxiosRequestConfig) {
-        return FinaliseApiFp(this.configuration).downloadFinalizedZipFinaliseDownloadZipGet(options).then((request) => request(this.axios, this.basePath));
+    public downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).downloadFinalizedZipFinaliseDownloadExportIdGet(exportId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

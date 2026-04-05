@@ -6,10 +6,17 @@ import DataTable from '@/components/DataTable.vue';
 import ActionButton from '@/components/ActionButton.vue';
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus } from '@/types/generated';
+import { ref } from 'vue';
+
+const page = ref(0);
+const pageSize = 2;
 
 const { data, refetch } = useQuery({
-  queryKey: ['finalize-get-all'],
-  queryFn: () => finalize.getAll(),
+  queryKey: ['finalize-get-all', page, pageSize],
+  queryFn: () => {
+    console.log(page);
+    return finalize.getAll({ page: page.value, pageSize });
+  },
   // TODO: Switch to SSE when backend ready
   refetchIntervalInBackground: true,
   refetchInterval: 100000,
@@ -19,6 +26,7 @@ const { mutate, isPending } = useMutation({
   mutationKey: ['finalize-remove-one'],
   mutationFn: (exportId: string) => finalize.deleteOne({ exportId }),
   onSuccess: () => {
+    page.value = 0;
     refetch();
   },
 });
@@ -51,15 +59,20 @@ const statusText = (status: ExportStatus) =>
   })[status];
 </script>
 
-<template v-if="data && Array.isArray(data)">
+<template v-if="data?.items && Array.isArray(data?.items)">
   <DataTable
-    :data="data ?? []"
+    :data="data?.items ?? []"
     :item-keys="fields"
     :class-name="`rounded-xl border-2 border-primary-500 overflow-clip w-full`"
-    :page-size="1200"
-    :items-count="data?.length"
-    :page="0"
-    :pagination-key="''">
+    :page-size="pageSize"
+    :items-count="data?.pagination.total"
+    :page="page"
+    :pagination-key="'folder'"
+    @submit:page="
+      (newPage) => {
+        page = newPage;
+      }
+    ">
     <template #top-heading>
       <div class="flex flex-row bg-primary-600 p-2 justify-between">
         <p class="text-2xl font-bold text-white uppercase">Processes</p>

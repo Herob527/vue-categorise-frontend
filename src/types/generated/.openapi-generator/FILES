@@ -25,6 +25,7 @@ docs/FinaliseApi.md
 docs/FinaliseConfigModel.md
 docs/HTTPValidationError.md
 docs/PaginatedBindingModel.md
+docs/PaginatedExportModel.md
 docs/PaginationModel.md
 docs/ScheduleData.md
 docs/StatusEnum.md

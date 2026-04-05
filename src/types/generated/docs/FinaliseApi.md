@@ -168,7 +168,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getStatusesFinaliseStatusGet**
-> Array<ExportModel> getStatusesFinaliseStatusGet()
+> PaginatedExportModel getStatusesFinaliseStatusGet()
 
 
 ### Example
@@ -182,16 +182,26 @@ import {
 const configuration = new Configuration();
 const apiInstance = new FinaliseApi(configuration);
 
-const { status, data } = await apiInstance.getStatusesFinaliseStatusGet();
+let page: number; // (optional) (default to 0)
+let limit: number; // (optional) (default to 20)
+
+const { status, data } = await apiInstance.getStatusesFinaliseStatusGet(
+    page,
+    limit
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **page** | [**number**] |  | (optional) defaults to 0|
+| **limit** | [**number**] |  | (optional) defaults to 20|
 
 
 ### Return type
 
-**Array<ExportModel>**
+**PaginatedExportModel**
 
 ### Authorization
 
@@ -208,6 +218,7 @@ No authorization required
 |-------------|-------------|------------------|
 |**200** | Successful Response |  -  |
 |**404** | Not found |  -  |
+|**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

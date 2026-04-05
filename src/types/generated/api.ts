@@ -478,19 +478,32 @@ export interface PaginatedBindingModel {
      * @type {Array<BindingModel>}
      * @memberof PaginatedBindingModel
      */
-    'bindings': Array<BindingModel>;
+    'items': Array<BindingModel>;
     /**
      * 
      * @type {PaginationModel}
      * @memberof PaginatedBindingModel
      */
     'pagination': PaginationModel;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedExportModel
+ */
+export interface PaginatedExportModel {
     /**
      * 
-     * @type {number}
-     * @memberof PaginatedBindingModel
+     * @type {Array<ExportModel>}
+     * @memberof PaginatedExportModel
      */
-    'page': number;
+    'items': Array<ExportModel>;
+    /**
+     * 
+     * @type {PaginationModel}
+     * @memberof PaginatedExportModel
+     */
+    'pagination': PaginationModel;
 }
 /**
  * 
@@ -2304,10 +2317,12 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Get Statuses
+         * @param {number} [page] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatusesFinaliseStatusGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getStatusesFinaliseStatusGet: async (page?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/finalise/status`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2319,6 +2334,14 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
 
     
@@ -2419,11 +2442,13 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Statuses
+         * @param {number} [page] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExportModel>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStatusesFinaliseStatusGet(options);
+        async getStatusesFinaliseStatusGet(page?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedExportModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getStatusesFinaliseStatusGet(page, limit, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.getStatusesFinaliseStatusGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2484,11 +2509,13 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Get Statuses
+         * @param {number} [page] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ExportModel>> {
-            return localVarFp.getStatusesFinaliseStatusGet(options).then((request) => request(axios, basePath));
+        getStatusesFinaliseStatusGet(page?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedExportModel> {
+            return localVarFp.getStatusesFinaliseStatusGet(page, limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2549,12 +2576,14 @@ export class FinaliseApi extends BaseAPI {
     /**
      * 
      * @summary Get Statuses
+     * @param {number} [page] 
+     * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FinaliseApi
      */
-    public getStatusesFinaliseStatusGet(options?: RawAxiosRequestConfig) {
-        return FinaliseApiFp(this.configuration).getStatusesFinaliseStatusGet(options).then((request) => request(this.axios, this.basePath));
+    public getStatusesFinaliseStatusGet(page?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).getStatusesFinaliseStatusGet(page, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

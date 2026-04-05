@@ -1,19 +1,19 @@
-# PaginatedBindingModel
+# PaginatedExportModel
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**Array&lt;BindingModel&gt;**](BindingModel.md) |  | [default to undefined]
+**items** | [**Array&lt;ExportModel&gt;**](ExportModel.md) |  | [default to undefined]
 **pagination** | [**PaginationModel**](PaginationModel.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { PaginatedBindingModel } from './api';
+import { PaginatedExportModel } from './api';
 
-const instance: PaginatedBindingModel = {
+const instance: PaginatedExportModel = {
     items,
     pagination,
 };

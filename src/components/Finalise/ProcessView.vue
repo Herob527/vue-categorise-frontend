@@ -10,6 +10,8 @@ import { ExportStatus } from '@/types/generated';
 const { data } = useQuery({
   queryKey: ['finalize-get-all'],
   queryFn: () => finalize.getAll(),
+  refetchIntervalInBackground: true,
+  refetchInterval: 1000,
 });
 
 const handleClick = async (exportId: string) => {

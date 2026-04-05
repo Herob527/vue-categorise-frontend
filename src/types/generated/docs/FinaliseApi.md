@@ -4,10 +4,63 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**deleteFinalizedZipFinaliseDeleteZipExportIdGet**](#deletefinalizedzipfinalisedeletezipexportidget) | **GET** /finalise/delete-zip/{export_id} | Delete Finalized Zip|
 |[**downloadFinalizedZipFinaliseDownloadExportIdGet**](#downloadfinalizedzipfinalisedownloadexportidget) | **GET** /finalise/download/{export_id} | Download Finalized Zip|
 |[**generatePreviewFinaliseGeneratePreviewPost**](#generatepreviewfinalisegeneratepreviewpost) | **POST** /finalise/generate_preview | Generate Preview|
 |[**getStatusesFinaliseStatusGet**](#getstatusesfinalisestatusget) | **GET** /finalise/status | Get Statuses|
 |[**scheduleFinaliseFinaliseSchedulePost**](#schedulefinalisefinaliseschedulepost) | **POST** /finalise/schedule | Schedule Finalise|
+
+# **deleteFinalizedZipFinaliseDeleteZipExportIdGet**
+> any deleteFinalizedZipFinaliseDeleteZipExportIdGet()
+
+
+### Example
+
+```typescript
+import {
+    FinaliseApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new FinaliseApi(configuration);
+
+let exportId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.deleteFinalizedZipFinaliseDeleteZipExportIdGet(
+    exportId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **exportId** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful Response |  -  |
+|**404** | Not found |  -  |
+|**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **downloadFinalizedZipFinaliseDownloadExportIdGet**
 > any downloadFinalizedZipFinaliseDownloadExportIdGet()

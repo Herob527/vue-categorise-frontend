@@ -2199,6 +2199,40 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
+         * @summary Delete Finalized Zip
+         * @param {string} exportId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFinalizedZipFinaliseDeleteZipExportIdGet: async (exportId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'exportId' is not null or undefined
+            assertParamExists('deleteFinalizedZipFinaliseDeleteZipExportIdGet', 'exportId', exportId)
+            const localVarPath = `/finalise/delete-zip/{export_id}`
+                .replace(`{${"export_id"}}`, encodeURIComponent(String(exportId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Download Finalized Zip
          * @param {string} exportId 
          * @param {*} [options] Override http request option.
@@ -2345,6 +2379,19 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Delete Finalized Zip
+         * @param {string} exportId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.deleteFinalizedZipFinaliseDeleteZipExportIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Download Finalized Zip
          * @param {string} exportId 
          * @param {*} [options] Override http request option.
@@ -2406,6 +2453,16 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
+         * @summary Delete Finalized Zip
+         * @param {string} exportId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Download Finalized Zip
          * @param {string} exportId 
          * @param {*} [options] Override http request option.
@@ -2453,6 +2510,18 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
  * @extends {BaseAPI}
  */
 export class FinaliseApi extends BaseAPI {
+    /**
+     * 
+     * @summary Delete Finalized Zip
+     * @param {string} exportId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinaliseApi
+     */
+    public deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId: string, options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Download Finalized Zip

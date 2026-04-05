@@ -46,11 +46,18 @@ const finalize = (() => {
     return data;
   };
 
+  const deleteOne = async (params: { exportId: string }) => {
+    await finaliseApi.deleteFinalizedZipFinaliseDeleteZipExportIdGet(
+      params.exportId,
+    );
+  };
+
   return {
     getPreview,
     schedule,
     download,
     getAll,
+    deleteOne,
   };
 })();
 export default finalize;

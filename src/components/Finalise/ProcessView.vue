@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import finalize from '@/actions/finalise';
-import { useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import DataTable from '@/components/DataTable.vue';
 
 import ActionButton from '@/components/ActionButton.vue';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus } from '@/types/generated';
 
-const { data } = useQuery({
+const { data, refetch } = useQuery({
   queryKey: ['finalize-get-all'],
   queryFn: () => finalize.getAll(),
   // TODO: Switch to SSE when backend ready
   refetchIntervalInBackground: true,
   refetchInterval: 100000,
+});
+
+const { mutate, isPending } = useMutation({
+  mutationKey: ['finalize-remove-one'],
+  mutationFn: (exportId: string) => finalize.deleteOne({ exportId }),
+  onSuccess: () => {
+    refetch();
+  },
 });
 
 const handleClick = async (exportId: string) => {
@@ -81,7 +89,7 @@ const statusText = (status: ExportStatus) =>
         <div class="flex-1">
           {{ statusText(entry.status) }}
         </div>
-        <div class="flex-1">
+        <div class="flex-1 space-x-1">
           <ActionButton
             :on-click="() => handleClick(entry.id)"
             :disabled="entry.status !== ExportStatus.NUMBER_2"
@@ -89,6 +97,15 @@ const statusText = (status: ExportStatus) =>
             label="Download">
             <font-awesome-icon
               :icon="faDownload"
+              class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />
+          </ActionButton>
+          <ActionButton
+            :on-click="() => mutate(entry.id)"
+            :disabled="isPending || entry.status !== ExportStatus.NUMBER_2"
+            class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 "
+            label="Remove">
+            <font-awesome-icon
+              :icon="faTrash"
               class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />
           </ActionButton>
         </div>

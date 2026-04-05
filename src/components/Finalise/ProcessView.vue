@@ -5,6 +5,7 @@ import DataTable from '@/components/DataTable.vue';
 
 import ActionButton from '@/components/ActionButton.vue';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { ExportStatus } from '@/types/generated';
 
 const { data } = useQuery({
   queryKey: ['finalize-get-all'],
@@ -27,7 +28,15 @@ const processDate = (date: string) =>
     timeStyle: 'short',
   }).format(new Date(date));
 
-const fields = ['Id', 'Created at', 'Updated at', 'Status', 'Actions'];
+const fields = ['Created at', 'Updated at', 'Status', 'Actions'];
+
+const statusText = (status: ExportStatus) =>
+  ({
+    [ExportStatus.NUMBER_0]: 'Pending',
+    [ExportStatus.NUMBER_1]: 'Processing',
+    [ExportStatus.NUMBER_2]: 'Done',
+    [ExportStatus.NUMBER_3]: 'Error',
+  })[status];
 </script>
 
 <template v-if="data && Array.isArray(data)">
@@ -58,14 +67,6 @@ const fields = ['Id', 'Created at', 'Updated at', 'Status', 'Actions'];
           'flex flex-row justify-center items-center py-2',
         ]">
         <div class="flex-1">
-          <span
-            class="py-1 px-2 rounded-lg cursor-text"
-            :title="entry.id">
-            {{ entry.id }}
-          </span>
-        </div>
-
-        <div class="flex-1">
           {{ processDate(entry.created_at) }}
         </div>
 
@@ -74,13 +75,14 @@ const fields = ['Id', 'Created at', 'Updated at', 'Status', 'Actions'];
         </div>
 
         <div class="flex-1">
-          {{ entry.status }}
+          {{ statusText(entry.status) }}
         </div>
         <div class="flex-1">
           <ActionButton
             :on-click="() => handleClick(entry.id)"
+            :disabled="entry.status !== ExportStatus.NUMBER_2"
             class-name="bg-blue-500 text-white px-4 py-4 relative rounded-md hover:bg-blue-700 "
-            label="Delete">
+            label="Download">
             <font-awesome-icon
               :icon="faDownload"
               class="absolute top-1/2 left-1/2 w-1/2 h-1/2 text-white -translate-x-1/2 -translate-y-1/2" />

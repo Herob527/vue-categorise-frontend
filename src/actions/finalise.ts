@@ -23,10 +23,17 @@ const finalize = (() => {
     return data;
   };
 
-  const schedule = async (categories: string[] | null) =>
+  const schedule = async (
+    categories: string[] | null,
+    config: FinaliseConfigModel,
+  ) => {
     await finaliseApi.scheduleFinaliseFinaliseSchedulePost({
-      categories,
+      params: {
+        categories,
+      },
+      config,
     });
+  };
 
   const download = async (params: { exportId: string }) => {
     const { data } =

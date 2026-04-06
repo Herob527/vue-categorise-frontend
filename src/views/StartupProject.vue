@@ -33,11 +33,6 @@ const { data: transcriptData, refetch } = useQuery({
       page: dbPagination.value,
       pageSize: ENTRIES_PER_PAGE,
     }),
-  placeholderData: {
-    bindings: [],
-    page: dbPagination.value,
-    pagination: { total: 0 },
-  },
 });
 
 const { updateFileStatus, remove, removeAll, addFiles } = useBindingsStore();
@@ -53,8 +48,9 @@ const transformtedData = computed(() => {
     duration: 0,
     filename: '',
   }));
+  if (!transcriptData.value) return [];
   const data =
-    transcriptData.value?.bindings.map(
+    transcriptData.value.items.map(
       (entry) =>
         ({
           id: entry.binding.id,
@@ -142,7 +138,7 @@ const sendPending = async () => {
 const removeFile = async (id: string) => {
   await deleteOne({ id });
   const result = await refetch();
-  if (result.data?.bindings.length === 0 && dbPagination.value > 0) {
+  if (result.data?.items?.length === 0 && dbPagination.value > 0) {
     dbPagination.value -= 1;
   }
 };
@@ -152,7 +148,7 @@ const removeAllOnPage = async () => {
     transformtedData.value.map((entry) => deleteOne({ id: entry.id })),
   );
   const { data } = await refetch();
-  if (data?.bindings.length !== 0) {
+  if (data?.items?.length !== 0) {
     removeAllOnPage();
   }
 };

@@ -39,17 +39,8 @@ const { updateFileStatus, remove, removeAll, addFiles } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(() => {
-  const offset = Array.from({
-    length: dbPagination.value * ENTRIES_PER_PAGE,
-  }).map(() => ({
-    id: '',
-    file: new File([], ''),
-    status: statuses.IN_DB,
-    duration: 0,
-    filename: '',
-  }));
   if (!transcriptData.value) return [];
-  const data =
+  return (
     transcriptData.value.items.map(
       (entry) =>
         ({
@@ -59,9 +50,8 @@ const transformtedData = computed(() => {
           duration: entry.audio.audio_length,
           filename: entry.audio.file_name,
         }) satisfies Entry,
-    ) ?? [];
-  const merged = [...offset, ...data];
-  return merged;
+    ) ?? []
+  );
 });
 
 const shownData = computed(() => {

@@ -65,10 +65,12 @@ const pages = computed(() =>
 
     <template v-if="(isLoading ?? false) === false">
       <div
-        v-for="[index, item] in Object.entries(data).slice(
-          (selectedPage || 0) * (pageSize || DEFAULT_PAGE_SIZE),
-          ((selectedPage || 0) + 1) * (pageSize || DEFAULT_PAGE_SIZE),
-        )"
+        v-for="[index, item] in (props.itemsCount !== undefined
+          ? Object.entries(data)
+          : Object.entries(data).slice(
+              (selectedPage || 0) * (pageSize || DEFAULT_PAGE_SIZE),
+              ((selectedPage || 0) + 1) * (pageSize || DEFAULT_PAGE_SIZE),
+            ))"
         :key="index"
         :class="[
           pages.length > 1 ? 'last:border-b-2 last:border-blue-500' : '',

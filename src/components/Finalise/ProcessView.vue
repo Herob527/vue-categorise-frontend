@@ -13,10 +13,7 @@ const pageSize = 2;
 
 const { data, refetch } = useQuery({
   queryKey: ['finalize-get-all', page, pageSize],
-  queryFn: () => {
-    console.log(page);
-    return finalize.getAll({ page: page.value, pageSize });
-  },
+  queryFn: () => finalize.getAll({ page: page.value, pageSize }),
   // TODO: Switch to SSE when backend ready
   refetchIntervalInBackground: true,
   refetchInterval: 100000,

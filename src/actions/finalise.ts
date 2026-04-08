@@ -19,12 +19,10 @@ const finalize = (() => {
     page: number;
     pageSize: number;
   }) => {
-    console.log('[getAll - page, pageSize);]', page, pageSize);
     const { data } = await finaliseApi.getStatusesFinaliseStatusGet(
       page,
       pageSize,
     );
-    console.log('[getAll - data]', data);
     return data;
   };
   const getPreview = async (params: FinaliseConfigModel) => {

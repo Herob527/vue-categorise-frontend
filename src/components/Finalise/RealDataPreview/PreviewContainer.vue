@@ -45,6 +45,26 @@ const { mutateAsync: schedule } = useMutation({
     </header>
     <div class="flex flex-col flex-wrap gap-3 px-2 pb-2">
       <template v-if="store.processedData">
+        <div class="space-x-2">
+          <input
+            type="checkbox"
+            @change="
+              () => {
+                const allIds = new Set(
+                  store.processedData?.files
+                    ?.filter((el) => el.isDirectory)
+                    ?.flatMap((el) => el.categoryId) ?? [],
+                );
+                if (allIds.size === selectedCategories.size) {
+                  selectedCategories = new Set();
+                } else {
+                  allIds.forEach((category) =>
+                    selectedCategories.add(category),
+                  );
+                }
+              }
+            " /><span>Select all</span>
+        </div>
         <template
           v-for="[index, category] in Object.entries(store.processedData.files)"
           :key="category.isDirectory ? category.dirName : category.fileName">

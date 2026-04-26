@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class ProcessingPipeline<T extends any[]> {
   private pipeline: ((value: T[number]) => T[number])[] = [];
 

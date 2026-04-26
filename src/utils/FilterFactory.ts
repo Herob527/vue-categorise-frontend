@@ -1,5 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class FilterFactory<T extends any[]> {
-  private filterPredicates: ((value: T) => boolean)[] = [];
+  private filterPredicates: ((value: T[number]) => boolean)[] = [];
 
   constructor(private filterValues: T) {}
 

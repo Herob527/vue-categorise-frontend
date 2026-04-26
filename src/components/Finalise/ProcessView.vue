@@ -9,7 +9,7 @@ import { ExportStatus } from '@/types/generated';
 import { ref } from 'vue';
 
 const page = ref(0);
-const pageSize = 2;
+const pageSize = 10;
 
 const { data, refetch } = useQuery({
   queryKey: ['finalize-get-all', page, pageSize],
@@ -41,7 +41,7 @@ const handleClick = async (exportId: string) => {
 const processDate = (date: string) =>
   new Intl.DateTimeFormat('pl-PL', {
     dateStyle: 'short',
-    timeStyle: 'short',
+    timeStyle: 'medium',
     timeZone: 'Europe/Warsaw',
   }).format(new Date(date));
 

@@ -1,7 +1,7 @@
 // vue-virtual-scroller.d.ts
 
 declare module 'vue-virtual-scroller' {
-  import Vue, { ComponentOptions, PluginObject } from 'vue';
+  import Vue, { PluginObject } from 'vue';
 
   interface PluginOptions {
     installComponents?: boolean;

@@ -22,17 +22,39 @@ const getDataForCategory = (category: string) =>
         }) satisfies FileShape,
     );
 
-const getDataProps = computed(
-  () => (category?: string) => {
-    if (divide_by_category.value) {
-      return [
-        {
-          dirName: 'wavs',
-          categoryId: crypto.randomUUID(),
-          files: category ? getDataForCategory(category) : [],
-          isDirectory: true,
-        } satisfies DirectoryShape,
+const getDataProps = computed(() => (category?: string) => {
+  if (divide_by_category.value) {
+    return [
+      {
+        dirName: 'wavs',
+        categoryId: crypto.randomUUID(),
+        files: category ? getDataForCategory(category) : [],
+        isDirectory: true,
+      } satisfies DirectoryShape,
 
+      ...(export_transcript.value
+        ? [
+            {
+              fileName: 'transcript.txt',
+              isDirectory: false,
+            } satisfies FileShape,
+          ]
+        : []),
+    ] as DataProp[];
+  }
+
+  return [
+    {
+      dirName: 'main',
+      categoryId: crypto.randomUUID(),
+      files: [
+        ...filteredData.value.map(
+          (entry) =>
+            ({
+              fileName: entry.fileName,
+              isDirectory: false,
+            }) satisfies FileShape,
+        ),
         ...(export_transcript.value
           ? [
               {
@@ -41,35 +63,11 @@ const getDataProps = computed(
               } satisfies FileShape,
             ]
           : []),
-      ] as DataProp[];
-    }
-
-    return [
-      {
-        dirName: 'main',
-        categoryId: crypto.randomUUID(),
-        files: [
-          ...filteredData.value.map(
-            (entry) =>
-              ({
-                fileName: entry.fileName,
-                isDirectory: false,
-              }) satisfies FileShape,
-          ),
-          ...(export_transcript.value
-            ? [
-                {
-                  fileName: 'transcript.txt',
-                  isDirectory: false,
-                } satisfies FileShape,
-              ]
-            : []),
-        ],
-        isDirectory: true,
-      } satisfies DirectoryShape,
-    ] as DataProp[];
-  },
-);
+      ],
+      isDirectory: true,
+    } satisfies DirectoryShape,
+  ] as DataProp[];
+});
 
 const categories = computed(() => [
   ...new Set(filteredData.value.map((entry) => entry.category)),

@@ -7,13 +7,22 @@ import finalize from '@/actions/finalise';
 import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus, type ExportModel } from '@/types/generated';
 import { useFinaliseStore } from '@/stores/finaliseStore';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import PaginationContainer from '@/components/Transcript/Pagination/PaginationContainer.vue';
 
 const store = useFinaliseRealPreviewStore();
 const values = useFinaliseStore();
 const queryClient = useQueryClient();
 
 const selectedCategories = ref<Set<string>>(new Set());
+
+const PAGE_SIZE = 100;
+const currentPage = ref(0);
+const pagedFiles = computed(() => {
+  const files = store.processedData?.files ?? [];
+  const start = currentPage.value * PAGE_SIZE;
+  return files.slice(start, start + PAGE_SIZE);
+});
 
 const { mutateAsync: schedule } = useMutation({
   mutationFn: (category: string[]) => {
@@ -39,7 +48,7 @@ const { mutateAsync: schedule } = useMutation({
 </script>
 <template>
   <section
-    class="container flex overflow-scroll flex-col rounded-xl border-2 h-min max-h-125 border-primary-500">
+    class="container flex relative overflow-scroll flex-col rounded-xl border-2 h-min max-h-125 border-primary-500">
     <header class="flex justify-between flex-row p-2">
       <h2 class="text-2xl font-bold">Folder preview (Real)</h2>
     </header>
@@ -66,7 +75,7 @@ const { mutateAsync: schedule } = useMutation({
             " /><span>Select all</span>
         </div>
         <template
-          v-for="[index, category] in Object.entries(store.processedData.files)"
+          v-for="[index, category] in Object.entries(pagedFiles)"
           :key="category.isDirectory ? category.dirName : category.fileName">
           <div v-if="category.isDirectory">
             <DirectoryItem
@@ -107,7 +116,16 @@ const { mutateAsync: schedule } = useMutation({
           </div>
         </template>
       </template>
-      <template v-else>
+      <PaginationContainer
+        v-if="
+          store.processedData && store.processedData.files.length > PAGE_SIZE
+        "
+        :count="store.processedData.files.length"
+        :page-size="PAGE_SIZE"
+        :page="currentPage"
+        storage-key="real-preview"
+        @change:page="(p) => (currentPage = p)" />
+      <template v-else-if="!store.processedData">
         <p>Data not there yet</p>
       </template>
     </div>

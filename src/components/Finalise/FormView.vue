@@ -88,15 +88,6 @@ defineEmits(['submit']);
 
     <div class="flex flex-row gap-2">
       <input
-        id="category_to_lower"
-        v-model="values.category_to_lower"
-        type="checkbox"
-        name="category_to_lower"
-        class="accent-primary-500" />
-      <label for="category_to_lower">Category to lower</label>
-    </div>
-    <div class="flex flex-row gap-2">
-      <input
         id="export_transcript"
         v-model="values.export_transcript"
         type="checkbox"
@@ -104,17 +95,7 @@ defineEmits(['submit']);
         class="accent-primary-500" />
       <label for="export_transcript">Export transcript</label>
     </div>
-    <div class="flex flex-col gap-1">
-      <label for="category_space_replacer"
-        >Category whitespace substitution</label
-      >
-      <input
-        id="category_space_replacer"
-        v-model="values.category_space_replacer"
-        type="text"
-        name="category_space_replacer"
-        class="p-2 rounded-md border-2 disabled:text-gray-500 disabled:bg-gray-300 disabled:border-gray-400 border-primary-500" />
-    </div>
+
     <div class="flex flex-col gap-1">
       <label for="uncategorized_name">Uncategorized name:</label>
       <input

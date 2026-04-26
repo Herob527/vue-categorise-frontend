@@ -5,14 +5,27 @@ import FileIcon from './FileIcon.vue';
 import type { DataProp } from '@/types/shared';
 import EmptyDir from '@/assets/folder-solid-empty.svg?component';
 
-defineProps<{ name: string; data: DataProp[]; depth?: number }>();
+defineProps<{
+  name: string;
+  data: DataProp[];
+  depth?: number;
+  isSelected?: boolean;
+  selectable?: boolean;
+}>();
+defineEmits(['select']);
 
 const isOpen = ref(false);
 </script>
 <template>
   <div
     :class="`flex flex-1 flex-col ${depth ? 'ml-2' : 'border-primary-500 border-2 p-2 rounded-xl'} `">
-    <div class="flex gap-2 items-center rounded-md">
+    <div class="flex gap-2 items-center rounded-md ml-2">
+      <template v-if="selectable">
+        <input
+          type="checkbox"
+          :checked="isSelected"
+          @change="() => $emit('select', !isSelected)" />
+      </template>
       <button
         type="button"
         class="group flex flex-row gap-2 items-center hover:bg-primary-500 hover:text-white px-2 rounded-md py-1 cursor-pointer"

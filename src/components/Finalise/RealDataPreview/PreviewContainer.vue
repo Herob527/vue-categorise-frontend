@@ -49,10 +49,12 @@ const { mutateAsync: schedule } = useMutation({
           v-for="[index, category] in Object.entries(store.processedData.files)"
           :key="category.isDirectory ? category.dirName : category.fileName">
           <div v-if="category.isDirectory">
-            <input
-              type="checkbox"
-              :checked="selectedCategories.has(category.categoryId)"
-              @change="
+            <DirectoryItem
+              :selectable="true"
+              :is-selected="selectedCategories.has(category.categoryId)"
+              :name="category.dirName"
+              :data="category.files"
+              @select="
                 () => {
                   if (selectedCategories.has(category.categoryId)) {
                     selectedCategories.delete(category.categoryId);
@@ -60,10 +62,7 @@ const { mutateAsync: schedule } = useMutation({
                     selectedCategories.add(category.categoryId);
                   }
                 }
-              " />
-            <DirectoryItem
-              :name="category.dirName"
-              :data="category.files">
+              ">
               <template #buttons>
                 <button
                   type="button"

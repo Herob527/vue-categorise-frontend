@@ -7,14 +7,19 @@ import finalize from '@/actions/finalise';
 import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus, type ExportModel } from '@/types/generated';
 import { useFinaliseStore } from '@/stores/finaliseStore';
+import { ref } from 'vue';
 
 const store = useFinaliseRealPreviewStore();
 const values = useFinaliseStore();
 const queryClient = useQueryClient();
 
+const selectedCategories = ref<Set<string>>(new Set());
+
 const { mutateAsync: schedule } = useMutation({
-  mutationFn: (category: string) =>
-    finalize.schedule([category], values.$state),
+  mutationFn: (category: string[]) => {
+    console.log(category);
+    return finalize.schedule(category, values.$state);
+  },
   onSuccess: () => {
     const now = new Date().toISOString();
     const newEntry: ExportModel = {
@@ -43,22 +48,35 @@ const { mutateAsync: schedule } = useMutation({
         <template
           v-for="[index, category] in Object.entries(store.processedData.files)"
           :key="category.isDirectory ? category.dirName : category.fileName">
-          <DirectoryItem
-            v-if="category.isDirectory"
-            :name="category.dirName"
-            :data="category.files">
-            <template #buttons>
-              <button
-                type="button"
-                class="group flex flex-row gap-2 items-center hover:bg-primary-500 hover:text-white p-2 rounded-md cursor-pointer"
-                @click="() => schedule(category.categoryId)">
-                <font-awesome-icon
-                  width="16"
-                  :icon="faBoxArchive"
-                  class="group-hover:text-white text-primary-600" />
-              </button>
-            </template>
-          </DirectoryItem>
+          <div v-if="category.isDirectory">
+            <input
+              type="checkbox"
+              :checked="selectedCategories.has(category.categoryId)"
+              @change="
+                () => {
+                  if (selectedCategories.has(category.categoryId)) {
+                    selectedCategories.delete(category.categoryId);
+                  } else {
+                    selectedCategories.add(category.categoryId);
+                  }
+                }
+              " />
+            <DirectoryItem
+              :name="category.dirName"
+              :data="category.files">
+              <template #buttons>
+                <button
+                  type="button"
+                  class="group flex flex-row gap-2 items-center hover:bg-primary-500 hover:text-white p-2 rounded-md cursor-pointer"
+                  @click="() => schedule([category.categoryId])">
+                  <font-awesome-icon
+                    width="16"
+                    :icon="faBoxArchive"
+                    class="group-hover:text-white text-primary-600" />
+                </button>
+              </template>
+            </DirectoryItem>
+          </div>
 
           <div
             v-else
@@ -74,5 +92,16 @@ const { mutateAsync: schedule } = useMutation({
         <p>Data not there yet</p>
       </template>
     </div>
+    <button
+      v-if="selectedCategories.size > 0"
+      class="bg-primary-500 px-4 py-2 rounded-xl w-fit ml-2 text-white mt-2"
+      @click="
+        () => {
+          schedule(Array.from(selectedCategories));
+          selectedCategories.clear();
+        }
+      ">
+      Submit all
+    </button>
   </section>
 </template>

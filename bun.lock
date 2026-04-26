@@ -5,12 +5,13 @@
     "": {
       "name": "categorise_frontend",
       "dependencies": {
+        "@eslint/js": "^10.0.1",
         "@fortawesome/fontawesome-free": "^7.2.0",
         "@fortawesome/fontawesome-svg-core": "^7.2.0",
         "@fortawesome/free-solid-svg-icons": "^7.2.0",
         "@fortawesome/vue-fontawesome": "^3.2.0",
         "@tailwindcss/vite": "^4.2.4",
-        "@tanstack/vue-query": "^5.100.1",
+        "@tanstack/vue-query": "^5.100.5",
         "@vueuse/core": "^14.2.1",
         "axios": "^1.15.2",
         "convert": "^7.0.0",
@@ -29,11 +30,11 @@
         "@types/jsdom": "^21.1.7",
         "@types/node": "^25.6.0",
         "@types/uuid": "^11.0.0",
-        "@typescript/native-preview": "^7.0.0-dev.20260421.2",
+        "@typescript/native-preview": "^7.0.0-dev.20260426.1",
         "@vitejs/plugin-vue": "^6.0.6",
         "@vue/eslint-config-prettier": "^10.2.0",
         "@vue/eslint-config-typescript": "^14.7.0",
-        "@vue/test-utils": "^2.4.6",
+        "@vue/test-utils": "^2.4.8",
         "@vue/tsconfig": "^0.9.1",
         "@vue/typescript-plugin": "^3.2.7",
         "autoprefixer": "^10.5.0",
@@ -148,6 +149,8 @@
     "@eslint/config-helpers": ["@eslint/config-helpers@0.5.5", "", { "dependencies": { "@eslint/core": "^1.2.1" } }, "sha512-eIJYKTCECbP/nsKaaruF6LW967mtbQbsw4JTtSVkUQc9MneSkbrgPJAbKl9nWr0ZeowV8BfsarBmPpBzGelA2w=="],
 
     "@eslint/core": ["@eslint/core@1.2.1", "", { "dependencies": { "@types/json-schema": "^7.0.15" } }, "sha512-MwcE1P+AZ4C6DWlpin/OmOA54mmIZ/+xZuJiQd4SyB29oAJjN30UW9wkKNptW2ctp4cEsvhlLY/CsQ1uoHDloQ=="],
+
+    "@eslint/js": ["@eslint/js@10.0.1", "", { "peerDependencies": { "eslint": "^10.0.0" }, "optionalPeers": ["eslint"] }, "sha512-zeR9k5pd4gxjZ0abRoIaxdc7I3nDktoXZk2qOv9gCNWx3mVwEn32VRhyLaRsDiJjTs0xq/T8mfPtyuXu7GWBcA=="],
 
     "@eslint/object-schema": ["@eslint/object-schema@3.0.5", "", {}, "sha512-vqTaUEgxzm+YDSdElad6PiRoX4t8VGDjCtt05zn4nU810UIx/uNEV7/lZJ6KwFThKZOzOxzXy48da+No7HZaMw=="],
 

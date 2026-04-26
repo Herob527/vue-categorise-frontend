@@ -23,34 +23,52 @@ const getDataForCategory = (category: string) =>
     );
 
 const getDataProps = computed(
-  () => (category?: string) =>
-    [
-      ...[
+  () => (category?: string) => {
+    if (divide_by_category.value) {
+      return [
         {
           dirName: 'wavs',
-          files:
-            divide_by_category.value && category
-              ? getDataForCategory(category)
-              : filteredData.value.map(
-                  (entry) =>
-                    ({
-                      fileName: entry.fileName,
-                      isDirectory: false,
-                    }) satisfies FileShape,
-                ),
+          categoryId: crypto.randomUUID(),
+          files: category ? getDataForCategory(category) : [],
           isDirectory: true,
         } satisfies DirectoryShape,
-      ],
 
-      ...(export_transcript.value
-        ? [
-            {
-              fileName: 'transcript.txt',
-              isDirectory: false,
-            } satisfies FileShape,
-          ]
-        : []),
-    ] as DataProp[],
+        ...(export_transcript.value
+          ? [
+              {
+                fileName: 'transcript.txt',
+                isDirectory: false,
+              } satisfies FileShape,
+            ]
+          : []),
+      ] as DataProp[];
+    }
+
+    return [
+      {
+        dirName: 'main',
+        categoryId: crypto.randomUUID(),
+        files: [
+          ...filteredData.value.map(
+            (entry) =>
+              ({
+                fileName: entry.fileName,
+                isDirectory: false,
+              }) satisfies FileShape,
+          ),
+          ...(export_transcript.value
+            ? [
+                {
+                  fileName: 'transcript.txt',
+                  isDirectory: false,
+                } satisfies FileShape,
+              ]
+            : []),
+        ],
+        isDirectory: true,
+      } satisfies DirectoryShape,
+    ] as DataProp[];
+  },
 );
 
 const categories = computed(() => [

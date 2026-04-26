@@ -21,11 +21,6 @@ export const post = async ({ audio, category }: postBindingType) => {
   return data;
 };
 
-export const getAll = async () => {
-  const { data } = await bindingsApi.getAllBindingsBindingsAllGet();
-  return data;
-};
-
 export const getPaginated = async ({
   page,
   pageSize,

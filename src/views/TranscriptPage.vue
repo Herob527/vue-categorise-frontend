@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ENTRIES_PER_PAGE, LOCALSTORAGE_PAGE_KEY } from '@/constants';
-import { useQuery, useQueryClient } from '@tanstack/vue-query';
+import { useQuery } from '@tanstack/vue-query';
 import ActionButton from '@/components/ActionButton.vue';
 import PaginationContainer from '@/components/Transcript/Pagination/PaginationContainer.vue';
 import TranscriptList from '@/components/Transcript/TranscriptList.vue';
@@ -20,48 +20,22 @@ const closeHandler = () => {
   isOptionsOpen.value = false;
 };
 
-const queryClient = useQueryClient();
-
 const storageKey = `${LOCALSTORAGE_PAGE_KEY}-transcript`;
 
-const getPageFromStorage = () =>
-  parseInt(localStorage.getItem(storageKey) || '0', 10);
+const page = ref(0);
+const pageSize = ref(ENTRIES_PER_PAGE);
 
 const { data, isLoading } = useQuery({
-  queryKey: ['get-paginated-transcript'],
-  meta: {
-    page: getPageFromStorage,
-    pageSize: ENTRIES_PER_PAGE,
-  },
-  queryFn: async ({ meta }) => {
-    const { page, pageSize } = meta as { page: () => number; pageSize: number };
-    const value = await getPaginated({ page: page(), pageSize });
-    if (value.bindings.length === 0) {
-      localStorage.setItem(storageKey, '0');
-      return getPaginated({ page: 0, pageSize });
-    }
-    return value;
+  queryKey: ['get-paginated-transcript', { page, pageSize }] as const,
+  queryFn: async (params) => {
+    const [, { page, pageSize }] = params.queryKey;
+    return getPaginated({ page, pageSize });
   },
 });
 
 const handleNewPage = (newPage: number) => {
-  queryClient.fetchQuery({
-    queryKey: ['get-paginated-transcript'],
-    meta: {
-      page: newPage,
-      pageSize: ENTRIES_PER_PAGE,
-    },
-    queryFn: async ({ meta }) => {
-      const { page, pageSize } = (meta as {
-        page: number;
-        pageSize: number;
-      }) || {
-        page: newPage,
-        pageSize: ENTRIES_PER_PAGE,
-      };
-      return getPaginated({ page, pageSize });
-    },
-  });
+  page.value = newPage;
+  localStorage.setItem(storageKey, `${newPage}`);
 };
 </script>
 <template>
@@ -74,7 +48,7 @@ const handleNewPage = (newPage: number) => {
     </ActionButton>
   </div>
   <main class="flex flex-col flex-1 gap-3 px-2 pb-4 mx-auto">
-    <TranscriptList :data="data?.bindings ?? []" />
+    <TranscriptList :data="data?.items ?? []" />
     <PaginationContainer
       v-if="data !== undefined"
       :count="data.pagination.total"

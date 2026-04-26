@@ -3,9 +3,16 @@ import { type CategoryModel } from '@/types/generated';
 import { useQuery } from '@tanstack/vue-query';
 import { getAll } from '@/actions/categories';
 
-defineProps<{
-  categoryData?: CategoryModel | null;
-  className?: string;
+withDefaults(
+  defineProps<{
+    categoryData?: CategoryModel | null;
+    className?: string;
+  }>(),
+  { categoryData: undefined, className: undefined },
+);
+
+defineEmits<{
+  (e: 'change'): void;
 }>();
 
 const { data, isLoading } = useQuery({

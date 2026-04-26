@@ -4,7 +4,7 @@ import { updateOne } from '@/actions/texts';
 import { useMutation } from '@tanstack/vue-query';
 import { debounce } from '@/utils/debounceWrapper';
 
-const { textData } = defineProps<{ textData: TextModel; className?: string }>();
+const { textData } = withDefaults(defineProps<{ textData: TextModel; className?: string }>(), { className: undefined });
 
 const { mutate } = useMutation({
   mutationFn: async (newText: string) => {

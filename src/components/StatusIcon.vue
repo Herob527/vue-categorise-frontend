@@ -2,7 +2,7 @@
 import type { statuses } from '@/types/shared';
 import { STATUS_COLORS } from '@/constants';
 
-const { status } = defineProps<{ status?: `${statuses}` }>();
+const { status } = withDefaults(defineProps<{ status?: `${statuses}` }>(), { status: undefined });
 </script>
 <template>
   <span

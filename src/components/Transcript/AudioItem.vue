@@ -5,10 +5,13 @@ import { type AudioModel } from '@/types/generated';
 import { useQuery } from '@tanstack/vue-query';
 import { getOne } from '@/actions/audios';
 
-const { audioData } = defineProps<{
-  audioData: AudioModel;
-  className?: string;
-}>();
+const { audioData } = withDefaults(
+  defineProps<{
+    audioData: AudioModel;
+    className?: string;
+  }>(),
+  { className: undefined },
+);
 
 const { data, isLoading } = useQuery({
   queryFn: async () => getOne(audioData.id),

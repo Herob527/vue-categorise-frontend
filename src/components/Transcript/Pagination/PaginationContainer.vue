@@ -9,12 +9,15 @@ const {
   pageSize,
   storageKey: key,
   page,
-} = defineProps<{
-  count: number;
-  pageSize: number;
-  storageKey: string;
-  page?: number;
-}>();
+} = withDefaults(
+  defineProps<{
+    count: number;
+    pageSize: number;
+    storageKey: string;
+    page?: number;
+  }>(),
+  { page: undefined },
+);
 
 const storageKey = `${LOCALSTORAGE_PAGE_KEY}-${key}`;
 

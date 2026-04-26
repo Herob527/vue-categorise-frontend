@@ -34,7 +34,7 @@ const handleClick = async (exportId: string) => {
 
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${exportId}.zip`;
+  a.download = `result.zip`;
   a.click();
   URL.revokeObjectURL(url);
 };

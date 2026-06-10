@@ -13,6 +13,7 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import { uploadAudio } from '@/actions/audios';
+import { Axios } from 'axios';
 
 export type dataType = { id: string; fileName: string };
 
@@ -83,7 +84,15 @@ const sendPending = async () => {
       audio: entry.file,
       category: entry.category,
     });
-    await uploadAudio(postData.binding_id, entry.file);
+    const uploadUrl = await uploadAudio(postData.binding_id, entry.file);
+    const instance = new Axios({
+      url: uploadUrl,
+      method: 'PUT',
+      headers: {
+        'Content-Type': entry.file.type,
+      },
+    });
+    await instance.put(uploadUrl, entry.file);
   });
   const CHUNK_SIZE = 10;
   // Chunk the requests into groups of CHUNK_SIZE

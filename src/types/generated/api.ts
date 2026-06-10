@@ -791,11 +791,10 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
          * @summary Upload Audio
          * @param {string} uuid 
          * @param {File} file 
-         * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost: async (uuid: string, file: File, folder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadAudioAudioUploadPost: async (uuid: string, file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'uuid' is not null or undefined
             assertParamExists('uploadAudioAudioUploadPost', 'uuid', uuid)
             // verify required parameter 'file' is not null or undefined
@@ -815,10 +814,6 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
 
             if (uuid !== undefined) {
                 localVarQueryParameter['uuid'] = uuid;
-            }
-
-            if (folder !== undefined) {
-                localVarQueryParameter['folder'] = folder;
             }
 
 
@@ -907,12 +902,11 @@ export const AudioApiFp = function(configuration?: Configuration) {
          * @summary Upload Audio
          * @param {string} uuid 
          * @param {File} file 
-         * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(uuid, file, folder, options);
+        async uploadAudioAudioUploadPost(uuid: string, file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(uuid, file, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AudioApi.uploadAudioAudioUploadPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -973,12 +967,11 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * @summary Upload Audio
          * @param {string} uuid 
          * @param {File} file 
-         * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(axios, basePath));
+        uploadAudioAudioUploadPost(uuid: string, file: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.uploadAudioAudioUploadPost(uuid, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1044,13 +1037,12 @@ export class AudioApi extends BaseAPI {
      * @summary Upload Audio
      * @param {string} uuid 
      * @param {File} file 
-     * @param {string} [folder] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AudioApi
      */
-    public uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig) {
-        return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(this.axios, this.basePath));
+    public uploadAudioAudioUploadPost(uuid: string, file: File, options?: RawAxiosRequestConfig) {
+        return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(uuid, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1217,36 +1209,6 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get Count
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCountBindingsCountGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/bindings/count`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Get Paginated Bindings
          * @param {number} [page] 
          * @param {number} [perPage] 
@@ -1385,18 +1347,6 @@ export const BindingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Count
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getCountBindingsCountGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCountBindingsCountGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['BindingsApi.getCountBindingsCountGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Get Paginated Bindings
          * @param {number} [page] 
          * @param {number} [perPage] 
@@ -1473,15 +1423,6 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
          */
         getAllBindingsBindingsAllGet(category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<Array<BindingModel>> {
             return localVarFp.getAllBindingsBindingsAllGet(category, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get Count
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCountBindingsCountGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.getCountBindingsCountGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1562,17 +1503,6 @@ export class BindingsApi extends BaseAPI {
      */
     public getAllBindingsBindingsAllGet(category?: string | null, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).getAllBindingsBindingsAllGet(category, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get Count
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BindingsApi
-     */
-    public getCountBindingsCountGet(options?: RawAxiosRequestConfig) {
-        return BindingsApiFp(this.configuration).getCountBindingsCountGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

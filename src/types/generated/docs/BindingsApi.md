@@ -8,7 +8,6 @@ All URIs are relative to *http://localhost*
 |[**bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut**](#bindingcategoryupdatebindingsbindingidcategoryassigncategoryidput) | **PUT** /bindings/{binding_id}/category_assign/{category_id} | Binding Category Update|
 |[**createBindingBindingsPost**](#createbindingbindingspost) | **POST** /bindings | Create Binding|
 |[**getAllBindingsBindingsAllGet**](#getallbindingsbindingsallget) | **GET** /bindings/all | Get All Bindings|
-|[**getCountBindingsCountGet**](#getcountbindingscountget) | **GET** /bindings/count | Get Count|
 |[**getPaginatedBindingsBindingsGet**](#getpaginatedbindingsbindingsget) | **GET** /bindings | Get Paginated Bindings|
 |[**removeBindingBindingsBindingIdDelete**](#removebindingbindingsbindingiddelete) | **DELETE** /bindings/{binding_id} | Remove Binding|
 
@@ -223,50 +222,6 @@ No authorization required
 |**200** | Successful Response |  -  |
 |**404** | Not found |  -  |
 |**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getCountBindingsCountGet**
-> any getCountBindingsCountGet()
-
-
-### Example
-
-```typescript
-import {
-    BindingsApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new BindingsApi(configuration);
-
-const { status, data } = await apiInstance.getCountBindingsCountGet();
-```
-
-### Parameters
-This endpoint does not have any parameters.
-
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | Successful Response |  -  |
-|**404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

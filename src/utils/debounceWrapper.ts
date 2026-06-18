@@ -15,7 +15,7 @@ export function debounce<A = unknown, R = void>(
       }, ms);
     });
 
-  const teardown = () => clearTimeout(timer);
+  const teardown = () => { clearTimeout(timer); };
 
   return [debouncedFunc, teardown];
 }

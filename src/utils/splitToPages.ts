@@ -1,5 +1,5 @@
 export const splitToPages = (
-  { amountOfEntries = 1, selectedPage = 0, pageSize = 10 } = {
+  { amountOfEntries, selectedPage, pageSize } = {
     amountOfEntries: 1,
     selectedPage: 0,
     pageSize: 10,

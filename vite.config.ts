@@ -13,8 +13,8 @@ export default defineConfig({
     svgLoader(),
     tailwindcss(),
     analyzer({
-      enabled: !!process.env.DOCKER === false,
-      openAnalyzer: !!process.env.DOCKER === false,
+      enabled: !(process.env.DOCKER),
+      openAnalyzer: !(process.env.DOCKER),
     }),
   ],
   server: {

@@ -1,4 +1,3 @@
-import { axiosApi } from '@/axiosConfig';
 import { API_URL } from '@/constants';
 import { BindingsApi } from '@/types/generated';
 
@@ -35,14 +34,9 @@ export const getPaginated = async ({
   return data;
 };
 
-export const getOne = async ({ id }: { id: UUID }) => {
-  const res = await axiosApi.get(`bindings/${id}`);
-  return res.data;
-};
-
 export const deleteOne = async ({ id }: { id: UUID }) => {
-  const res = await axiosApi.delete(`bindings/${id}`);
-  return res.data;
+  const res = await bindingsApi.removeBindingBindingsBindingIdDelete(id);
+  return res;
 };
 
 export const updateOneCategory = async ({
@@ -61,9 +55,7 @@ export const updateOneCategory = async ({
 };
 
 export const removeCategoryFromBinding = async (bindingId: UUID) => {
-  const { data } =
-    await bindingsApi.bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(
-      bindingId,
-    );
-  return data;
+  await bindingsApi.bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(
+    bindingId,
+  );
 };

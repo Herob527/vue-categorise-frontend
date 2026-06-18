@@ -78,7 +78,7 @@ const fields = computed(() => {
 
 const sendPending = async () => {
   const all = getAll.value;
-  all.forEach((entry) => updateFileStatus(entry.id, statuses.PROCESSING));
+  all.forEach((entry) => { updateFileStatus(entry.id, statuses.PROCESSING); });
   const requests = all.map((entry) => async () => {
     const postData = await post({
       audio: entry.file,

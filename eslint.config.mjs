@@ -11,9 +11,15 @@ export default [
   },
 
   js.configs.recommended,
-  ...tseslint.configs.strict,
+  ...tseslint.configs.strictTypeChecked,
   ...vue.configs['flat/recommended'],
-
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
   {
     files: ['**/*.ts'],
     languageOptions: {

@@ -13,7 +13,6 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import { uploadAudio } from '@/actions/audios';
-import { Axios } from 'axios';
 
 export type dataType = { id: string; fileName: string };
 
@@ -41,17 +40,15 @@ const { getAll } = storeToRefs(useBindingsStore());
 
 const transformtedData = computed(() => {
   if (!transcriptData.value) return [];
-  return (
-    transcriptData.value.items.map(
-      (entry) =>
-        ({
-          id: entry.binding.id,
-          file: new File([], entry.audio.file_name),
-          status: statuses.IN_DB,
-          duration: entry.audio.audio_length,
-          filename: entry.audio.file_name,
-        }) satisfies Entry,
-    ) ?? []
+  return transcriptData.value.items.map(
+    (entry) =>
+      ({
+        id: entry.binding.id,
+        file: new File([], entry.audio.file_name),
+        status: statuses.IN_DB,
+        duration: entry.audio.audio_length,
+        filename: entry.audio.file_name,
+      }) satisfies Entry,
   );
 });
 
@@ -59,14 +56,14 @@ const shownData = computed(() => {
   if (showMode.value === 'DB') {
     return transformtedData.value;
   }
-  return getAll.value ?? [];
+  return getAll.value;
 });
 
 const itemsCount = computed(() => {
   if (showMode.value === 'DB') {
     return transcriptData.value?.pagination.total ?? 0;
   }
-  return getAll.value?.length ?? 0;
+  return getAll.value.length;
 });
 
 const fields = computed(() => {
@@ -78,21 +75,15 @@ const fields = computed(() => {
 
 const sendPending = async () => {
   const all = getAll.value;
-  all.forEach((entry) => { updateFileStatus(entry.id, statuses.PROCESSING); });
+  all.forEach((entry) => {
+    updateFileStatus(entry.id, statuses.PROCESSING);
+  });
   const requests = all.map((entry) => async () => {
     const postData = await post({
       audio: entry.file,
       category: entry.category,
     });
-    const uploadUrl = await uploadAudio(postData.binding_id, entry.file);
-    const instance = new Axios({
-      url: uploadUrl,
-      method: 'PUT',
-      headers: {
-        'Content-Type': entry.file.type,
-      },
-    });
-    await instance.put(uploadUrl, entry.file);
+    await uploadAudio(postData.binding_id, entry.file);
   });
   const CHUNK_SIZE = 10;
   // Chunk the requests into groups of CHUNK_SIZE
@@ -115,29 +106,30 @@ const sendPending = async () => {
       chunk.map((request) => request()),
     );
 
-    responses.forEach(async (response, index) => {
+    for await (const [index, response] of responses.entries()) {
       const file = all[index + chunkIndex * CHUNK_SIZE];
-      if (!file) return;
-      if (response.status === 'rejected') {
-        updateFileStatus(file.id, statuses.ERROR);
-      } else {
-        updateFileStatus(file.id, statuses.IN_DB);
-        // sleep for 2 seconds
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        remove(file.id);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (file) {
+        if (response.status === 'rejected') {
+          updateFileStatus(file.id, statuses.ERROR);
+        } else {
+          updateFileStatus(file.id, statuses.IN_DB);
+        }
       }
-    });
+    }
   }
 
   console.log(chunkArray);
 
-  queryClient.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
+  await queryClient.invalidateQueries({
+    queryKey: ['get-paginated-transcript'],
+  });
 };
 
 const removeFile = async (id: string) => {
   await deleteOne({ id });
   const result = await refetch();
-  if (result.data?.items?.length === 0 && dbPagination.value > 0) {
+  if (result.data?.items.length === 0 && dbPagination.value > 0) {
     dbPagination.value -= 1;
   }
 };
@@ -147,8 +139,8 @@ const removeAllOnPage = async () => {
     transformtedData.value.map((entry) => deleteOne({ id: entry.id })),
   );
   const { data } = await refetch();
-  if (data?.items?.length !== 0) {
-    removeAllOnPage();
+  if (data?.items.length !== 0) {
+    await removeAllOnPage();
   }
 };
 
@@ -156,7 +148,7 @@ type ReturnData = {
   files: File[];
   category: string;
 };
-const handleSubmit = async ({ files, category }: ReturnData) => {
+const handleSubmit = ({ files, category }: ReturnData) => {
   isAddFilesVisible.value = false;
   addFiles(files, category.trim() === '' ? undefined : category);
   showMode.value = 'LOCAL';

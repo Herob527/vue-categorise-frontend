@@ -29,7 +29,7 @@ export const useBindingsStore = defineStore('bindings', {
     },
     updateFileStatus(id: string, status: statuses) {
       const index = this.entries.findIndex((entry) => entry.id == id);
-      if (index === undefined) return;
+      if (index === -1) return;
 
       this.entries[index].status = status;
     },

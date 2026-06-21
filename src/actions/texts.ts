@@ -9,6 +9,5 @@ const textsApi = new TextsApi(
 );
 
 export const updateOne = async ({ id, text }: { id: string; text: string }) => {
-  const { data } = await textsApi.updateTextTextsTextIdPatch(id, text);
-  return data;
+  await textsApi.updateTextTextsTextIdPatch(id, text);
 };

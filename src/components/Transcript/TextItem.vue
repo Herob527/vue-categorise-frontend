@@ -4,21 +4,23 @@ import { updateOne } from '@/actions/texts';
 import { useMutation } from '@tanstack/vue-query';
 import { debounce } from '@/utils/debounceWrapper';
 
-const { textData } = withDefaults(defineProps<{ textData: TextModel; className?: string }>(), { className: undefined });
+const props = withDefaults(
+  defineProps<{ textData: TextModel; className?: string }>(),
+  { className: undefined },
+);
 
 const { mutate } = useMutation({
-  mutationFn: async (newText: string) => {
-    updateOne({ id: textData.id, text: newText });
-  },
+  mutationFn: async (newText: string) =>
+    updateOne({ id: props.textData.id, text: newText }),
 });
 
 const [debounceMutation] = debounce((newText: string) => {
   mutate(newText);
 }, 500);
 
-const handleInput = (event: Event) => {
+const handleInput = async (event: Event) => {
   const newText = (event.currentTarget as HTMLTextAreaElement).value;
-  debounceMutation(newText);
+  await debounceMutation(newText);
 };
 </script>
 

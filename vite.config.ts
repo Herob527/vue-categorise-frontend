@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url';
-import { analyzer } from 'vite-bundle-analyzer';
+// import { analyzer } from 'vite-bundle-analyzer';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
@@ -12,15 +12,15 @@ export default defineConfig({
     vue(),
     svgLoader(),
     tailwindcss(),
-    analyzer({
-      enabled: !(process.env.DOCKER),
-      openAnalyzer: !(process.env.DOCKER),
-    }),
+    // analyzer({
+    //   enabled: !(process.env.DOCKER),
+    //   openAnalyzer: !(process.env.DOCKER),
+    // }),
   ],
   server: {
     strictPort: true,
     host: true,
-    allowedHosts: ["frontend"],
+    allowedHosts: ['frontend'],
     open: process.env.DOCKER ? false : '/startup',
     watch: {
       usePolling: true,

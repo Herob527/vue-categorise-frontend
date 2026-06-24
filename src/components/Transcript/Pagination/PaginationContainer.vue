@@ -4,12 +4,7 @@ import PaginationEntry from './PaginationEntry.vue';
 import { computed, ref, watchEffect } from 'vue';
 import PageJumper from './PageJumper.vue';
 
-const {
-  count,
-  pageSize,
-  storageKey: key,
-  page,
-} = withDefaults(
+const props = withDefaults(
   defineProps<{
     count: number;
     pageSize: number;
@@ -19,7 +14,7 @@ const {
   { page: undefined },
 );
 
-const storageKey = `${LOCALSTORAGE_PAGE_KEY}-${key}`;
+const storageKey = `${LOCALSTORAGE_PAGE_KEY}-${props.storageKey}`;
 
 const currentPageFromStorage = parseInt(
   localStorage.getItem(storageKey) || '0',
@@ -27,17 +22,17 @@ const currentPageFromStorage = parseInt(
 );
 
 const currentAmountOfPages = computed(() => {
-  const calculated = Math.trunc((count ?? 0) / pageSize);
+  const calculated = Math.trunc(props.count / props.pageSize);
   // Edge case, when count is divisible by page size
-  if (count % pageSize === 0) return calculated - 1;
+  if (props.count % props.pageSize === 0) return calculated - 1;
   return calculated;
 });
 
 const usedPage = computed(() => {
-  const newPage = page ?? currentPageFromStorage;
+  const newPage = props.page ?? currentPageFromStorage;
 
   if (newPage >= currentAmountOfPages.value) {
-    localStorage.setItem(storageKey, `${newPage}`);
+    localStorage.setItem(storageKey, newPage.toString());
     return currentAmountOfPages.value;
   }
   return newPage;
@@ -51,7 +46,7 @@ watchEffect(() => {
 
 const saveCurrentPage = (newPage: number) => {
   currentPage.value = newPage;
-  localStorage.setItem(storageKey, `${newPage}`);
+  localStorage.setItem(storageKey, newPage.toString());
 };
 
 const JUMP_MARK = '...';

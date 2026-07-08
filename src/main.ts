@@ -9,6 +9,7 @@ import { createI18n } from 'vue-i18n';
 import enUs from './locale/en-US.json';
 import type { MessageSchema } from './locale/schema';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 const app = createApp(App);
 const i18n = createI18n<{
   message: MessageSchema;

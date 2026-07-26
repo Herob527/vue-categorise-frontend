@@ -3,7 +3,7 @@ import { computed, ref, useTemplateRef } from 'vue';
 
 import { faFileImport, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/vue-query';
-import { getAll } from '@/actions/categories';
+import categories from '@/actions/categories';
 
 const fileInputRef = useTemplateRef<HTMLInputElement>('fileInput');
 
@@ -15,7 +15,7 @@ const categoryInput = ref('');
 
 const { data, isLoading } = useQuery({
   queryKey: ['category', 'get'],
-  queryFn: () => getAll(),
+  queryFn: () => categories.getAll(),
 });
 
 const isInCollection = computed(() => {

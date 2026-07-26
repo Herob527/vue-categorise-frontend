@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type TextModel } from '@/types/generated';
-import { updateOne } from '@/actions/texts';
+import texts from '@/actions/texts';
 import { useMutation } from '@tanstack/vue-query';
 import { debounce } from '@/utils/debounceWrapper';
 
@@ -11,7 +11,7 @@ const props = withDefaults(
 
 const { mutate } = useMutation({
   mutationFn: async (newText: string) =>
-    updateOne({ id: props.textData.id, text: newText }),
+    texts.updateOne({ id: props.textData.id, text: newText }),
 });
 
 const [debounceMutation] = debounce((newText: string) => {

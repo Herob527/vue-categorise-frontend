@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { deleteOne, getPaginated, post } from '@/actions/bindings';
+import bindings from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
 import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
@@ -12,7 +12,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
-import { uploadAudio } from '@/actions/audios';
+import audio from '@/actions/audios';
 
 export type dataType = { id: string; fileName: string };
 
@@ -29,7 +29,7 @@ const queryClient = useQueryClient();
 const { data: transcriptData, refetch } = useQuery({
   queryKey: ['get-paginated-transcript', dbPagination],
   queryFn: () =>
-    getPaginated({
+    bindings.getPaginated({
       page: dbPagination.value,
       pageSize: ENTRIES_PER_PAGE,
     }),
@@ -79,11 +79,11 @@ const sendPending = async () => {
     updateFileStatus(entry.id, statuses.PROCESSING);
   });
   const requests = all.map((entry) => async () => {
-    const postData = await post({
+    const postData = await bindings.post({
       audio: entry.file,
       category: entry.category,
     });
-    await uploadAudio(postData.binding_id, entry.file);
+    await audio.uploadAudio(postData.binding_id, entry.file);
   });
   const CHUNK_SIZE = 10;
   // Chunk the requests into groups of CHUNK_SIZE
@@ -127,7 +127,7 @@ const sendPending = async () => {
 };
 
 const removeFile = async (id: string) => {
-  await deleteOne({ id });
+  await bindings.deleteOne({ id });
   const result = await refetch();
   if (result.data?.items.length === 0 && dbPagination.value > 0) {
     dbPagination.value -= 1;
@@ -136,7 +136,7 @@ const removeFile = async (id: string) => {
 
 const removeAllOnPage = async () => {
   await Promise.allSettled(
-    transformtedData.value.map((entry) => deleteOne({ id: entry.id })),
+    transformtedData.value.map((entry) => bindings.deleteOne({ id: entry.id })),
   );
   const { data } = await refetch();
   if (data?.items.length !== 0) {

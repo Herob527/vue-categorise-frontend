@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import categories from '@/actions/categories';
 import { type CategoryModel } from '@/types/generated';
 import { useQuery } from '@tanstack/vue-query';
-import { getAll } from '@/actions/categories';
 
 withDefaults(
   defineProps<{
@@ -17,7 +17,7 @@ defineEmits<{
 
 const { data, isLoading } = useQuery({
   queryKey: ['category', 'get'],
-  queryFn: () => getAll(),
+  queryFn: () => categories.getAll(),
 });
 </script>
 <template>

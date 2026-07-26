@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { deleteOne, getAll, updateOne } from '@/actions/categories';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import ModifyCategoryItem from './ModifyCategoryItem.vue';
 import { useDebounceFn } from '@vueuse/core';
+import categories from '@/actions/categories';
 
 const client = useQueryClient();
 
 const { data, isLoading, refetch } = useQuery({
   queryKey: ['category', 'get'],
-  queryFn: () => getAll(),
+  queryFn: () => categories.getAll(),
 });
 
 const { mutate, isIdle } = useMutation({
   mutationKey: ['category', 'delete'],
-  mutationFn: async (name: string) => deleteOne({ name }),
+  mutationFn: async (name: string) => categories.deleteOne({ name }),
   onSuccess: () => {
     refetch();
   },
@@ -22,7 +22,7 @@ const { mutate, isIdle } = useMutation({
 const { mutate: updateName } = useMutation({
   mutationKey: ['category', 'update'],
   mutationFn: ({ id, newName }: { id: string; newName: string }) =>
-    updateOne({ id, newName }),
+    categories.updateOne({ id, newName }),
   onSuccess: () => {
     client.refetchQueries({ queryKey: ['category', 'get'] });
   },
@@ -30,7 +30,7 @@ const { mutate: updateName } = useMutation({
 
 const sendDebouncedUpdate = useDebounceFn((id: string, newName: string) => {
   const category = data.value?.filter((c) => c.name === newName);
-  if (category && category?.length) return;
+  if (category && category.length) return;
   updateName({ id, newName });
 }, 200);
 </script>

@@ -3,7 +3,7 @@ import { onUnmounted, ref, watch, type ComponentPublicInstance } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import { type AudioModel } from '@/types/generated';
 import { useQuery } from '@tanstack/vue-query';
-import { getOne } from '@/actions/audios';
+import audio from '@/actions/audios';
 
 const props = withDefaults(
   defineProps<{
@@ -14,7 +14,7 @@ const props = withDefaults(
 );
 
 const { data, isLoading } = useQuery({
-  queryFn: async () => getOne(props.audioData.id),
+  queryFn: async () => audio.getOne(props.audioData.id),
   queryKey: ['audio', props.audioData.id],
 });
 

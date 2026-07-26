@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import { get } from '@/actions/dashboard';
 import DataView from '@/components/Dashboard/DataView.vue';
+import dashboard from '@/actions/dashboard';
 
-const queryFn = async () => get();
+const queryFn = async () => dashboard.get();
 
 const { data, isLoading, isError } = useQuery({
   queryKey: ['bindingsCount'],

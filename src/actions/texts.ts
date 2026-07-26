@@ -1,13 +1,18 @@
 import { API_URL } from '@/constants';
 import { TextsApi } from '@/types/generated';
 
-const textsApi = new TextsApi(
-  {
-    isJsonMime: (mime: string) => mime === 'application/json',
-  },
-  API_URL,
-);
+const texts = (() => {
+  const api = new TextsApi(
+    {
+      isJsonMime: (mime: string) => mime === 'application/json',
+    },
+    API_URL,
+  );
 
-export const updateOne = async ({ id, text }: { id: string; text: string }) => {
-  await textsApi.updateTextTextsTextIdPatch(id, text);
-};
+  const updateOne = async ({ id, text }: { id: string; text: string }) => {
+    await api.updateTextTextsTextIdPatch(id, text);
+  };
+  return { updateOne };
+})();
+
+export default texts;

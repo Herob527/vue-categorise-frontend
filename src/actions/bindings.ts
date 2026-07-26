@@ -1,61 +1,69 @@
 import { API_URL } from '@/constants';
 import { BindingsApi } from '@/types/generated';
 
-const bindingsApi = new BindingsApi(
-  {
-    isJsonMime: (mime: string) => mime === 'application/json',
-  },
-  API_URL,
-);
+type UUID = string;
 
-export type postBindingType = {
-  audio: File;
-  category?: string;
-};
+const bindings = (() => {
+  const api = new BindingsApi(
+    {
+      isJsonMime: (mime: string) => mime === 'application/json',
+    },
+    API_URL,
+  );
 
-export type UUID = string;
+  type postBindingType = {
+    audio: File;
+    category?: string;
+  };
 
-export const post = async ({ audio, category }: postBindingType) => {
-  const { data } = await bindingsApi.createBindingBindingsPost(audio, category);
-  return data;
-};
+  const post = async ({ audio, category }: postBindingType) => {
+    const { data } = await api.createBindingBindingsPost(audio, category);
+    return data;
+  };
 
-export const getPaginated = async ({
-  page,
-  pageSize,
-}: {
-  page: number;
-  pageSize: number;
-}) => {
-  const { data } = await bindingsApi.getPaginatedBindingsBindingsGet(
+  const getPaginated = async ({
     page,
     pageSize,
-  );
-  return data;
-};
+  }: {
+    page: number;
+    pageSize: number;
+  }) => {
+    const { data } = await api.getPaginatedBindingsBindingsGet(page, pageSize);
+    return data;
+  };
 
-export const deleteOne = async ({ id }: { id: UUID }) => {
-  const res = await bindingsApi.removeBindingBindingsBindingIdDelete(id);
-  return res;
-};
+  const deleteOne = async ({ id }: { id: UUID }) => {
+    const res = await api.removeBindingBindingsBindingIdDelete(id);
+    return res;
+  };
 
-export const updateOneCategory = async ({
-  bindingId,
-  categoryId,
-}: {
-  bindingId: UUID;
-  categoryId: string;
-}) => {
-  const res =
-    await bindingsApi.bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(
-      bindingId,
-      categoryId,
-    );
-  return res;
-};
-
-export const removeCategoryFromBinding = async (bindingId: UUID) => {
-  await bindingsApi.bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(
+  const updateOneCategory = async ({
     bindingId,
-  );
-};
+    categoryId,
+  }: {
+    bindingId: UUID;
+    categoryId: string;
+  }) => {
+    const res =
+      await api.bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(
+        bindingId,
+        categoryId,
+      );
+    return res;
+  };
+
+  const removeCategoryFromBinding = async (bindingId: UUID) => {
+    await api.bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(
+      bindingId,
+    );
+  };
+  return {
+    post,
+    getPaginated,
+    deleteOne,
+    updateOneCategory,
+    removeCategoryFromBinding,
+  };
+})();
+
+export default bindings;

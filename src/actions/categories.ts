@@ -1,39 +1,37 @@
 import { API_URL } from '@/constants';
 import { CategoryApi } from '@/types/generated';
 
-const categoryApi = new CategoryApi(
-  {
-    isJsonMime: (mime: string) => mime === 'application/json',
-  },
+const categories = (() => {
+  const api = new CategoryApi(
+    {
+      isJsonMime: (mime: string) => mime === 'application/json',
+    },
 
-  API_URL,
-);
+    API_URL,
+  );
 
-export const getAll = async () => {
-  const { data } = await categoryApi.getAllCategoriesCategoriesGet();
-  return data;
-};
+  const getAll = async () => {
+    const { data } = await api.getAllCategoriesCategoriesGet();
+    return data;
+  };
 
-export const deleteOne = async ({ name }: { name: string }) => {
-  const { data } =
-    await categoryApi.removeCategoryCategoriesCategoryNameDelete(name);
-  return data;
-};
+  const deleteOne = async ({ name }: { name: string }) => {
+    await api.removeCategoryCategoriesCategoryNameDelete(name);
+  };
 
-export const updateOne = async ({
-  id,
-  newName,
-}: {
-  id: string;
-  newName: string;
-}) => {
-  const { data } = await categoryApi.updateCategoryCategoriesIdPatch(
+  const updateOne = async ({
     id,
     newName,
-  );
-  return data;
-};
-export const post = async ({ name }: { name: string }) => {
-  const { data } = await categoryApi.postNewCategoryCategoriesPost(name);
-  return data;
-};
+  }: {
+    id: string;
+    newName: string;
+  }) => {
+    await api.updateCategoryCategoriesIdPatch(id, newName);
+  };
+  const post = async ({ name }: { name: string }) => {
+    await api.postNewCategoryCategoriesPost(name);
+  };
+  return { getAll, deleteOne, updateOne, post };
+})();
+
+export default categories;

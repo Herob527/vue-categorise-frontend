@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { post } from '@/actions/categories';
+import categories from '@/actions/categories';
 import type { CategoryModel } from '@/types/generated';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
@@ -15,7 +15,7 @@ const { mutate, error, reset } = useMutation<
   { name: CategoryModel['name'] }
 >({
   mutationKey: ['category', 'post'],
-  mutationFn: (value) => post(value),
+  mutationFn: (value) => categories.post(value),
 });
 
 const handleSubmit = async () => {
@@ -24,9 +24,8 @@ const handleSubmit = async () => {
       name: categoryName.value,
     },
     {
-      onSuccess: () => {
-        client.refetchQueries({ queryKey: ['category', 'get'] });
-      },
+      onSuccess: () =>
+        void client.refetchQueries({ queryKey: ['category', 'get'] }),
     },
   );
   categoryName.value = '';

@@ -1,24 +1,33 @@
 import { API_URL } from '@/constants';
 import { AudioApi } from '@/types/generated';
 
-const audioApi = new AudioApi(
-  {
-    isJsonMime: (mime: string) => mime === 'application/json',
-  },
-  API_URL,
-);
-
-export const getOne = async (id: string) => {
-  const data = await audioApi.downloadAudioAudioDownloadAudioIdGet(id, {
-    responseType: 'blob',
-    headers: {
-      'Cache-Control': 'max-age=604800',
+const audio = (() => {
+  const api = new AudioApi(
+    {
+      isJsonMime: (mime: string) => mime === 'application/json',
     },
-  });
-  return data.data as Blob;
-};
+    API_URL,
+  );
 
-export const uploadAudio = async (id: string, file: File) => {
-  const data = await audioApi.uploadAudioAudioUploadPost(id, file);
-  return data.data;
-};
+  const getOne = async (id: string) => {
+    const data = await api.downloadAudioAudioDownloadAudioIdGet(id, {
+      responseType: 'blob',
+      headers: {
+        'Cache-Control': 'max-age=604800',
+      },
+    });
+    return data.data as Blob;
+  };
+
+  const uploadAudio = async (id: string, file: File) => {
+    const data = await api.uploadAudioAudioUploadPost(id, file);
+    return data.data;
+  };
+
+  return {
+    getOne,
+    uploadAudio,
+  };
+})();
+
+export default audio;

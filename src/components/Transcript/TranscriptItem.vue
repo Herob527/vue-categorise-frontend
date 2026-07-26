@@ -4,10 +4,7 @@ import AudioItem from './AudioItem.vue';
 import CategoryItem from './CategoryItem.vue';
 import TextItem from './TextItem.vue';
 import type { BindingModel } from '@/types/generated';
-import {
-  removeCategoryFromBinding,
-  updateOneCategory,
-} from '@/actions/bindings';
+import bindings from '@/actions/bindings';
 import FilenameItem from './FilenameItem.vue';
 
 const props = defineProps<{
@@ -21,12 +18,12 @@ const { mutate } = useMutation({
   }: {
     bindingId: string;
     categoryId: string;
-  }) => updateOneCategory({ bindingId, categoryId }),
+  }) => bindings.updateOneCategory({ bindingId, categoryId }),
 });
 
 const { mutate: mutateRemove } = useMutation({
   mutationFn: ({ bindingId }: { bindingId: string }) =>
-    removeCategoryFromBinding(bindingId),
+    bindings.removeCategoryFromBinding(bindingId),
 });
 const handleCategoryChange = (event: Event) => {
   const { value } = event.target as HTMLSelectElement;

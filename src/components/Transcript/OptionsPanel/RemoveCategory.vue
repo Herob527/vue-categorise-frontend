@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { deleteOne, getAll } from '@/actions/categories';
+import categories from '@/actions/categories';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
 const client = useQueryClient();
 
 const { mutate } = useMutation({
-  mutationFn: (name: string) => deleteOne({ name }),
+  mutationFn: (name: string) => categories.deleteOne({ name }),
   onSuccess: () => {
     client.refetchQueries({ queryKey: ['category', 'get'] });
     client.invalidateQueries({ queryKey: ['category', 'get'] });
@@ -17,7 +17,7 @@ const { mutate } = useMutation({
 
 const { data, isLoading } = useQuery({
   queryKey: ['category', 'get'],
-  queryFn: () => getAll(),
+  queryFn: () => categories.getAll(),
 });
 
 const selected = ref('');

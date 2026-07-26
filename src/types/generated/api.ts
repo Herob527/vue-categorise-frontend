@@ -18,642 +18,174 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-/**
- * 
- * @export
- * @interface AudioModel
- */
 export interface AudioModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof AudioModel
-     */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AudioModel
-     */
     'url': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AudioModel
-     */
     'file_name': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AudioModel
-     */
     'audio_length': number | null;
-    /**
-     * 
-     * @type {StatusEnum}
-     * @memberof AudioModel
-     */
     'audio_status': StatusEnum;
 }
 
 
-/**
- * 
- * @export
- * @interface BindingEntry
- */
 export interface BindingEntry {
-    /**
-     * 
-     * @type {string}
-     * @memberof BindingEntry
-     */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BindingEntry
-     */
     'category_id': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BindingEntry
-     */
     'audio_id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BindingEntry
-     */
     'text_id': string;
 }
-/**
- * 
- * @export
- * @interface BindingModel
- */
 export interface BindingModel {
-    /**
-     * 
-     * @type {BindingEntry}
-     * @memberof BindingModel
-     */
     'binding': BindingEntry;
-    /**
-     * 
-     * @type {CategoryModel}
-     * @memberof BindingModel
-     */
     'category': CategoryModel | null;
-    /**
-     * 
-     * @type {AudioModel}
-     * @memberof BindingModel
-     */
     'audio': AudioModel;
-    /**
-     * 
-     * @type {TextModel}
-     * @memberof BindingModel
-     */
     'text': TextModel;
 }
-/**
- * 
- * @export
- * @interface BodyScheduleFinaliseFinaliseSchedulePost
- */
 export interface BodyScheduleFinaliseFinaliseSchedulePost {
-    /**
-     * 
-     * @type {FinaliseConfigModel}
-     * @memberof BodyScheduleFinaliseFinaliseSchedulePost
-     */
     'config': FinaliseConfigModel;
-    /**
-     * 
-     * @type {ScheduleData}
-     * @memberof BodyScheduleFinaliseFinaliseSchedulePost
-     */
     'params'?: ScheduleData | null;
 }
-/**
- * 
- * @export
- * @interface CategoryModel
- */
 export interface CategoryModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof CategoryModel
-     */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CategoryModel
-     */
     'name': string;
 }
-/**
- * 
- * @export
- * @interface CreateResponseModel
- */
 export interface CreateResponseModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateResponseModel
-     */
     'binding_id': string;
 }
-/**
- * 
- * @export
- * @interface DashboardModel
- */
 export interface DashboardModel {
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'categories_count': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'total_bindings_count': number;
-    /**
-     * 
-     * @type {Array<any>}
-     * @memberof DashboardModel
-     */
     'category_with_most_bindings': Array<any>;
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'uncategorizaed_count': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'categorized_count': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'total_audio_duration': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'filled_transcript_count': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DashboardModel
-     */
     'empty_transcript_count': number;
 }
-/**
- * 
- * @export
- * @interface DirectoryModel
- */
 export interface DirectoryModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModel
-     */
     'dir_name': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DirectoryModel
-     */
     'is_dir': DirectoryModelIsDirEnum;
-    /**
-     * 
-     * @type {Array<DirectoryModelFilesInner>}
-     * @memberof DirectoryModel
-     */
-    'files': Array<DirectoryModelFilesInner>;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModel
-     */
+    'files': Array<FilesInner>;
     'original_name'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModel
-     */
     'category_id'?: string | null;
 }
 
 export const DirectoryModelIsDirEnum = {
-    True: true
+    True: true,
 } as const;
 
 export type DirectoryModelIsDirEnum = typeof DirectoryModelIsDirEnum[keyof typeof DirectoryModelIsDirEnum];
 
-/**
- * 
- * @export
- * @interface DirectoryModelFilesInner
- */
-export interface DirectoryModelFilesInner {
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModelFilesInner
-     */
-    'file_name': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DirectoryModelFilesInner
-     */
-    'is_dir': DirectoryModelFilesInnerIsDirEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModelFilesInner
-     */
-    'dir_name': string;
-    /**
-     * 
-     * @type {Array<DirectoryModelFilesInner>}
-     * @memberof DirectoryModelFilesInner
-     */
-    'files': Array<DirectoryModelFilesInner>;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModelFilesInner
-     */
-    'original_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DirectoryModelFilesInner
-     */
-    'category_id'?: string;
-}
-
-export const DirectoryModelFilesInnerIsDirEnum = {
-    True: true
-} as const;
-
-export type DirectoryModelFilesInnerIsDirEnum = typeof DirectoryModelFilesInnerIsDirEnum[keyof typeof DirectoryModelFilesInnerIsDirEnum];
-
-/**
- * 
- * @export
- * @interface ExportModel
- */
 export interface ExportModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof ExportModel
-     */
     'id': string;
-    /**
-     * 
-     * @type {ExportStatus}
-     * @memberof ExportModel
-     */
     'status': ExportStatus;
-    /**
-     * 
-     * @type {string}
-     * @memberof ExportModel
-     */
     'created_at': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ExportModel
-     */
     'updated_at': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ExportModel
-     */
     'archive_url': string | null;
 }
 
 
-/**
- * 
- * @export
- * @enum {number}
- */
 
 export const ExportStatus = {
     NUMBER_0: 0,
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 
 export type ExportStatus = typeof ExportStatus[keyof typeof ExportStatus];
 
 
-/**
- * 
- * @export
- * @interface FileModel
- */
 export interface FileModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof FileModel
-     */
     'file_name': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FileModel
-     */
     'is_dir': FileModelIsDirEnum;
 }
 
 export const FileModelIsDirEnum = {
-    False: false
+    False: false,
 } as const;
 
 export type FileModelIsDirEnum = typeof FileModelIsDirEnum[keyof typeof FileModelIsDirEnum];
 
-/**
- * 
- * @export
- * @interface FinaliseConfigModel
- */
+export interface FilesInner {
+    'file_name': string;
+    'is_dir': FilesInnerIsDirEnum;
+    'dir_name': string;
+    'files': Array<FilesInner>;
+    'original_name'?: string;
+    'category_id'?: string;
+}
+
+export const FilesInnerIsDirEnum = {
+    True: true,
+} as const;
+
+export type FilesInnerIsDirEnum = typeof FilesInnerIsDirEnum[keyof typeof FilesInnerIsDirEnum];
+
 export interface FinaliseConfigModel {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FinaliseConfigModel
-     */
     'omit_empty'?: boolean;
     /**
      *       supported keys:          {file} - file name          {category} - category name          {category_index} - category index (created automatically)          {text} - text of entry          {duration} - duration of audio in seconds      
-     * @type {string}
-     * @memberof FinaliseConfigModel
      */
     'line_format'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FinaliseConfigModel
-     */
     'divide_by_category'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FinaliseConfigModel
-     */
     'category_to_lower'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof FinaliseConfigModel
-     */
     'category_space_replacer'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FinaliseConfigModel
-     */
     'export_transcript'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof FinaliseConfigModel
-     */
     'uncategorized_name': string;
 }
-/**
- * 
- * @export
- * @interface HTTPValidationError
- */
 export interface HTTPValidationError {
-    /**
-     * 
-     * @type {Array<ValidationError>}
-     * @memberof HTTPValidationError
-     */
     'detail'?: Array<ValidationError>;
 }
-/**
- * 
- * @export
- * @interface PaginatedBindingModel
- */
+export interface LocationInner {
+}
 export interface PaginatedBindingModel {
-    /**
-     * 
-     * @type {Array<BindingModel>}
-     * @memberof PaginatedBindingModel
-     */
     'items': Array<BindingModel>;
-    /**
-     * 
-     * @type {PaginationModel}
-     * @memberof PaginatedBindingModel
-     */
     'pagination': PaginationModel;
 }
-/**
- * 
- * @export
- * @interface PaginatedExportModel
- */
 export interface PaginatedExportModel {
-    /**
-     * 
-     * @type {Array<ExportModel>}
-     * @memberof PaginatedExportModel
-     */
     'items': Array<ExportModel>;
-    /**
-     * 
-     * @type {PaginationModel}
-     * @memberof PaginatedExportModel
-     */
     'pagination': PaginationModel;
 }
-/**
- * 
- * @export
- * @interface PaginationModel
- */
 export interface PaginationModel {
-    /**
-     * 
-     * @type {number}
-     * @memberof PaginationModel
-     */
     'total': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PaginationModel
-     */
     'current_page': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PaginationModel
-     */
     'total_pages': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PaginationModel
-     */
     'per_page': number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PaginationModel
-     */
     'has_next': boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PaginationModel
-     */
     'has_previous': boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof PaginationModel
-     */
     'next_page'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof PaginationModel
-     */
     'previous_page'?: number | null;
 }
-/**
- * 
- * @export
- * @interface ScheduleData
- */
 export interface ScheduleData {
-    /**
-     * 
-     * @type {Array<string | null>}
-     * @memberof ScheduleData
-     */
     'categories'?: Array<string | null> | null;
 }
-/**
- * 
- * @export
- * @enum {number}
- */
 
 export const StatusEnum = {
     NUMBER_0: 0,
-    NUMBER_1: 1
+    NUMBER_1: 1,
 } as const;
 
 export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 
 
-/**
- * 
- * @export
- * @interface TextModel
- */
 export interface TextModel {
-    /**
-     * 
-     * @type {string}
-     * @memberof TextModel
-     */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TextModel
-     */
     'text': string;
 }
-/**
- * 
- * @export
- * @interface ValidationError
- */
 export interface ValidationError {
-    /**
-     * 
-     * @type {Array<ValidationErrorLocInner>}
-     * @memberof ValidationError
-     */
-    'loc': Array<ValidationErrorLocInner>;
-    /**
-     * 
-     * @type {string}
-     * @memberof ValidationError
-     */
+    'loc': Array<LocationInner>;
     'msg': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ValidationError
-     */
     'type': string;
-    /**
-     * 
-     * @type {any}
-     * @memberof ValidationError
-     */
     'input'?: any;
-    /**
-     * 
-     * @type {object}
-     * @memberof ValidationError
-     */
     'ctx'?: object;
-}
-/**
- * 
- * @export
- * @interface ValidationErrorLocInner
- */
-export interface ValidationErrorLocInner {
 }
 
 /**
  * AudioApi - axios parameter creator
- * @export
  */
 export const AudioApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -668,7 +200,7 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'audioId' is not null or undefined
             assertParamExists('deleteAudioAudioAudioIdDelete', 'audioId', audioId)
             const localVarPath = `/audio/{audio_id}`
-                .replace(`{${"audio_id"}}`, encodeURIComponent(String(audioId)));
+                .replace('{audio_id}', encodeURIComponent(String(audioId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -680,8 +212,8 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -702,7 +234,7 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'audioId' is not null or undefined
             assertParamExists('downloadAudioAudioDownloadAudioIdGet', 'audioId', audioId)
             const localVarPath = `/audio/download/{audio_id}`
-                .replace(`{${"audio_id"}}`, encodeURIComponent(String(audioId)));
+                .replace('{audio_id}', encodeURIComponent(String(audioId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -714,8 +246,8 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -736,7 +268,7 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'audioId' is not null or undefined
             assertParamExists('downloadUrlAudioDownloadAudioIdUrlGet', 'audioId', audioId)
             const localVarPath = `/audio/download/{audio_id}/url`
-                .replace(`{${"audio_id"}}`, encodeURIComponent(String(audioId)));
+                .replace('{audio_id}', encodeURIComponent(String(audioId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -748,8 +280,8 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -771,7 +303,7 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'audioId' is not null or undefined
             assertParamExists('getAudioUrlAudioUrlAudioIdGet', 'audioId', audioId)
             const localVarPath = `/audio/url/{audio_id}`
-                .replace(`{${"audio_id"}}`, encodeURIComponent(String(audioId)));
+                .replace('{audio_id}', encodeURIComponent(String(audioId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -787,8 +319,8 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['expires'] = expires;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -802,12 +334,12 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {string} uuid 
-         * @param {string} file 
+         * @param {File} file 
          * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost: async (uuid: string, file: string, folder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadAudioAudioUploadPost: async (uuid: string, file: File, folder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'uuid' is not null or undefined
             assertParamExists('uploadAudioAudioUploadPost', 'uuid', uuid)
             // verify required parameter 'file' is not null or undefined
@@ -837,10 +369,9 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
             if (file !== undefined) { 
                 localVarFormParams.append('file', file as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -856,7 +387,6 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
 
 /**
  * AudioApi - functional programming interface
- * @export
  */
 export const AudioApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AudioApiAxiosParamCreator(configuration)
@@ -918,12 +448,12 @@ export const AudioApiFp = function(configuration?: Configuration) {
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {string} uuid 
-         * @param {string} file 
+         * @param {File} file 
          * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadAudioAudioUploadPost(uuid: string, file: string, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(uuid, file, folder, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AudioApi.uploadAudioAudioUploadPost']?.[localVarOperationServerIndex]?.url;
@@ -934,7 +464,6 @@ export const AudioApiFp = function(configuration?: Configuration) {
 
 /**
  * AudioApi - factory interface
- * @export
  */
 export const AudioApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AudioApiFp(configuration)
@@ -984,12 +513,12 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {string} uuid 
-         * @param {string} file 
+         * @param {File} file 
          * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost(uuid: string, file: string, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(axios, basePath));
         },
     };
@@ -997,9 +526,6 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
 
 /**
  * AudioApi - object-oriented interface
- * @export
- * @class AudioApi
- * @extends {BaseAPI}
  */
 export class AudioApi extends BaseAPI {
     /**
@@ -1008,7 +534,6 @@ export class AudioApi extends BaseAPI {
      * @param {string} audioId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AudioApi
      */
     public deleteAudioAudioAudioIdDelete(audioId: string, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).deleteAudioAudioAudioIdDelete(audioId, options).then((request) => request(this.axios, this.basePath));
@@ -1020,7 +545,6 @@ export class AudioApi extends BaseAPI {
      * @param {string} audioId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AudioApi
      */
     public downloadAudioAudioDownloadAudioIdGet(audioId: string, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).downloadAudioAudioDownloadAudioIdGet(audioId, options).then((request) => request(this.axios, this.basePath));
@@ -1032,7 +556,6 @@ export class AudioApi extends BaseAPI {
      * @param {string} audioId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AudioApi
      */
     public downloadUrlAudioDownloadAudioIdUrlGet(audioId: string, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).downloadUrlAudioDownloadAudioIdUrlGet(audioId, options).then((request) => request(this.axios, this.basePath));
@@ -1045,7 +568,6 @@ export class AudioApi extends BaseAPI {
      * @param {number} [expires] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AudioApi
      */
     public getAudioUrlAudioUrlAudioIdGet(audioId: string, expires?: number, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).getAudioUrlAudioUrlAudioIdGet(audioId, expires, options).then((request) => request(this.axios, this.basePath));
@@ -1055,13 +577,12 @@ export class AudioApi extends BaseAPI {
      * Upload audio file to MinIO and save metadata to database
      * @summary Upload Audio
      * @param {string} uuid 
-     * @param {string} file 
+     * @param {File} file 
      * @param {string} [folder] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AudioApi
      */
-    public uploadAudioAudioUploadPost(uuid: string, file: string, folder?: string, options?: RawAxiosRequestConfig) {
+    public uploadAudioAudioUploadPost(uuid: string, file: File, folder?: string, options?: RawAxiosRequestConfig) {
         return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -1070,7 +591,6 @@ export class AudioApi extends BaseAPI {
 
 /**
  * BindingsApi - axios parameter creator
- * @export
  */
 export const BindingsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1085,7 +605,7 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'bindingId' is not null or undefined
             assertParamExists('bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut', 'bindingId', bindingId)
             const localVarPath = `/bindings/{binding_id}/remove_category`
-                .replace(`{${"binding_id"}}`, encodeURIComponent(String(bindingId)));
+                .replace('{binding_id}', encodeURIComponent(String(bindingId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1097,8 +617,8 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1122,8 +642,8 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'categoryId' is not null or undefined
             assertParamExists('bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut', 'categoryId', categoryId)
             const localVarPath = `/bindings/{binding_id}/category_assign/{category_id}`
-                .replace(`{${"binding_id"}}`, encodeURIComponent(String(bindingId)))
-                .replace(`{${"category_id"}}`, encodeURIComponent(String(categoryId)));
+                .replace('{binding_id}', encodeURIComponent(String(bindingId)))
+                .replace('{category_id}', encodeURIComponent(String(categoryId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1135,8 +655,8 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1149,12 +669,12 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Create Binding
-         * @param {string} audio 
+         * @param {File} audio 
          * @param {string | null} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost: async (audio: string, category?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createBindingBindingsPost: async (audio: File, category?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'audio' is not null or undefined
             assertParamExists('createBindingBindingsPost', 'audio', audio)
             const localVarPath = `/bindings`;
@@ -1178,10 +698,9 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             if (audio !== undefined) { 
                 localVarFormParams.append('audio', audio as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1216,8 +735,8 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['category'] = category;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1256,8 +775,8 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['per_page'] = perPage;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1278,7 +797,7 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'bindingId' is not null or undefined
             assertParamExists('removeBindingBindingsBindingIdDelete', 'bindingId', bindingId)
             const localVarPath = `/bindings/{binding_id}`
-                .replace(`{${"binding_id"}}`, encodeURIComponent(String(bindingId)));
+                .replace('{binding_id}', encodeURIComponent(String(bindingId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1290,8 +809,8 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1306,7 +825,6 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
 
 /**
  * BindingsApi - functional programming interface
- * @export
  */
 export const BindingsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = BindingsApiAxiosParamCreator(configuration)
@@ -1341,12 +859,12 @@ export const BindingsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Create Binding
-         * @param {string} audio 
+         * @param {File} audio 
          * @param {string | null} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createBindingBindingsPost(audio: string, category?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateResponseModel>> {
+        async createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createBindingBindingsPost(audio, category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.createBindingBindingsPost']?.[localVarOperationServerIndex]?.url;
@@ -1397,7 +915,6 @@ export const BindingsApiFp = function(configuration?: Configuration) {
 
 /**
  * BindingsApi - factory interface
- * @export
  */
 export const BindingsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = BindingsApiFp(configuration)
@@ -1426,12 +943,12 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Create Binding
-         * @param {string} audio 
+         * @param {File} audio 
          * @param {string | null} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost(audio: string, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<CreateResponseModel> {
+        createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<CreateResponseModel> {
             return localVarFp.createBindingBindingsPost(audio, category, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1470,9 +987,6 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
 
 /**
  * BindingsApi - object-oriented interface
- * @export
- * @class BindingsApi
- * @extends {BaseAPI}
  */
 export class BindingsApi extends BaseAPI {
     /**
@@ -1481,7 +995,6 @@ export class BindingsApi extends BaseAPI {
      * @param {string} bindingId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BindingsApi
      */
     public bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(bindingId: string, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).bindingCategoryRemoveBindingsBindingIdRemoveCategoryPut(bindingId, options).then((request) => request(this.axios, this.basePath));
@@ -1494,7 +1007,6 @@ export class BindingsApi extends BaseAPI {
      * @param {string} categoryId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BindingsApi
      */
     public bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(bindingId: string, categoryId: string, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).bindingCategoryUpdateBindingsBindingIdCategoryAssignCategoryIdPut(bindingId, categoryId, options).then((request) => request(this.axios, this.basePath));
@@ -1503,13 +1015,12 @@ export class BindingsApi extends BaseAPI {
     /**
      * 
      * @summary Create Binding
-     * @param {string} audio 
+     * @param {File} audio 
      * @param {string | null} [category] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BindingsApi
      */
-    public createBindingBindingsPost(audio: string, category?: string | null, options?: RawAxiosRequestConfig) {
+    public createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).createBindingBindingsPost(audio, category, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1519,7 +1030,6 @@ export class BindingsApi extends BaseAPI {
      * @param {string | null} [category] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BindingsApi
      */
     public getAllBindingsBindingsAllGet(category?: string | null, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).getAllBindingsBindingsAllGet(category, options).then((request) => request(this.axios, this.basePath));
@@ -1532,7 +1042,6 @@ export class BindingsApi extends BaseAPI {
      * @param {number} [perPage] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BindingsApi
      */
     public getPaginatedBindingsBindingsGet(page?: number, perPage?: number, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).getPaginatedBindingsBindingsGet(page, perPage, options).then((request) => request(this.axios, this.basePath));
@@ -1544,7 +1053,6 @@ export class BindingsApi extends BaseAPI {
      * @param {string} bindingId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BindingsApi
      */
     public removeBindingBindingsBindingIdDelete(bindingId: string, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).removeBindingBindingsBindingIdDelete(bindingId, options).then((request) => request(this.axios, this.basePath));
@@ -1555,7 +1063,6 @@ export class BindingsApi extends BaseAPI {
 
 /**
  * CategoryApi - axios parameter creator
- * @export
  */
 export const CategoryApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1578,8 +1085,8 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1621,10 +1128,9 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             if (category !== undefined) { 
                 localVarFormParams.set('category', category as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1646,7 +1152,7 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'categoryName' is not null or undefined
             assertParamExists('removeCategoryCategoriesCategoryNameDelete', 'categoryName', categoryName)
             const localVarPath = `/categories/{category_name}`
-                .replace(`{${"category_name"}}`, encodeURIComponent(String(categoryName)));
+                .replace('{category_name}', encodeURIComponent(String(categoryName)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1658,8 +1164,8 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1683,7 +1189,7 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'newCategoryName' is not null or undefined
             assertParamExists('updateCategoryCategoriesIdPatch', 'newCategoryName', newCategoryName)
             const localVarPath = `/categories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1700,10 +1206,9 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             if (newCategoryName !== undefined) { 
                 localVarFormParams.set('new_category_name', newCategoryName as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1719,7 +1224,6 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
 
 /**
  * CategoryApi - functional programming interface
- * @export
  */
 export const CategoryApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = CategoryApiAxiosParamCreator(configuration)
@@ -1782,7 +1286,6 @@ export const CategoryApiFp = function(configuration?: Configuration) {
 
 /**
  * CategoryApi - factory interface
- * @export
  */
 export const CategoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = CategoryApiFp(configuration)
@@ -1833,9 +1336,6 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
 
 /**
  * CategoryApi - object-oriented interface
- * @export
- * @class CategoryApi
- * @extends {BaseAPI}
  */
 export class CategoryApi extends BaseAPI {
     /**
@@ -1843,7 +1343,6 @@ export class CategoryApi extends BaseAPI {
      * @summary Get All Categories
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CategoryApi
      */
     public getAllCategoriesCategoriesGet(options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).getAllCategoriesCategoriesGet(options).then((request) => request(this.axios, this.basePath));
@@ -1856,7 +1355,6 @@ export class CategoryApi extends BaseAPI {
      * @param {string | null} [id] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CategoryApi
      */
     public postNewCategoryCategoriesPost(category: string, id?: string | null, options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).postNewCategoryCategoriesPost(category, id, options).then((request) => request(this.axios, this.basePath));
@@ -1868,7 +1366,6 @@ export class CategoryApi extends BaseAPI {
      * @param {string} categoryName 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CategoryApi
      */
     public removeCategoryCategoriesCategoryNameDelete(categoryName: string, options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).removeCategoryCategoriesCategoryNameDelete(categoryName, options).then((request) => request(this.axios, this.basePath));
@@ -1881,7 +1378,6 @@ export class CategoryApi extends BaseAPI {
      * @param {string} newCategoryName 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CategoryApi
      */
     public updateCategoryCategoriesIdPatch(id: string, newCategoryName: string, options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).updateCategoryCategoriesIdPatch(id, newCategoryName, options).then((request) => request(this.axios, this.basePath));
@@ -1892,7 +1388,6 @@ export class CategoryApi extends BaseAPI {
 
 /**
  * DashboardApi - axios parameter creator
- * @export
  */
 export const DashboardApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1915,8 +1410,8 @@ export const DashboardApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1931,7 +1426,6 @@ export const DashboardApiAxiosParamCreator = function (configuration?: Configura
 
 /**
  * DashboardApi - functional programming interface
- * @export
  */
 export const DashboardApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DashboardApiAxiosParamCreator(configuration)
@@ -1953,7 +1447,6 @@ export const DashboardApiFp = function(configuration?: Configuration) {
 
 /**
  * DashboardApi - factory interface
- * @export
  */
 export const DashboardApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = DashboardApiFp(configuration)
@@ -1972,9 +1465,6 @@ export const DashboardApiFactory = function (configuration?: Configuration, base
 
 /**
  * DashboardApi - object-oriented interface
- * @export
- * @class DashboardApi
- * @extends {BaseAPI}
  */
 export class DashboardApi extends BaseAPI {
     /**
@@ -1982,7 +1472,6 @@ export class DashboardApi extends BaseAPI {
      * @summary Get Dashboard
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DashboardApi
      */
     public getDashboardDashboardGet(options?: RawAxiosRequestConfig) {
         return DashboardApiFp(this.configuration).getDashboardDashboardGet(options).then((request) => request(this.axios, this.basePath));
@@ -1993,7 +1482,6 @@ export class DashboardApi extends BaseAPI {
 
 /**
  * DefaultApi - axios parameter creator
- * @export
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -2016,8 +1504,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2046,8 +1534,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2062,7 +1550,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 /**
  * DefaultApi - functional programming interface
- * @export
  */
 export const DefaultApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
@@ -2096,7 +1583,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
 
 /**
  * DefaultApi - factory interface
- * @export
  */
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = DefaultApiFp(configuration)
@@ -2124,9 +1610,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 
 /**
  * DefaultApi - object-oriented interface
- * @export
- * @class DefaultApi
- * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
     /**
@@ -2134,7 +1617,6 @@ export class DefaultApi extends BaseAPI {
      * @summary Health
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
      */
     public healthHealthGet(options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).healthHealthGet(options).then((request) => request(this.axios, this.basePath));
@@ -2145,7 +1627,6 @@ export class DefaultApi extends BaseAPI {
      * @summary Root
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
      */
     public rootGet(options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).rootGet(options).then((request) => request(this.axios, this.basePath));
@@ -2156,7 +1637,6 @@ export class DefaultApi extends BaseAPI {
 
 /**
  * FinaliseApi - axios parameter creator
- * @export
  */
 export const FinaliseApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -2171,7 +1651,7 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'exportId' is not null or undefined
             assertParamExists('deleteFinalizedZipFinaliseDeleteZipExportIdGet', 'exportId', exportId)
             const localVarPath = `/finalise/delete-zip/{export_id}`
-                .replace(`{${"export_id"}}`, encodeURIComponent(String(exportId)));
+                .replace('{export_id}', encodeURIComponent(String(exportId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2183,8 +1663,8 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2205,7 +1685,7 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'exportId' is not null or undefined
             assertParamExists('downloadFinalizedZipFinaliseDownloadExportIdGet', 'exportId', exportId)
             const localVarPath = `/finalise/download/{export_id}`
-                .replace(`{${"export_id"}}`, encodeURIComponent(String(exportId)));
+                .replace('{export_id}', encodeURIComponent(String(exportId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2217,8 +1697,8 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/zip,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2250,9 +1730,8 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2293,8 +1772,8 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['limit'] = limit;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2326,9 +1805,8 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2345,7 +1823,6 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
 
 /**
  * FinaliseApi - functional programming interface
- * @export
  */
 export const FinaliseApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FinaliseApiAxiosParamCreator(configuration)
@@ -2421,7 +1898,6 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
 
 /**
  * FinaliseApi - factory interface
- * @export
  */
 export const FinaliseApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = FinaliseApiFp(configuration)
@@ -2482,9 +1958,6 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
 
 /**
  * FinaliseApi - object-oriented interface
- * @export
- * @class FinaliseApi
- * @extends {BaseAPI}
  */
 export class FinaliseApi extends BaseAPI {
     /**
@@ -2493,7 +1966,6 @@ export class FinaliseApi extends BaseAPI {
      * @param {string} exportId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FinaliseApi
      */
     public deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId: string, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).deleteFinalizedZipFinaliseDeleteZipExportIdGet(exportId, options).then((request) => request(this.axios, this.basePath));
@@ -2505,7 +1977,6 @@ export class FinaliseApi extends BaseAPI {
      * @param {string} exportId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FinaliseApi
      */
     public downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).downloadFinalizedZipFinaliseDownloadExportIdGet(exportId, options).then((request) => request(this.axios, this.basePath));
@@ -2517,7 +1988,6 @@ export class FinaliseApi extends BaseAPI {
      * @param {FinaliseConfigModel} finaliseConfigModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FinaliseApi
      */
     public generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel: FinaliseConfigModel, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).generatePreviewFinaliseGeneratePreviewPost(finaliseConfigModel, options).then((request) => request(this.axios, this.basePath));
@@ -2530,7 +2000,6 @@ export class FinaliseApi extends BaseAPI {
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FinaliseApi
      */
     public getStatusesFinaliseStatusGet(page?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).getStatusesFinaliseStatusGet(page, limit, options).then((request) => request(this.axios, this.basePath));
@@ -2542,7 +2011,6 @@ export class FinaliseApi extends BaseAPI {
      * @param {BodyScheduleFinaliseFinaliseSchedulePost} bodyScheduleFinaliseFinaliseSchedulePost 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FinaliseApi
      */
     public scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost, options).then((request) => request(this.axios, this.basePath));
@@ -2553,7 +2021,6 @@ export class FinaliseApi extends BaseAPI {
 
 /**
  * TextsApi - axios parameter creator
- * @export
  */
 export const TextsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -2571,7 +2038,7 @@ export const TextsApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'newText' is not null or undefined
             assertParamExists('updateTextTextsTextIdPatch', 'newText', newText)
             const localVarPath = `/texts/{text_id}`
-                .replace(`{${"text_id"}}`, encodeURIComponent(String(textId)));
+                .replace('{text_id}', encodeURIComponent(String(textId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2587,8 +2054,8 @@ export const TextsApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['new_text'] = newText;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2603,7 +2070,6 @@ export const TextsApiAxiosParamCreator = function (configuration?: Configuration
 
 /**
  * TextsApi - functional programming interface
- * @export
  */
 export const TextsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = TextsApiAxiosParamCreator(configuration)
@@ -2627,7 +2093,6 @@ export const TextsApiFp = function(configuration?: Configuration) {
 
 /**
  * TextsApi - factory interface
- * @export
  */
 export const TextsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = TextsApiFp(configuration)
@@ -2648,9 +2113,6 @@ export const TextsApiFactory = function (configuration?: Configuration, basePath
 
 /**
  * TextsApi - object-oriented interface
- * @export
- * @class TextsApi
- * @extends {BaseAPI}
  */
 export class TextsApi extends BaseAPI {
     /**
@@ -2660,7 +2122,6 @@ export class TextsApi extends BaseAPI {
      * @param {string} newText 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof TextsApi
      */
     public updateTextTextsTextIdPatch(textId: string, newText: string, options?: RawAxiosRequestConfig) {
         return TextsApiFp(this.configuration).updateTextTextsTextIdPatch(textId, newText, options).then((request) => request(this.axios, this.basePath));

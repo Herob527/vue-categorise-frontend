@@ -1,12 +1,13 @@
-# DirectoryModel
+# FilesInner
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dir_name** | **string** |  | [default to undefined]
+**file_name** | **string** |  | [default to undefined]
 **is_dir** | **boolean** |  | [default to undefined]
+**dir_name** | **string** |  | [default to undefined]
 **files** | [**Array&lt;FilesInner&gt;**](FilesInner.md) |  | [default to undefined]
 **original_name** | **string** |  | [optional] [default to undefined]
 **category_id** | **string** |  | [optional] [default to undefined]
@@ -14,11 +15,12 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { DirectoryModel } from './api';
+import { FilesInner } from './api';
 
-const instance: DirectoryModel = {
-    dir_name,
+const instance: FilesInner = {
+    file_name,
     is_dir,
+    dir_name,
     files,
     original_name,
     category_id,

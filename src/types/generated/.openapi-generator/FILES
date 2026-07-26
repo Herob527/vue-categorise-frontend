@@ -17,13 +17,14 @@ docs/DashboardApi.md
 docs/DashboardModel.md
 docs/DefaultApi.md
 docs/DirectoryModel.md
-docs/DirectoryModelFilesInner.md
 docs/ExportModel.md
 docs/ExportStatus.md
 docs/FileModel.md
+docs/FilesInner.md
 docs/FinaliseApi.md
 docs/FinaliseConfigModel.md
 docs/HTTPValidationError.md
+docs/LocationInner.md
 docs/PaginatedBindingModel.md
 docs/PaginatedExportModel.md
 docs/PaginationModel.md
@@ -32,6 +33,5 @@ docs/StatusEnum.md
 docs/TextModel.md
 docs/TextsApi.md
 docs/ValidationError.md
-docs/ValidationErrorLocInner.md
 git_push.sh
 index.ts

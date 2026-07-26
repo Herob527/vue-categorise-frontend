@@ -133,7 +133,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BindingsApi(configuration);
 
-let audio: string; // (default to undefined)
+let audio: File; // (default to undefined)
 let category: string; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.createBindingBindingsPost(
@@ -146,7 +146,7 @@ const { status, data } = await apiInstance.createBindingBindingsPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **audio** | [**string**] |  | defaults to undefined|
+| **audio** | [**File**] |  | defaults to undefined|
 | **category** | [**string**] |  | (optional) defaults to undefined|
 
 

@@ -12,7 +12,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
-import audio from '@/actions/audios';
+import audios from '@/actions/audios';
 
 export type dataType = { id: string; fileName: string };
 
@@ -83,7 +83,7 @@ const sendPending = async () => {
       audio: entry.file,
       category: entry.category,
     });
-    await audio.uploadAudio(postData.binding_id, entry.file);
+    await audios.uploadAudio(postData.binding_id, entry.file);
   });
   const CHUNK_SIZE = 10;
   // Chunk the requests into groups of CHUNK_SIZE

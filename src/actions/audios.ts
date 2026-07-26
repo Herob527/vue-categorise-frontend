@@ -1,7 +1,7 @@
 import { API_URL } from '@/constants';
 import { AudioApi } from '@/types/generated';
 
-const audio = (() => {
+const audios = (() => {
   const api = new AudioApi(
     {
       isJsonMime: (mime: string) => mime === 'application/json',
@@ -30,4 +30,4 @@ const audio = (() => {
   };
 })();
 
-export default audio;
+export default audios;

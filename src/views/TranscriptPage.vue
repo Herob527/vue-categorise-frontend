@@ -7,8 +7,7 @@ import TranscriptList from '@/components/Transcript/TranscriptList.vue';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { ref } from 'vue';
 import OptionPanelContainer from '@/components/Transcript/OptionsPanel/OptionPanelContainer.vue';
-
-import { getPaginated } from '@/actions/bindings';
+import bindings from '@/actions/bindings';
 
 const isOptionsOpen = ref(false);
 
@@ -29,7 +28,7 @@ const { data, isLoading } = useQuery({
   queryKey: ['get-paginated-transcript', { page, pageSize }] as const,
   queryFn: async (params) => {
     const [, { page, pageSize }] = params.queryKey;
-    return getPaginated({ page, pageSize });
+    return bindings.getPaginated({ page, pageSize });
   },
 });
 

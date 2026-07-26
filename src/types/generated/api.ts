@@ -630,6 +630,18 @@ export interface ValidationError {
      * @memberof ValidationError
      */
     'type': string;
+    /**
+     * 
+     * @type {any}
+     * @memberof ValidationError
+     */
+    'input'?: any;
+    /**
+     * 
+     * @type {object}
+     * @memberof ValidationError
+     */
+    'ctx'?: object;
 }
 /**
  * 
@@ -790,11 +802,12 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {string} uuid 
-         * @param {File} file 
+         * @param {string} file 
+         * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost: async (uuid: string, file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadAudioAudioUploadPost: async (uuid: string, file: string, folder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'uuid' is not null or undefined
             assertParamExists('uploadAudioAudioUploadPost', 'uuid', uuid)
             // verify required parameter 'file' is not null or undefined
@@ -814,6 +827,10 @@ export const AudioApiAxiosParamCreator = function (configuration?: Configuration
 
             if (uuid !== undefined) {
                 localVarQueryParameter['uuid'] = uuid;
+            }
+
+            if (folder !== undefined) {
+                localVarQueryParameter['folder'] = folder;
             }
 
 
@@ -901,12 +918,13 @@ export const AudioApiFp = function(configuration?: Configuration) {
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {string} uuid 
-         * @param {File} file 
+         * @param {string} file 
+         * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadAudioAudioUploadPost(uuid: string, file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(uuid, file, options);
+        async uploadAudioAudioUploadPost(uuid: string, file: string, folder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadAudioAudioUploadPost(uuid, file, folder, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AudioApi.uploadAudioAudioUploadPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -966,12 +984,13 @@ export const AudioApiFactory = function (configuration?: Configuration, basePath
          * Upload audio file to MinIO and save metadata to database
          * @summary Upload Audio
          * @param {string} uuid 
-         * @param {File} file 
+         * @param {string} file 
+         * @param {string} [folder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadAudioAudioUploadPost(uuid: string, file: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.uploadAudioAudioUploadPost(uuid, file, options).then((request) => request(axios, basePath));
+        uploadAudioAudioUploadPost(uuid: string, file: string, folder?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1036,13 +1055,14 @@ export class AudioApi extends BaseAPI {
      * Upload audio file to MinIO and save metadata to database
      * @summary Upload Audio
      * @param {string} uuid 
-     * @param {File} file 
+     * @param {string} file 
+     * @param {string} [folder] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AudioApi
      */
-    public uploadAudioAudioUploadPost(uuid: string, file: File, options?: RawAxiosRequestConfig) {
-        return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(uuid, file, options).then((request) => request(this.axios, this.basePath));
+    public uploadAudioAudioUploadPost(uuid: string, file: string, folder?: string, options?: RawAxiosRequestConfig) {
+        return AudioApiFp(this.configuration).uploadAudioAudioUploadPost(uuid, file, folder, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1129,12 +1149,12 @@ export const BindingsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Create Binding
-         * @param {File} audio 
+         * @param {string} audio 
          * @param {string | null} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost: async (audio: File, category?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createBindingBindingsPost: async (audio: string, category?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'audio' is not null or undefined
             assertParamExists('createBindingBindingsPost', 'audio', audio)
             const localVarPath = `/bindings`;
@@ -1321,12 +1341,12 @@ export const BindingsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Create Binding
-         * @param {File} audio 
+         * @param {string} audio 
          * @param {string | null} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateResponseModel>> {
+        async createBindingBindingsPost(audio: string, category?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createBindingBindingsPost(audio, category, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BindingsApi.createBindingBindingsPost']?.[localVarOperationServerIndex]?.url;
@@ -1406,12 +1426,12 @@ export const BindingsApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Create Binding
-         * @param {File} audio 
+         * @param {string} audio 
          * @param {string | null} [category] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<CreateResponseModel> {
+        createBindingBindingsPost(audio: string, category?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<CreateResponseModel> {
             return localVarFp.createBindingBindingsPost(audio, category, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1483,13 +1503,13 @@ export class BindingsApi extends BaseAPI {
     /**
      * 
      * @summary Create Binding
-     * @param {File} audio 
+     * @param {string} audio 
      * @param {string | null} [category] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BindingsApi
      */
-    public createBindingBindingsPost(audio: File, category?: string | null, options?: RawAxiosRequestConfig) {
+    public createBindingBindingsPost(audio: string, category?: string | null, options?: RawAxiosRequestConfig) {
         return BindingsApiFp(this.configuration).createBindingBindingsPost(audio, category, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2350,7 +2370,7 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.downloadFinalizedZipFinaliseDownloadExportIdGet(exportId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.downloadFinalizedZipFinaliseDownloadExportIdGet']?.[localVarOperationServerIndex]?.url;
@@ -2423,7 +2443,7 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        downloadFinalizedZipFinaliseDownloadExportIdGet(exportId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.downloadFinalizedZipFinaliseDownloadExportIdGet(exportId, options).then((request) => request(axios, basePath));
         },
         /**

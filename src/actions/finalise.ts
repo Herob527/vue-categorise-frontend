@@ -6,7 +6,7 @@ import {
 } from '@/types/generated';
 
 const finalize = (() => {
-  const finaliseApi = new FinaliseApi(
+  const api = new FinaliseApi(
     new Configuration({
       basePath: API_URL,
     }),
@@ -19,15 +19,12 @@ const finalize = (() => {
     page: number;
     pageSize: number;
   }) => {
-    const { data } = await finaliseApi.getStatusesFinaliseStatusGet(
-      page,
-      pageSize,
-    );
+    const { data } = await api.getStatusesFinaliseStatusGet(page, pageSize);
     return data;
   };
   const getPreview = async (params: FinaliseConfigModel) => {
     const { data } =
-      await finaliseApi.generatePreviewFinaliseGeneratePreviewPost(params);
+      await api.generatePreviewFinaliseGeneratePreviewPost(params);
 
     return data;
   };
@@ -36,7 +33,7 @@ const finalize = (() => {
     categories: string[] | null,
     config: FinaliseConfigModel,
   ) => {
-    await finaliseApi.scheduleFinaliseFinaliseSchedulePost({
+    await api.scheduleFinaliseFinaliseSchedulePost({
       params: {
         categories,
       },
@@ -45,20 +42,17 @@ const finalize = (() => {
   };
 
   const download = async (params: { exportId: string }) => {
-    const { data } =
-      await finaliseApi.downloadFinalizedZipFinaliseDownloadExportIdGet(
-        params.exportId,
-        {
-          responseType: 'blob',
-        },
-      );
+    const { data } = await api.downloadFinalizedZipFinaliseDownloadExportIdGet(
+      params.exportId,
+      {
+        responseType: 'blob',
+      },
+    );
     return data;
   };
 
   const deleteOne = async (params: { exportId: string }) => {
-    await finaliseApi.deleteFinalizedZipFinaliseDeleteZipExportIdGet(
-      params.exportId,
-    );
+    await api.deleteFinalizedZipFinaliseDeleteZipExportIdGet(params.exportId);
   };
 
   return {

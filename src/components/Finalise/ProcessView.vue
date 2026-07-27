@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import finalize from '@/actions/finalise';
-import { useMutation, useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import DataTable from '@/components/DataTable.vue';
 
 import ActionButton from '@/components/ActionButton.vue';
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus } from '@/types/generated';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useEventSource } from '@vueuse/core';
+import { API_URL } from '@/constants';
 
 const page = ref(0);
 const pageSize = 10;
@@ -14,9 +16,18 @@ const pageSize = 10;
 const { data, refetch } = useQuery({
   queryKey: ['finalize-get-all', page, pageSize],
   queryFn: () => finalize.getAll({ page: page.value, pageSize }),
-  // TODO: Switch to SSE when backend ready
-  refetchIntervalInBackground: true,
-  refetchInterval: 100000,
+});
+
+const client = useQueryClient();
+
+const url = new URL('api/finalise/exports/stream', API_URL);
+const { data: sseData } = useEventSource(url, ['item_update']);
+
+watch(sseData, async () => {
+  if (page.value === 0) {
+    await refetch();
+  }
+  await client.invalidateQueries({ queryKey: ['finalize-get-all'] });
 });
 
 const { mutate, isPending } = useMutation({

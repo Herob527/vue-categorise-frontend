@@ -1818,6 +1818,36 @@ export const FinaliseApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Stream Exports
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        streamExportsFinaliseExportsStreamGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/finalise/exports/stream`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Accept'] = 'text/event-stream';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1893,6 +1923,18 @@ export const FinaliseApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['FinaliseApi.scheduleFinaliseFinaliseSchedulePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Stream Exports
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async streamExportsFinaliseExportsStreamGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.streamExportsFinaliseExportsStreamGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FinaliseApi.streamExportsFinaliseExportsStreamGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -1952,6 +1994,15 @@ export const FinaliseApiFactory = function (configuration?: Configuration, baseP
          */
         scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Stream Exports
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        streamExportsFinaliseExportsStreamGet(options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.streamExportsFinaliseExportsStreamGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2014,6 +2065,16 @@ export class FinaliseApi extends BaseAPI {
      */
     public scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost: BodyScheduleFinaliseFinaliseSchedulePost, options?: RawAxiosRequestConfig) {
         return FinaliseApiFp(this.configuration).scheduleFinaliseFinaliseSchedulePost(bodyScheduleFinaliseFinaliseSchedulePost, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Stream Exports
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public streamExportsFinaliseExportsStreamGet(options?: RawAxiosRequestConfig) {
+        return FinaliseApiFp(this.configuration).streamExportsFinaliseExportsStreamGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

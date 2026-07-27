@@ -9,6 +9,7 @@ All URIs are relative to *http://localhost*
 |[**generatePreviewFinaliseGeneratePreviewPost**](#generatepreviewfinalisegeneratepreviewpost) | **POST** /finalise/generate_preview | Generate Preview|
 |[**getStatusesFinaliseStatusGet**](#getstatusesfinalisestatusget) | **GET** /finalise/status | Get Statuses|
 |[**scheduleFinaliseFinaliseSchedulePost**](#schedulefinalisefinaliseschedulepost) | **POST** /finalise/schedule | Schedule Finalise|
+|[**streamExportsFinaliseExportsStreamGet**](#streamexportsfinaliseexportsstreamget) | **GET** /finalise/exports/stream | Stream Exports|
 
 # **deleteFinalizedZipFinaliseDeleteZipExportIdGet**
 > any deleteFinalizedZipFinaliseDeleteZipExportIdGet()
@@ -272,6 +273,50 @@ No authorization required
 |**200** | Successful Response |  -  |
 |**404** | Not found |  -  |
 |**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **streamExportsFinaliseExportsStreamGet**
+> string streamExportsFinaliseExportsStreamGet()
+
+
+### Example
+
+```typescript
+import {
+    FinaliseApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new FinaliseApi(configuration);
+
+const { status, data } = await apiInstance.streamExportsFinaliseExportsStreamGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/event-stream
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful Response |  -  |
+|**404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

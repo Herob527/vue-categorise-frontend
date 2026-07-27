@@ -26,7 +26,6 @@ const pagedFiles = computed(() => {
 
 const { mutateAsync: schedule } = useMutation({
   mutationFn: (category: string[]) => {
-    console.log(category);
     return finalize.schedule(category, values.$state);
   },
   onSuccess: () => {

@@ -26,9 +26,6 @@ const { data: sseData } = useEventSource(
 );
 
 watch(sseData, async () => {
-  if (page.value === 0) {
-    await refetch();
-  }
   await client.invalidateQueries({ queryKey: ['finalize-get-all'] });
 });
 

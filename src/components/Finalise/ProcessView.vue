@@ -20,8 +20,10 @@ const { data, refetch } = useQuery({
 
 const client = useQueryClient();
 
-const url = new URL('api/finalise/exports/stream', API_URL);
-const { data: sseData } = useEventSource(url, ['item_update']);
+const { data: sseData } = useEventSource(
+  new URL('api/finalise/exports/stream', API_URL),
+  ['item_update'],
+);
 
 watch(sseData, async () => {
   if (page.value === 0) {

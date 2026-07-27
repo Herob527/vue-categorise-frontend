@@ -22,9 +22,9 @@ const { data, refetch } = useQuery({
 const { mutate, isPending } = useMutation({
   mutationKey: ['finalize-remove-one'],
   mutationFn: (exportId: string) => finalize.deleteOne({ exportId }),
-  onSuccess: () => {
+  onSuccess: async () => {
     page.value = 0;
-    refetch();
+    await refetch();
   },
 });
 

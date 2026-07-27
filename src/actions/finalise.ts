@@ -55,12 +55,26 @@ const finalize = (() => {
     await api.deleteFinalizedZipFinaliseDeleteZipExportIdGet(params.exportId);
   };
 
+  const listen = async () => {
+    const req = await api.streamExportsFinaliseExportsStreamGet({
+      responseType: 'stream',
+      adapter: 'fetch',
+      headers: {
+        Accept: 'text/event-stream',
+      },
+    });
+    const stream = req.data;
+    console.log(stream);
+    return stream;
+  };
+
   return {
     getPreview,
     schedule,
     download,
     getAll,
     deleteOne,
+    listen,
   };
 })();
 export default finalize;

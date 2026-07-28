@@ -193,7 +193,7 @@ const paginationKey = computed(() => {
       :item-keys="fields"
       :page-size="ENTRIES_PER_PAGE"
       :items-count="itemsCount"
-      :page="dbPagination"
+      :page="showMode === 'DB' ? dbPagination : localPagination"
       :pagination-key="paginationKey"
       @submit:page="
         (newPage: number) => {

@@ -3,5 +3,6 @@
   "onServer": "Na serwerze",
   "processing": "Przetwarzanie",
   "error": "Błąd",
+  "errorDuplicate": "Plik istnieje",
   "pending": "Oczekiwanie"
 }

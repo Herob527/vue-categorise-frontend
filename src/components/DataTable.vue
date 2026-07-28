@@ -2,6 +2,7 @@
 import { splitToPages } from '@/utils/splitToPages';
 import { computed } from 'vue';
 import PaginationContainer from './Transcript/Pagination/PaginationContainer.vue';
+import { ENTRIES_PER_PAGE } from '@/constants';
 
 const props = defineProps<{
   data: T[];
@@ -17,8 +18,6 @@ const props = defineProps<{
 
 const itemsCount = computed(() => props.itemsCount ?? props.data.length);
 
-const DEFAULT_PAGE_SIZE = 10;
-
 defineEmits<{
   'submit:page': [value: number];
 }>();
@@ -30,7 +29,7 @@ const pages = computed(() =>
     ? splitToPages({
         amountOfEntries: itemsCount.value,
         selectedPage: selectedPage.value,
-        pageSize: props.pageSize || DEFAULT_PAGE_SIZE,
+        pageSize: props.pageSize || ENTRIES_PER_PAGE,
       })
     : [],
 );
@@ -68,8 +67,8 @@ const pages = computed(() =>
         v-for="[index, item] in props.itemsCount !== undefined
           ? Object.entries(data)
           : Object.entries(data).slice(
-              (selectedPage || 0) * (pageSize || DEFAULT_PAGE_SIZE),
-              ((selectedPage || 0) + 1) * (pageSize || DEFAULT_PAGE_SIZE),
+              (selectedPage || 0) * (pageSize || ENTRIES_PER_PAGE),
+              ((selectedPage || 0) + 1) * (pageSize || ENTRIES_PER_PAGE),
             )"
         :key="index"
         :class="[
@@ -83,7 +82,7 @@ const pages = computed(() =>
     </template>
     <template v-else>
       <div
-        v-for="index in pageSize || DEFAULT_PAGE_SIZE"
+        v-for="index in pageSize || ENTRIES_PER_PAGE"
         :key="index"
         class="flex flex-col">
         <slot
@@ -103,7 +102,7 @@ const pages = computed(() =>
       <PaginationContainer
         v-if="itemsCount !== undefined"
         :count="itemsCount"
-        :page-size="pageSize || DEFAULT_PAGE_SIZE"
+        :page-size="pageSize || ENTRIES_PER_PAGE"
         :storage-key="paginationKey"
         :page="selectedPage"
         @change:page="$emit('submit:page', $event)" />

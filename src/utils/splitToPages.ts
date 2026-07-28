@@ -1,8 +1,10 @@
+import { ENTRIES_PER_PAGE } from '@/constants';
+
 export const splitToPages = (
   { amountOfEntries, selectedPage, pageSize } = {
     amountOfEntries: 1,
     selectedPage: 0,
-    pageSize: 10,
+    pageSize: ENTRIES_PER_PAGE,
   },
 ): (number | 'dot')[] => {
   if (amountOfEntries <= pageSize) {

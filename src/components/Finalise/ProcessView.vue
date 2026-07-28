@@ -8,10 +8,10 @@ import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus } from '@/types/generated';
 import { ref, watch } from 'vue';
 import { useEventSource } from '@vueuse/core';
-import { API_URL } from '@/constants';
+import { API_URL, ENTRIES_PER_PAGE } from '@/constants';
 
 const page = ref(0);
-const pageSize = 10;
+const pageSize = ENTRIES_PER_PAGE;
 
 const { data, refetch } = useQuery({
   queryKey: ['finalize-get-all', page, pageSize],

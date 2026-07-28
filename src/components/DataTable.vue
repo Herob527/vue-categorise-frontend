@@ -15,7 +15,7 @@ const props = defineProps<{
   paginationKey: string;
 }>();
 
-const itemsCount = computed(() => props?.itemsCount ?? props.data?.length);
+const itemsCount = computed(() => props.itemsCount ?? props.data.length);
 
 const DEFAULT_PAGE_SIZE = 10;
 

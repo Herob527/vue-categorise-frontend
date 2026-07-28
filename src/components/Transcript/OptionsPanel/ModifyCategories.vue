@@ -14,8 +14,8 @@ const { data, isLoading, refetch } = useQuery({
 const { mutate, isIdle } = useMutation({
   mutationKey: ['category', 'delete'],
   mutationFn: async (name: string) => categories.deleteOne({ name }),
-  onSuccess: () => {
-    refetch();
+  onSuccess: async () => {
+    await refetch();
   },
 });
 
@@ -23,8 +23,8 @@ const { mutate: updateName } = useMutation({
   mutationKey: ['category', 'update'],
   mutationFn: ({ id, newName }: { id: string; newName: string }) =>
     categories.updateOne({ id, newName }),
-  onSuccess: () => {
-    client.refetchQueries({ queryKey: ['category', 'get'] });
+  onSuccess: async () => {
+    await client.invalidateQueries({ queryKey: ['category', 'get'] });
   },
 });
 

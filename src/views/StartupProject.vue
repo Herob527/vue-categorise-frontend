@@ -98,7 +98,8 @@ const modesConfig = computed<ModeConfig>(() => ({
     deleteAll: removeAllOnPage,
     deleteOne: removeFile,
     setPagination: (newPage) => (dbPagination.value = newPage),
-    cellValue: (entry) => `${entry.duration!.toFixed(2)} s.`,
+    cellValue: (entry) =>
+      entry.duration ? `${entry.duration.toFixed(2)} s.` : '???',
     isDb: true,
   },
   LOCAL: {

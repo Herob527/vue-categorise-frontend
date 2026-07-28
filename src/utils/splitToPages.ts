@@ -17,10 +17,10 @@ export const splitToPages = (
   if (selectedPage <= 1) {
     return [0, 1, 2, 'dot', resultPages.at(-1) as number];
   }
-  if (selectedPage == 2) {
+  if (selectedPage === 2) {
     return [0, 1, 2, 3, 'dot', resultPages.at(-1) as number];
   }
-  if (selectedPage == resultPages.length - 2) {
+  if (selectedPage === resultPages.length - 2) {
     return [
       0,
       'dot',

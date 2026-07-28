@@ -22,6 +22,8 @@ const showMode = ref<modes>('DB');
 
 const dbPagination = ref(0);
 
+const localPagination = ref(0);
+
 const isAddFilesVisible = ref(false);
 
 const queryClient = useQueryClient();
@@ -56,7 +58,10 @@ const shownData = computed(() => {
   if (showMode.value === 'DB') {
     return transformtedData.value;
   }
-  return getAll.value;
+  return getAll.value.slice(
+    ENTRIES_PER_PAGE * localPagination.value,
+    ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
+  );
 });
 
 const itemsCount = computed(() => {
@@ -93,20 +98,17 @@ const sendPending = async () => {
     requests.slice(index * CHUNK_SIZE, (index + 1) * CHUNK_SIZE),
   );
 
-  for await (const [chunkIndex, chunk] of chunkArray.entries()) {
+  for (const [chunkIndex, chunk] of chunkArray.entries()) {
     for (let index = 0; index < chunk.length; index++) {
       const file = all[index + chunkIndex * CHUNK_SIZE];
-      console.assert(file !== undefined, 'File is undefined');
-      if (file !== undefined) {
-        updateFileStatus(file.id, statuses.PROCESSING);
-      }
+      updateFileStatus(file.id, statuses.PROCESSING);
     }
 
     const responses = await Promise.allSettled(
       chunk.map((request) => request()),
     );
 
-    for await (const [index, response] of responses.entries()) {
+    for (const [index, response] of responses.entries()) {
       const file = all[index + chunkIndex * CHUNK_SIZE];
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (file) {
@@ -195,7 +197,11 @@ const paginationKey = computed(() => {
       :pagination-key="paginationKey"
       @submit:page="
         (newPage: number) => {
-          dbPagination = newPage;
+          if (showMode === 'DB') {
+            dbPagination = newPage;
+          } else {
+            localPagination = newPage;
+          }
         }
       ">
       <template #top-heading>

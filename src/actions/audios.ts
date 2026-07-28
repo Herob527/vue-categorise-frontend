@@ -20,8 +20,7 @@ const audios = (() => {
   };
 
   const uploadAudio = async (id: string, file: File) => {
-    const data = await api.uploadAudioAudioUploadPost(id, file);
-    return data.data;
+    await api.uploadAudioAudioUploadPost(id, file);
   };
 
   return {

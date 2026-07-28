@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class ProcessingPipeline<T extends any[]> {
+export class ProcessingPipeline<T extends unknown[]> {
   private pipeline: ((value: T[number]) => T[number])[] = [];
 
   constructor(private values: T) {}

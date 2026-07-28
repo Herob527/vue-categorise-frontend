@@ -12,7 +12,8 @@ const iconMapping = {
   txt: faClipboard,
 } as const;
 
-const extension = props.fileName.split('.').pop() as keyof typeof iconMapping;
+const extension = props.fileName.split('.').pop() as
+  keyof typeof iconMapping | undefined;
 
 const usedIcon =
   extension && extension in iconMapping ? iconMapping[extension] : faInfo;

@@ -9,16 +9,12 @@ const categoryName = ref('');
 
 const client = useQueryClient();
 
-const { mutate, error, reset } = useMutation<
-  undefined,
-  Error,
-  { name: CategoryModel['name'] }
->({
+const { mutate, error, reset } = useMutation({
   mutationKey: ['category', 'post'],
-  mutationFn: (value) => categories.post(value),
+  mutationFn: (value: Omit<CategoryModel, 'id'>) => categories.post(value),
 });
 
-const handleSubmit = async () => {
+const handleSubmit = () => {
   mutate(
     {
       name: categoryName.value,

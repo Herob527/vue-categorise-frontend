@@ -15,11 +15,9 @@ import { useI18n } from 'vue-i18n';
 import ModalComponent from '@/components/ModalComponent.vue';
 import audios from '@/actions/audios';
 
-export type dataType = { id: string; fileName: string };
+type Modes = 'DB' | 'LOCAL';
 
-type modes = 'DB' | 'LOCAL';
-
-const showMode = ref<modes>('DB');
+const showMode = ref<Modes>('DB');
 
 const dbPagination = ref(0);
 
@@ -75,23 +73,22 @@ const removeAllOnPage = async () => {
   }
 };
 
-const modesConfig = computed<
-  Record<
-    modes,
-    {
-      data: Entry[];
-      itemsCount: number;
-      fields: readonly string[];
-      pagination: number;
-      paginationKey: string;
-      deleteAll: () => void;
-      deleteOne: (id: string) => void;
-      setPagination: (newPage: number) => void;
-      cellValue: (entry: Entry) => string;
-      isDb: boolean;
-    }
-  >
->(() => ({
+type ModeConfig = Record<
+  Modes,
+  {
+    data: Entry[];
+    itemsCount: number;
+    fields: readonly string[];
+    pagination: number;
+    paginationKey: string;
+    deleteAll: () => void;
+    deleteOne: (id: string) => void;
+    setPagination: (newPage: number) => void;
+    cellValue: (entry: Entry) => string;
+    isDb: boolean;
+  }
+>;
+const modesConfig = computed<ModeConfig>(() => ({
   DB: {
     data: transformtedData.value,
     itemsCount: transcriptData.value?.pagination.total ?? 0,

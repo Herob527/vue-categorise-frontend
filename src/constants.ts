@@ -1,11 +1,11 @@
-import type { Statuses } from './types/shared';
+import type { Status } from './types/shared';
 
 const API_PORT = '3050';
 const API_HOST = 'http://localhost';
 
 export const API_URL = `${API_HOST}:${API_PORT}/api`;
 
-export const STATUS_COLORS: Record<`${Statuses}`, string> = {
+export const STATUS_COLORS: Record<`${Status}`, string> = {
   error: 'red',
   pending: 'yellow',
   processing: 'blue',

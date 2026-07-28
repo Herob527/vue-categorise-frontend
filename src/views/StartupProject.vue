@@ -6,7 +6,7 @@ import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
 import AddFilesModal from '@/components/Startup/AddFilesModal.vue';
 import { ENTRIES_PER_PAGE } from '@/constants';
 import { useBindingsStore } from '@/stores/bindingsStore';
-import { Statuses, type Entry } from '@/types/shared';
+import { Status, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { computed, reactive, ref } from 'vue';
@@ -44,7 +44,7 @@ const transformtedData = computed(() => {
       ({
         id: entry.binding.id,
         file: new File([], entry.audio.file_name),
-        status: Statuses.IN_DB,
+        status: Status.IN_DB,
         duration: entry.audio.audio_length,
         filename: entry.audio.file_name,
       }) satisfies Entry,
@@ -130,7 +130,7 @@ const mode = computed(() => modesConfig.value[showMode.value]);
 const sendPending = async () => {
   const all = bindingsStore.getAll;
   all.forEach((entry) => {
-    bindingsStore.updateFileStatus(entry.id, Statuses.PROCESSING);
+    bindingsStore.updateFileStatus(entry.id, Status.PROCESSING);
   });
   const requests = all.map((entry) => async () => {
     const postData = await bindings.post({
@@ -150,7 +150,7 @@ const sendPending = async () => {
   for (const [chunkIndex, chunk] of chunkArray.entries()) {
     for (let index = 0; index < chunk.length; index++) {
       const file = all[index + chunkIndex * CHUNK_SIZE];
-      bindingsStore.updateFileStatus(file.id, Statuses.PROCESSING);
+      bindingsStore.updateFileStatus(file.id, Status.PROCESSING);
     }
 
     const responses = await Promise.allSettled(
@@ -162,9 +162,9 @@ const sendPending = async () => {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (file) {
         if (response.status === 'rejected') {
-          bindingsStore.updateFileStatus(file.id, Statuses.ERROR);
+          bindingsStore.updateFileStatus(file.id, Status.ERROR);
         } else {
-          bindingsStore.updateFileStatus(file.id, Statuses.IN_DB);
+          bindingsStore.updateFileStatus(file.id, Status.IN_DB);
         }
       }
     }

@@ -44,6 +44,19 @@ const { mutateAsync: schedule } = useMutation({
     ]);
   },
 });
+const allIds = computed(
+  () =>
+    new Set(
+      store.processedData?.files
+        .filter((el) => el.isDirectory)
+        .flatMap((el) => el.categoryId) ?? [],
+    ),
+);
+
+const allSelected = computed(() => {
+  const selected = new Set(selectedCategories.value);
+  return [...allIds.value].every((id) => selected.has(id));
+});
 </script>
 <template>
   <section
@@ -55,8 +68,9 @@ const { mutateAsync: schedule } = useMutation({
       <template v-if="store.processedData">
         <div class="space-x-2">
           <input
+            :checked="allSelected"
             type="checkbox"
-            @change="
+            @click="
               () => {
                 const allIds = new Set(
                   store.processedData?.files

@@ -9,7 +9,7 @@ import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ModalComponent from '@/components/ModalComponent.vue';
 import audios from '@/actions/audios';
@@ -18,19 +18,17 @@ type Modes = 'DB' | 'LOCAL';
 
 const showMode = ref<Modes>('DB');
 
-const dbPagination = ref(0);
-
-const localPagination = ref(0);
+const pagination = reactive<Record<Modes, number>>({ DB: 0, LOCAL: 0 });
 
 const isAddFilesVisible = ref(false);
 
 const queryClient = useQueryClient();
 
 const { data: transcriptData, refetch } = useQuery({
-  queryKey: ['get-paginated-transcript', dbPagination],
+  queryKey: ['get-paginated-transcript', pagination.DB],
   queryFn: () =>
     bindings.getPaginated({
-      page: dbPagination.value,
+      page: pagination.DB,
       pageSize: ENTRIES_PER_PAGE,
     }),
 });
@@ -56,8 +54,8 @@ const transformtedData = computed(() => {
 const removeFile = async (id: string) => {
   await bindings.deleteOne({ id });
   const result = await refetch();
-  if (result.data?.items.length === 0 && dbPagination.value > 0) {
-    dbPagination.value -= 1;
+  if (result.data?.items.length === 0 && pagination.DB > 0) {
+    pagination.DB -= 1;
   }
 };
 
@@ -83,6 +81,7 @@ type ModeConfig = Record<
     deleteOne: (id: string) => Promise<void> | void;
     setPagination: (newPage: number) => void;
     cellValue: (entry: Entry) => string;
+    disabledButtons: string[];
     isDb: boolean;
   }
 >;
@@ -93,23 +92,24 @@ const modesConfig = computed(
         data: transformtedData.value,
         itemsCount: transcriptData.value?.pagination.total ?? 0,
         fields: ['File name', 'Duration', 'Actions'],
-        pagination: dbPagination.value,
+        pagination: pagination.DB,
         paginationKey: 'db',
         deleteAll: removeAllOnPage,
         deleteOne: removeFile,
-        setPagination: (newPage) => (dbPagination.value = newPage),
+        setPagination: (newPage) => (pagination.DB = newPage),
         cellValue: (entry) =>
           entry.duration ? `${entry.duration.toFixed(2)} s.` : '???',
+        disabledButtons: ['SUBMIT'] as const,
         isDb: true,
       },
       LOCAL: {
         data: bindingsStore.getAll.slice(
-          ENTRIES_PER_PAGE * localPagination.value,
-          ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
+          ENTRIES_PER_PAGE * pagination.LOCAL,
+          ENTRIES_PER_PAGE * pagination.LOCAL + ENTRIES_PER_PAGE,
         ),
         itemsCount: bindingsStore.getAll.length,
         fields: ['File name', 'Status', 'Actions'],
-        pagination: localPagination.value,
+        pagination: pagination.LOCAL,
         paginationKey: 'local',
         deleteAll: () => {
           bindingsStore.removeAll();
@@ -117,8 +117,9 @@ const modesConfig = computed(
         deleteOne: (id) => {
           bindingsStore.remove(id);
         },
-        setPagination: (newPage) => (localPagination.value = newPage),
+        setPagination: (newPage) => (pagination.LOCAL = newPage),
         cellValue: (entry) => t(entry.status),
+        disabledButtons: [] as const,
         isDb: false,
       },
     }) satisfies ModeConfig,
@@ -187,7 +188,7 @@ const handleSubmit = ({ files, category }: ReturnData) => {
 <template>
   <main>
     <TableActionPanel
-      :disabled-buttons="mode.isDb ? ['SUBMIT'] : []"
+      :disabled-buttons="mode.disabledButtons"
       @upload-click="isAddFilesVisible = true"
       @delete="mode.deleteAll()"
       @submit="sendPending()" />
@@ -214,7 +215,7 @@ const handleSubmit = ({ files, category }: ReturnData) => {
               ]"
               @click="
                 showMode = 'DB';
-                dbPagination = 0;
+                pagination.DB = 0;
               ">
               Remote
             </button>
@@ -226,7 +227,7 @@ const handleSubmit = ({ files, category }: ReturnData) => {
               ]"
               @click="
                 showMode = 'LOCAL';
-                dbPagination = 0;
+                pagination.LOCAL = 0;
               ">
               Local
             </button>

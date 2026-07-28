@@ -1,10 +1,10 @@
-export function debounce<A = unknown, R = void>(
-  fn: (args: A) => R,
+export function debounce<Args = unknown, ReturnValue = void>(
+  fn: (args: Args) => ReturnValue,
   ms: number,
-): [(args: A) => Promise<R>, () => void] {
+): [(args: Args) => Promise<ReturnValue>, () => void] {
   let timer: NodeJS.Timeout | undefined;
 
-  const debouncedFunc = (args: A): Promise<R> =>
+  const debouncedFunc = (args: Args): Promise<ReturnValue> =>
     new Promise((resolve) => {
       if (timer) {
         clearTimeout(timer);

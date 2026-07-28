@@ -34,7 +34,7 @@ const { data, isLoading } = useQuery({
 
 const handleNewPage = (newPage: number) => {
   page.value = newPage;
-  localStorage.setItem(storageKey, `${newPage}`);
+  localStorage.setItem(storageKey, newPage.toString());
 };
 </script>
 <template>

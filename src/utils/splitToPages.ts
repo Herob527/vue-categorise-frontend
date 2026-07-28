@@ -24,10 +24,7 @@ export const splitToPages = (
     return [
       0,
       'dot',
-      ...[
-        ...(resultPages.slice(resultPages.length - 4, resultPages.length) ||
-          []),
-      ],
+      ...[...resultPages.slice(resultPages.length - 4, resultPages.length)],
     ];
   }
 
@@ -35,17 +32,14 @@ export const splitToPages = (
     return [
       0,
       'dot',
-      ...[
-        ...(resultPages.slice(resultPages.length - 3, resultPages.length) ||
-          []),
-      ],
+      ...[...resultPages.slice(resultPages.length - 3, resultPages.length)],
     ];
   }
 
   return [
     0,
     'dot',
-    ...(resultPages.slice(selectedPage - 2, selectedPage + 1) || []),
+    ...resultPages.slice(selectedPage - 2, selectedPage + 1),
     'dot',
     resultPages.at(-1) as number,
   ];

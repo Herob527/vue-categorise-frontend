@@ -11,6 +11,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ModalComponent from '@/components/ModalComponent.vue';
 import audios from '@/actions/audios';
 
@@ -37,6 +38,8 @@ const { data: transcriptData, refetch } = useQuery({
     }),
 });
 
+const { t } = useI18n();
+
 const { updateFileStatus, remove, removeAll, addFiles } = useBindingsStore();
 const { getAll } = storeToRefs(useBindingsStore());
 
@@ -54,29 +57,71 @@ const transformtedData = computed(() => {
   );
 });
 
-const shownData = computed(() => {
-  if (showMode.value === 'DB') {
-    return transformtedData.value;
+const removeFile = async (id: string) => {
+  await bindings.deleteOne({ id });
+  const result = await refetch();
+  if (result.data?.items.length === 0 && dbPagination.value > 0) {
+    dbPagination.value -= 1;
   }
-  return getAll.value.slice(
-    ENTRIES_PER_PAGE * localPagination.value,
-    ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
+};
+
+const removeAllOnPage = async () => {
+  await Promise.allSettled(
+    transformtedData.value.map((entry) => bindings.deleteOne({ id: entry.id })),
   );
-});
-
-const itemsCount = computed(() => {
-  if (showMode.value === 'DB') {
-    return transcriptData.value?.pagination.total ?? 0;
+  const { data } = await refetch();
+  if (data?.items.length !== 0) {
+    await removeAllOnPage();
   }
-  return getAll.value.length;
-});
+};
 
-const fields = computed(() => {
-  if (showMode.value === 'DB') {
-    return ['File name', 'Duration', 'Actions'] as const;
-  }
-  return ['File name', 'Status', 'Actions'] as const;
-});
+const modesConfig = computed<
+  Record<
+    modes,
+    {
+      data: Entry[];
+      itemsCount: number;
+      fields: readonly string[];
+      pagination: number;
+      paginationKey: string;
+      deleteAll: () => void;
+      deleteOne: (id: string) => void;
+      setPagination: (newPage: number) => void;
+      cellValue: (entry: Entry) => string;
+      isDb: boolean;
+    }
+  >
+>(() => ({
+  DB: {
+    data: transformtedData.value,
+    itemsCount: transcriptData.value?.pagination.total ?? 0,
+    fields: ['File name', 'Duration', 'Actions'],
+    pagination: dbPagination.value,
+    paginationKey: 'db',
+    deleteAll: removeAllOnPage,
+    deleteOne: removeFile,
+    setPagination: (newPage) => (dbPagination.value = newPage),
+    cellValue: (entry) => `${entry.duration!.toFixed(2)} s.`,
+    isDb: true,
+  },
+  LOCAL: {
+    data: getAll.value.slice(
+      ENTRIES_PER_PAGE * localPagination.value,
+      ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
+    ),
+    itemsCount: getAll.value.length,
+    fields: ['File name', 'Status', 'Actions'],
+    pagination: localPagination.value,
+    paginationKey: 'local',
+    deleteAll: removeAll,
+    deleteOne: remove,
+    setPagination: (newPage) => (localPagination.value = newPage),
+    cellValue: (entry) => t(entry.status),
+    isDb: false,
+  },
+}));
+
+const mode = computed(() => modesConfig.value[showMode.value]);
 
 const sendPending = async () => {
   const all = getAll.value;
@@ -121,29 +166,9 @@ const sendPending = async () => {
     }
   }
 
-  console.log(chunkArray);
-
   await queryClient.invalidateQueries({
     queryKey: ['get-paginated-transcript'],
   });
-};
-
-const removeFile = async (id: string) => {
-  await bindings.deleteOne({ id });
-  const result = await refetch();
-  if (result.data?.items.length === 0 && dbPagination.value > 0) {
-    dbPagination.value -= 1;
-  }
-};
-
-const removeAllOnPage = async () => {
-  await Promise.allSettled(
-    transformtedData.value.map((entry) => bindings.deleteOne({ id: entry.id })),
-  );
-  const { data } = await refetch();
-  if (data?.items.length !== 0) {
-    await removeAllOnPage();
-  }
 };
 
 type ReturnData = {
@@ -155,55 +180,24 @@ const handleSubmit = ({ files, category }: ReturnData) => {
   addFiles(files, category.trim() === '' ? undefined : category);
   showMode.value = 'LOCAL';
 };
-
-const paginationKey = computed(() => {
-  if (showMode.value === 'DB') {
-    return 'db';
-  }
-  return 'local';
-});
 </script>
 <template>
   <main>
     <TableActionPanel
-      :disabled-buttons="showMode === 'DB' ? ['SUBMIT'] : []"
-      @upload-click="
-        () => {
-          isAddFilesVisible = true;
-        }
-      "
-      @delete="
-        () => {
-          if (showMode === 'DB') {
-            removeAllOnPage();
-          } else {
-            removeAll();
-          }
-        }
-      "
-      @submit="
-        () => {
-          sendPending();
-        }
-      " />
+      :disabled-buttons="mode.isDb ? ['SUBMIT'] : []"
+      @upload-click="isAddFilesVisible = true"
+      @delete="mode.deleteAll()"
+      @submit="sendPending()" />
 
     <DataTable
-      :data="shownData ?? []"
+      :data="mode.data"
       :class-name="`rounded-xl border-2 border-primary-500 overflow-clip`"
-      :item-keys="fields"
+      :item-keys="mode.fields"
       :page-size="ENTRIES_PER_PAGE"
-      :items-count="itemsCount"
-      :page="showMode === 'DB' ? dbPagination : localPagination"
-      :pagination-key="paginationKey"
-      @submit:page="
-        (newPage: number) => {
-          if (showMode === 'DB') {
-            dbPagination = newPage;
-          } else {
-            localPagination = newPage;
-          }
-        }
-      ">
+      :items-count="mode.itemsCount"
+      :page="mode.pagination"
+      :pagination-key="mode.paginationKey"
+      @submit:page="mode.setPagination">
       <template #top-heading>
         <div class="flex flex-row bg-primary-600 p-2 justify-between">
           <p class="text-2xl font-bold text-white uppercase">Summary</p>
@@ -213,13 +207,11 @@ const paginationKey = computed(() => {
               type="button"
               :class="[
                 'cursor-pointer px-4 py-[4px] rounded-l-2xl transition-colors',
-                showMode === 'DB' ? 'bg-primary-500' : 'bg-primary-450',
+                mode.isDb ? 'bg-primary-500' : 'bg-primary-450',
               ]"
-              :onClick="
-                () => {
-                  showMode = 'DB';
-                  dbPagination = 0;
-                }
+              @click="
+                showMode = 'DB';
+                dbPagination = 0;
               ">
               Remote
             </button>
@@ -227,13 +219,11 @@ const paginationKey = computed(() => {
               type="button"
               :class="[
                 'cursor-pointer px-4 py-[4px] rounded-r-2xl transition-colors',
-                showMode === 'LOCAL' ? 'bg-primary-500' : 'bg-primary-450',
+                !mode.isDb ? 'bg-primary-500' : 'bg-primary-450',
               ]"
-              :onClick="
-                () => {
-                  showMode = 'LOCAL';
-                  dbPagination = 0;
-                }
+              @click="
+                showMode = 'LOCAL';
+                dbPagination = 0;
               ">
               Local
             </button>
@@ -267,23 +257,13 @@ const paginationKey = computed(() => {
 
           <div class="flex-1">
             <span class="flex flex-col justify-center items-center py-2 px-4">{{
-              showMode === 'DB'
-                ? entry.duration!.toFixed(2) + ' s.'
-                : $t(entry.status)
+              mode.cellValue(entry)
             }}</span>
           </div>
 
           <div class="flex-1">
             <ActionButton
-              :on-click="
-                () => {
-                  if (showMode === 'DB') {
-                    removeFile(entry.id);
-                  } else {
-                    remove(entry.id);
-                  }
-                }
-              "
+              :on-click="() => mode.deleteOne(entry.id)"
               class-name="bg-red-500 text-white px-4 py-4 relative rounded-md hover:bg-red-700 "
               label="Delete">
               <font-awesome-icon

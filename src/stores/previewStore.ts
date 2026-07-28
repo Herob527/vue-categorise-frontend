@@ -19,7 +19,7 @@ interface FakeData {
 
 export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
   const store = useFinaliseStore();
-  let cached: FakeData[];
+  let cached: FakeData[] | undefined;
 
   const fakeData = computed(() => {
     const categories = [...fakeCategories.value, store.uncategorized_name];

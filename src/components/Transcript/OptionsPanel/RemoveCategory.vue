@@ -8,10 +8,10 @@ const client = useQueryClient();
 const { mutate } = useMutation({
   mutationFn: (name: string) => categories.deleteOne({ name }),
   onSuccess: () => {
-    client.refetchQueries({ queryKey: ['category', 'get'] });
-    client.invalidateQueries({ queryKey: ['category', 'get'] });
-    client.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
-    client.invalidateQueries({ queryKey: ['bindingsCount'] });
+    void client.invalidateQueries({ queryKey: ['category', 'get'] });
+    void client.invalidateQueries({ queryKey: ['category', 'get'] });
+    void client.invalidateQueries({ queryKey: ['get-paginated-transcript'] });
+    void client.invalidateQueries({ queryKey: ['bindingsCount'] });
   },
 });
 

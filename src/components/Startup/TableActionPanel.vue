@@ -2,10 +2,10 @@
 import ActionButton from '@/components/ActionButton.vue';
 import { faFile, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-type buttons = 'UPLOAD' | 'SUBMIT' | 'DELETE';
+type Buttons = 'UPLOAD' | 'SUBMIT' | 'DELETE';
 
 defineProps<{
-  disabledButtons: buttons[];
+  disabledButtons: Buttons[];
 }>();
 
 const deleteAll = () => {

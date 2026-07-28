@@ -130,7 +130,14 @@ const modesConfig = computed(
 const mode = computed(() => modesConfig.value[showMode.value]);
 
 const sendPending = async () => {
-  const all = bindingsStore.getAll;
+  const nonSendableStatuses = [
+    Status.PROCESSING,
+    Status.ERROR_DUPLICATE,
+    Status.IN_DB,
+  ];
+  const all = bindingsStore.getAll.filter(
+    (entry) => !nonSendableStatuses.includes(entry.status),
+  );
   all.forEach((entry) => {
     bindingsStore.updateFileStatus(entry.id, Status.PROCESSING);
   });

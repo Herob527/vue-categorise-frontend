@@ -38,8 +38,8 @@ const { data: transcriptData, refetch } = useQuery({
 
 const { t } = useI18n();
 
-const { updateFileStatus, remove, removeAll, addFiles } = useBindingsStore();
-const { getAll } = storeToRefs(useBindingsStore());
+const bindingsStore = useBindingsStore();
+const { getAll } = storeToRefs(bindingsStore);
 
 const transformtedData = computed(() => {
   if (!transcriptData.value) return [];
@@ -81,50 +81,57 @@ type ModeConfig = Record<
     fields: readonly string[];
     pagination: number;
     paginationKey: string;
-    deleteAll: () => void;
-    deleteOne: (id: string) => void;
+    deleteAll: () => Promise<void> | void;
+    deleteOne: (id: string) => Promise<void> | void;
     setPagination: (newPage: number) => void;
     cellValue: (entry: Entry) => string;
     isDb: boolean;
   }
 >;
-const modesConfig = computed<ModeConfig>(() => ({
-  DB: {
-    data: transformtedData.value,
-    itemsCount: transcriptData.value?.pagination.total ?? 0,
-    fields: ['File name', 'Duration', 'Actions'],
-    pagination: dbPagination.value,
-    paginationKey: 'db',
-    deleteAll: removeAllOnPage,
-    deleteOne: removeFile,
-    setPagination: (newPage) => (dbPagination.value = newPage),
-    cellValue: (entry) =>
-      entry.duration ? `${entry.duration.toFixed(2)} s.` : '???',
-    isDb: true,
-  },
-  LOCAL: {
-    data: getAll.value.slice(
-      ENTRIES_PER_PAGE * localPagination.value,
-      ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
-    ),
-    itemsCount: getAll.value.length,
-    fields: ['File name', 'Status', 'Actions'],
-    pagination: localPagination.value,
-    paginationKey: 'local',
-    deleteAll: removeAll,
-    deleteOne: remove,
-    setPagination: (newPage) => (localPagination.value = newPage),
-    cellValue: (entry) => t(entry.status),
-    isDb: false,
-  },
-}));
+const modesConfig = computed(
+  () =>
+    ({
+      DB: {
+        data: transformtedData.value,
+        itemsCount: transcriptData.value?.pagination.total ?? 0,
+        fields: ['File name', 'Duration', 'Actions'],
+        pagination: dbPagination.value,
+        paginationKey: 'db',
+        deleteAll: removeAllOnPage,
+        deleteOne: removeFile,
+        setPagination: (newPage) => (dbPagination.value = newPage),
+        cellValue: (entry) =>
+          entry.duration ? `${entry.duration.toFixed(2)} s.` : '???',
+        isDb: true,
+      },
+      LOCAL: {
+        data: getAll.value.slice(
+          ENTRIES_PER_PAGE * localPagination.value,
+          ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
+        ),
+        itemsCount: getAll.value.length,
+        fields: ['File name', 'Status', 'Actions'],
+        pagination: localPagination.value,
+        paginationKey: 'local',
+        deleteAll: () => {
+          bindingsStore.removeAll();
+        },
+        deleteOne: (id) => {
+          bindingsStore.remove(id);
+        },
+        setPagination: (newPage) => (localPagination.value = newPage),
+        cellValue: (entry) => t(entry.status),
+        isDb: false,
+      },
+    }) satisfies ModeConfig,
+);
 
 const mode = computed(() => modesConfig.value[showMode.value]);
 
 const sendPending = async () => {
   const all = getAll.value;
   all.forEach((entry) => {
-    updateFileStatus(entry.id, statuses.PROCESSING);
+    bindingsStore.updateFileStatus(entry.id, statuses.PROCESSING);
   });
   const requests = all.map((entry) => async () => {
     const postData = await bindings.post({
@@ -144,7 +151,7 @@ const sendPending = async () => {
   for (const [chunkIndex, chunk] of chunkArray.entries()) {
     for (let index = 0; index < chunk.length; index++) {
       const file = all[index + chunkIndex * CHUNK_SIZE];
-      updateFileStatus(file.id, statuses.PROCESSING);
+      bindingsStore.updateFileStatus(file.id, statuses.PROCESSING);
     }
 
     const responses = await Promise.allSettled(
@@ -156,9 +163,9 @@ const sendPending = async () => {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (file) {
         if (response.status === 'rejected') {
-          updateFileStatus(file.id, statuses.ERROR);
+          bindingsStore.updateFileStatus(file.id, statuses.ERROR);
         } else {
-          updateFileStatus(file.id, statuses.IN_DB);
+          bindingsStore.updateFileStatus(file.id, statuses.IN_DB);
         }
       }
     }
@@ -175,7 +182,7 @@ type ReturnData = {
 };
 const handleSubmit = ({ files, category }: ReturnData) => {
   isAddFilesVisible.value = false;
-  addFiles(files, category.trim() === '' ? undefined : category);
+  bindingsStore.addFiles(files, category.trim() === '' ? undefined : category);
   showMode.value = 'LOCAL';
 };
 </script>

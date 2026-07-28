@@ -13,6 +13,7 @@ import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ModalComponent from '@/components/ModalComponent.vue';
 import audios from '@/actions/audios';
+import type { AxiosError } from 'axios';
 
 type Modes = 'DB' | 'LOCAL';
 
@@ -162,7 +163,12 @@ const sendPending = async () => {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (file) {
         if (response.status === 'rejected') {
-          bindingsStore.updateFileStatus(file.id, Status.ERROR);
+          const isDuplicate = (response.reason as AxiosError).status === 409;
+          console.log(isDuplicate);
+          bindingsStore.updateFileStatus(
+            file.id,
+            isDuplicate ? Status.ERROR_DUPLICATE : Status.ERROR,
+          );
         } else {
           bindingsStore.updateFileStatus(file.id, Status.IN_DB);
         }

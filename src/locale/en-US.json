@@ -4,5 +4,6 @@
   "inDatabase": "In database",
   "processing": "Processing",
   "error": "Error",
+  "errorDuplicate": "File already exists",
   "pending": "Pending"
 }

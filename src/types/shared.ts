@@ -3,6 +3,7 @@ export enum Status {
   PROCESSING = 'processing',
   IN_DB = 'inDatabase',
   ERROR = 'error',
+  ERROR_DUPLICATE = 'errorDuplicate',
 }
 
 export type Entry = {

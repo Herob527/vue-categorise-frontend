@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { statuses, type Entry } from '@/types/shared';
+import { Statuses, type Entry } from '@/types/shared';
 import { v4 } from 'uuid';
 
 export const useBindingsStore = defineStore('bindings', {
@@ -12,14 +12,14 @@ export const useBindingsStore = defineStore('bindings', {
       new Set(entries.map((e) => e.status)),
     getFieldsByStatus:
       ({ entries }) =>
-      (status: statuses) =>
+      (status: Statuses) =>
         entries.filter((e) => e.status === status),
   },
   actions: {
     addFiles(files: FileList | File[], category?: string) {
       const newFiles = [...files].map((f) => ({
         file: f,
-        status: statuses.PENDING,
+        status: Statuses.PENDING,
         id: v4(),
         filename: f.name,
         duration: null,
@@ -27,7 +27,7 @@ export const useBindingsStore = defineStore('bindings', {
       }));
       this.entries = [...newFiles, ...this.entries];
     },
-    updateFileStatus(id: string, status: statuses) {
+    updateFileStatus(id: string, status: Statuses) {
       const index = this.entries.findIndex((entry) => entry.id == id);
       if (index === -1) return;
 

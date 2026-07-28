@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { statuses } from '@/types/shared';
+import type { Statuses } from '@/types/shared';
 import { STATUS_COLORS } from '@/constants';
 
-const props = withDefaults(defineProps<{ status?: `${statuses}` }>(), {
+const props = withDefaults(defineProps<{ status?: `${Statuses}` }>(), {
   status: undefined,
 });
 

@@ -1,4 +1,4 @@
-export enum statuses {
+export enum Statuses {
   PENDING = 'pending',
   PROCESSING = 'processing',
   IN_DB = 'inDatabase',
@@ -8,7 +8,7 @@ export enum statuses {
 export type Entry = {
   id: string;
   duration?: number | null;
-  status: statuses;
+  status: Statuses;
   filename: string;
   file: File;
   category?: string;

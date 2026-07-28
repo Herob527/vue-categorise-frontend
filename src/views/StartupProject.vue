@@ -9,7 +9,6 @@ import { useBindingsStore } from '@/stores/bindingsStore';
 import { statuses, type Entry } from '@/types/shared';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
-import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ModalComponent from '@/components/ModalComponent.vue';
@@ -39,7 +38,6 @@ const { data: transcriptData, refetch } = useQuery({
 const { t } = useI18n();
 
 const bindingsStore = useBindingsStore();
-const { getAll } = storeToRefs(bindingsStore);
 
 const transformtedData = computed(() => {
   if (!transcriptData.value) return [];
@@ -105,11 +103,11 @@ const modesConfig = computed(
         isDb: true,
       },
       LOCAL: {
-        data: getAll.value.slice(
+        data: bindingsStore.getAll.slice(
           ENTRIES_PER_PAGE * localPagination.value,
           ENTRIES_PER_PAGE * localPagination.value + ENTRIES_PER_PAGE,
         ),
-        itemsCount: getAll.value.length,
+        itemsCount: bindingsStore.getAll.length,
         fields: ['File name', 'Status', 'Actions'],
         pagination: localPagination.value,
         paginationKey: 'local',
@@ -129,7 +127,7 @@ const modesConfig = computed(
 const mode = computed(() => modesConfig.value[showMode.value]);
 
 const sendPending = async () => {
-  const all = getAll.value;
+  const all = bindingsStore.getAll;
   all.forEach((entry) => {
     bindingsStore.updateFileStatus(entry.id, statuses.PROCESSING);
   });

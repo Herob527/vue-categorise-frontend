@@ -8,6 +8,7 @@ function mapBackendToFrontend(data: DirectoryModel): DirectoryShape {
     isDirectory: true,
     categoryId: data.category_id,
     files: data.files.map((file) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (file.is_dir) {
         return mapBackendToFrontend(file);
       }

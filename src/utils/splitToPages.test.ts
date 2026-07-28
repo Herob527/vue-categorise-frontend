@@ -27,3 +27,12 @@ test('Split to pages utility - 299 entries - pageSize 20', () => {
   });
   expect(pages).toEqual([0, 1, 2, 'dot', 14]);
 });
+
+test('Split to pages utility - 299 entries - selectedPage 5 - pageSize 20', () => {
+  const pages = splitToPages({
+    amountOfEntries: 299,
+    selectedPage: 5,
+    pageSize: 20,
+  });
+  expect(pages).toEqual([0, 'dot', 4, 5, 6, 'dot', 14]);
+});

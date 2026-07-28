@@ -3,20 +3,30 @@ import {
   faClipboard,
   faInfo,
   faMusic,
+  type IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 const props = defineProps<{ fileName: string; isEvenIndex: boolean }>();
 
-const iconMapping = {
-  mp3: faMusic,
-  wav: faMusic,
-  txt: faClipboard,
-} as const;
+const icon = () => {
+  const iconMapping = {
+    mp3: faMusic,
+    wav: faMusic,
+    txt: faClipboard,
+  } as const;
 
-const extension = props.fileName.split('.').pop() as
-  keyof typeof iconMapping | undefined;
+  type FileExtension = keyof typeof iconMapping;
 
-const usedIcon =
-  extension && extension in iconMapping ? iconMapping[extension] : faInfo;
+  return {
+    get(extension: string | undefined): IconDefinition {
+      if (extension && extension in iconMapping) {
+        return iconMapping[extension as FileExtension];
+      }
+      return faInfo;
+    },
+  };
+};
+
+const usedIcon = icon().get(props.fileName.split('.').pop());
 </script>
 <template>
   <font-awesome-icon

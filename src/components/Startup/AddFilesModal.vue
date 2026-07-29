@@ -59,7 +59,7 @@ defineEmits<{
         <font-awesome-icon
           :icon="faFileImport"
           size="2xl" />
-        <span>Add files</span>
+        <span>Upload files</span>
       </button>
     </section>
     <section class="flex flex-col gap-2 p-2 border-3 border-primary-500 flex-1">
@@ -123,7 +123,7 @@ defineEmits<{
       class="p-2 border-2 bg-primary-500 hover:bg-primary-600 cursor-pointer text-white disabled:bg-gray-400 disabled:cursor-not-allowed"
       @click="$emit('submit', { files, category: categoryInput })">
       <span v-if="files.length === 0"> Add </span>
-      <span v-else> Add ({{ files.length }} files)</span>
+      <span v-else> Submit ({{ files.length }} files)</span>
     </button>
   </div>
 </template>

@@ -23,6 +23,13 @@ const getDataForCategory = (category: string) =>
         }) satisfies FileShape,
     );
 
+const transcriptItem = [
+  {
+    fileName: 'transcript.txt',
+    isDirectory: false,
+  } satisfies FileShape,
+];
+
 const getDataProps = computed(() => (category?: string) => {
   if (divide_by_category.value) {
     return [
@@ -33,14 +40,7 @@ const getDataProps = computed(() => (category?: string) => {
         isDirectory: true,
       } satisfies DirectoryShape,
 
-      ...(export_transcript.value
-        ? [
-            {
-              fileName: 'transcript.txt',
-              isDirectory: false,
-            } satisfies FileShape,
-          ]
-        : []),
+      ...(export_transcript.value ? transcriptItem : []),
     ] as DataProp[];
   }
 
@@ -56,14 +56,7 @@ const getDataProps = computed(() => (category?: string) => {
               isDirectory: false,
             }) satisfies FileShape,
         ),
-        ...(export_transcript.value
-          ? [
-              {
-                fileName: 'transcript.txt',
-                isDirectory: false,
-              } satisfies FileShape,
-            ]
-          : []),
+        ...(export_transcript.value ? transcriptItem : []),
       ],
       isDirectory: true,
     } satisfies DirectoryShape,

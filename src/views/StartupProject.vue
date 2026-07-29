@@ -327,7 +327,7 @@ const disabledButtons = computed(() => {
       title="Are you sure"
       @close="isDeleteModalVisible = false">
       <div class="flex flex-col gap-1">
-        <span>Are you sure you want to delete every file? </span>
+        <span>Are you sure you want to delete every entry? </span>
         <span
           >It'll affect
           <b>{{ showMode === 'DB' ? 'remote' : 'local' }} entries</b>

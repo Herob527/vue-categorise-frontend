@@ -57,6 +57,15 @@ const allSelected = computed(() => {
   const selected = new Set(selectedCategories.value);
   return [...allIds.value].every((id) => selected.has(id));
 });
+const dataStatus = computed(() => {
+  if (!store.processedData) {
+    return 'pending';
+  }
+  if (store.processedData.files.length === 0) {
+    return 'empty';
+  }
+  return 'non-empty';
+});
 </script>
 <template>
   <section
@@ -65,7 +74,7 @@ const allSelected = computed(() => {
       <h2 class="text-2xl font-bold">Folder preview (Real)</h2>
     </header>
     <div class="flex flex-col flex-wrap gap-3 px-2 pb-2">
-      <template v-if="store.processedData">
+      <template v-if="dataStatus === 'non-empty'">
         <div class="space-x-2">
           <input
             :checked="allSelected"
@@ -129,6 +138,7 @@ const allSelected = computed(() => {
           </div>
         </template>
       </template>
+
       <PaginationContainer
         v-if="
           store.processedData && store.processedData.files.length > PAGE_SIZE
@@ -138,8 +148,11 @@ const allSelected = computed(() => {
         :page="currentPage"
         storage-key="real-preview"
         @change:page="(p) => (currentPage = p)" />
-      <template v-else-if="!store.processedData">
-        <p>Data not there yet</p>
+      <template v-else-if="dataStatus === 'empty'">
+        <p>No data according to filters</p>
+      </template>
+      <template v-else-if="dataStatus === 'pending'">
+        <p>Awaiting submission</p>
       </template>
     </div>
     <button

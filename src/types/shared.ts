@@ -15,16 +15,16 @@ export type Entry = {
   category?: string;
 };
 
-export type FileShape = {
+export interface FileShape {
   fileName: string;
   isDirectory: false;
-};
+}
 
-export type DirectoryShape = {
+export interface DirectoryShape {
   dirName: string;
   files: (FileShape | DirectoryShape)[];
   isDirectory: true;
   categoryId: string;
-};
+}
 
 export type DataProp = FileShape | DirectoryShape;

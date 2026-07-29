@@ -47,17 +47,33 @@ const handleNewPage = (newPage: number) => {
     </ActionButton>
   </div>
   <main class="flex flex-col flex-1 gap-3 px-2 pb-4 mx-auto">
-    <TranscriptList :data="data?.items ?? []" />
-    <PaginationContainer
-      v-if="data !== undefined"
-      :count="data.pagination.total"
-      :page-size="ENTRIES_PER_PAGE"
-      storage-key="transcript"
-      @change:page="handleNewPage" />
+    <template v-if="!isLoading && data !== undefined && data.items.length > 0">
+      <TranscriptList :data="data?.items ?? []" />
+      <PaginationContainer
+        v-if="data !== undefined"
+        :count="data.pagination.total"
+        :page-size="ENTRIES_PER_PAGE"
+        storage-key="transcript"
+        @change:page="handleNewPage" />
 
-    <div v-else-if="isLoading">Loading...</div>
-    <OptionPanelContainer
-      v-if="isOptionsOpen"
-      @close="closeHandler" />
+      <div v-else-if="isLoading">Loading...</div>
+      <OptionPanelContainer
+        v-if="isOptionsOpen"
+        @close="closeHandler" />
+    </template>
+    <template v-else>
+      <div class="text-center">
+        <p class="text-2xl font-bold">No data there</p>
+        <p>
+          Go to
+          <a
+            href="/startup"
+            class="text-blue-500"
+            >startup</a
+          >
+          and add something
+        </p>
+      </div>
+    </template>
   </main>
 </template>

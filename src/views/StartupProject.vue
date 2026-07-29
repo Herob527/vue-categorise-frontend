@@ -326,7 +326,7 @@ const disabledButtons = computed(() => {
       v-if="isDeleteModalVisible"
       title="Are you sure"
       @close="isDeleteModalVisible = false">
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-1 bg-white p-2 text-black">
         <span>Are you sure you want to delete every entry? </span>
         <span
           >It'll affect

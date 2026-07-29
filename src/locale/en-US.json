@@ -5,5 +5,12 @@
   "processing": "Processing",
   "error": "Error",
   "errorDuplicate": "File already exists",
-  "pending": "Pending"
+  "pending": "Pending",
+  "submitStatus": {
+    "idle": "Idle",
+    "pending": "Pending",
+    "success": "Success",
+    "error": "Error"
+  },
+  "status": "Status: {status}"
 }

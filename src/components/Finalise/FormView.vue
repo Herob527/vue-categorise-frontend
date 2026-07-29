@@ -5,8 +5,11 @@ import { ref } from 'vue';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import ActionButton from '../ActionButton.vue';
 import HelpView from './HelpView.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps<{ submitStatus: MutationStatus }>();
+
+const { t } = useI18n();
 
 const entriesInLine = [
   'file',
@@ -138,7 +141,9 @@ defineEmits(['submit']);
       </button>
     </div>
     <div class="flex flex-row gap-2">
-      <span>Status: {{ submitStatus }}</span>
+      <span>{{
+        $t('status', { status: $t(`submitStatus.${submitStatus}`) })
+      }}</span>
     </div>
   </section>
 </template>

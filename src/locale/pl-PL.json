@@ -4,5 +4,12 @@
   "processing": "Przetwarzanie",
   "error": "Błąd",
   "errorDuplicate": "Plik istnieje",
-  "pending": "Oczekiwanie"
+  "pending": "Oczekiwanie",
+  "submitStatus": {
+    "idle": "Idle",
+    "pending": "Pending",
+    "success": "Success",
+    "error": "Error"
+  },
+  "status": "Status: {status}"
 }

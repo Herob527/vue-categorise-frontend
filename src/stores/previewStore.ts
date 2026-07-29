@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useFinaliseStore } from './finaliseStore';
+import { useFinaliseConfigStore } from './finaliseStore';
 import { computed } from 'vue';
 import { FilterFactory } from '@/utils/FilterFactory';
 import { ProcessingPipeline } from '@/utils/ProcessingPipeline';
@@ -18,7 +18,7 @@ interface FakeData {
 }
 
 export const useFinalisePreviewStore = defineStore('preview-finalise', () => {
-  const store = useFinaliseStore();
+  const store = useFinaliseConfigStore();
   let cached: FakeData[] | undefined;
 
   const fakeData = computed(() => {

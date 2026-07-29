@@ -4,12 +4,13 @@ import DirectoryItem from './DirectoriesPreview/DirectoryItem.vue';
 import type { DataProp, DirectoryShape, FileShape } from '@/types/shared';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useFinaliseStore } from '@/stores/finaliseStore';
+import { useFinaliseConfigStore } from '@/stores/finaliseStore';
 import FileIcon from './DirectoriesPreview/FileIcon.vue';
 
 const { filteredData } = storeToRefs(useFinalisePreviewStore());
-const { export_transcript, divide_by_category } =
-  storeToRefs(useFinaliseStore());
+const { export_transcript, divide_by_category } = storeToRefs(
+  useFinaliseConfigStore(),
+);
 
 const getDataForCategory = (category: string) =>
   filteredData.value

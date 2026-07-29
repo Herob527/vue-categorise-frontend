@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useFinaliseStore } from '@/stores/finaliseStore';
+import { useFinaliseConfigStore } from '@/stores/finaliseStore';
 import type { MutationStatus } from '@tanstack/vue-query';
 import { ref } from 'vue';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +21,7 @@ enum ERRORS {
   EMPTY_CATEGORY = 'EMPTY_CATEGORY',
 }
 
-const values = useFinaliseStore();
+const values = useFinaliseConfigStore();
 
 const errors = ref<ERRORS[]>([]);
 const isHelpOpen = ref(false);

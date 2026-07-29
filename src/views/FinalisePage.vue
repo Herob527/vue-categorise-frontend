@@ -2,7 +2,7 @@
 import { useMutation } from '@tanstack/vue-query';
 import finalize from '@/actions/finalise';
 import FormView from '@/components/Finalise/FormView.vue';
-import { useFinaliseStore } from '@/stores/finaliseStore';
+import { useFinaliseConfigStore } from '@/stores/finaliseStore';
 import TranscriptPreview from '@/components/Finalise/Preview/TranscriptPreview.vue';
 import ProcessView from '@/components/Finalise/ProcessView.vue';
 import DirectoriesPreview from '@/components/Finalise/Preview/DirectoriesPreview.vue';
@@ -11,7 +11,7 @@ import PreviewContainer from '@/components/Finalise/RealDataPreview/PreviewConta
 
 const previewStore = useFinaliseRealPreviewStore();
 
-const store = useFinaliseStore();
+const store = useFinaliseConfigStore();
 const { mutate, status } = useMutation({
   mutationFn: () => finalize.getPreview(store.$state),
   onSuccess: (result) => {

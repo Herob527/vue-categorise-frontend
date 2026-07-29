@@ -6,12 +6,12 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import finalize from '@/actions/finalise';
 import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 import { ExportStatus, type ExportModel } from '@/types/generated';
-import { useFinaliseStore } from '@/stores/finaliseStore';
+import { useFinaliseConfigStore } from '@/stores/finaliseStore';
 import { computed, ref } from 'vue';
 import PaginationContainer from '@/components/Transcript/Pagination/PaginationContainer.vue';
 
 const store = useFinaliseRealPreviewStore();
-const values = useFinaliseStore();
+const values = useFinaliseConfigStore();
 const queryClient = useQueryClient();
 
 const selectedCategories = ref<Set<string>>(new Set());

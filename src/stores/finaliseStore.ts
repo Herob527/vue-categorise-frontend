@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useFinaliseStore = defineStore('finalise', {
+export const useFinaliseConfigStore = defineStore('finalise', {
   state: () => ({
     line_format: '{file}|{text}',
     omit_empty: true,

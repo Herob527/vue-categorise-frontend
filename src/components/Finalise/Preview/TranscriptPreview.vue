@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useFinaliseStore } from '@/stores/finaliseStore';
+import { useFinaliseConfigStore } from '@/stores/finaliseStore';
 import { useFinalisePreviewStore } from '@/stores/previewStore';
 
-const store = useFinaliseStore();
+const store = useFinaliseConfigStore();
 const previewStore = useFinalisePreviewStore();
 
 // Define the type for the data structure

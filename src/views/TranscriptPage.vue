@@ -61,9 +61,6 @@ const handleNewPage = (newPage: number) => {
         @change:page="handleNewPage" />
 
       <div v-else-if="isLoading">Loading...</div>
-      <OptionPanelContainer
-        v-if="isOptionsOpen"
-        @close="closeHandler" />
     </template>
     <template v-else>
       <div class="text-center">
@@ -80,4 +77,8 @@ const handleNewPage = (newPage: number) => {
       </div>
     </template>
   </main>
+
+  <OptionPanelContainer
+    v-if="isOptionsOpen"
+    @close="closeHandler" />
 </template>

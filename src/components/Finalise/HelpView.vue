@@ -82,31 +82,7 @@ defineEmits(['close']);
           </div>
         </div>
       </div>
-      <div class="p-2 bg-white text-slate-800">
-        <h3 class="text-xl font-bold">Category to lower</h3>
 
-        <div>
-          <div class="flex flex-row gap-2">
-            <input
-              type="checkbox"
-              checked
-              class="pointer-events-none" />
-            <span>Categories <b>will be</b> converted to <b>lowercase</b></span>
-          </div>
-          <div class="flex flex-row gap-2">
-            <input
-              type="checkbox"
-              class="pointer-events-none" />
-            <span
-              >Categories <b>won't</b> be converted to <b>lowercase</b> at all
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="p-2 bg-white text-slate-800">
-        <h3 class="text-xl font-bold">Category whitespace substitution</h3>
-        <p>Substitute whitespace in category with given character</p>
-      </div>
       <div class="p-2 bg-white text-slate-800">
         <h3 class="text-xl font-bold">Uncategorized name</h3>
         <p>Name of category for uncatergized audio files in output</p>

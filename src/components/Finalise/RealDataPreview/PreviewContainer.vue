@@ -75,7 +75,9 @@ const dataStatus = computed(() => {
     </header>
     <div class="flex flex-col flex-wrap gap-3 px-2 pb-2">
       <template v-if="dataStatus === 'non-empty'">
-        <div class="space-x-2">
+        <div
+          v-if="allIds.size > 1"
+          class="space-x-2">
           <input
             :checked="isAllSelected"
             type="checkbox"

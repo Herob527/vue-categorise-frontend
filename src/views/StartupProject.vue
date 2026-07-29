@@ -2,7 +2,9 @@
 import bindings from '@/actions/bindings';
 import ActionButton from '@/components/ActionButton.vue';
 import DataTable from '@/components/DataTable.vue';
-import TableActionPanel from '@/components/Startup/TableActionPanel.vue';
+import TableActionPanel, {
+  type Buttons,
+} from '@/components/Startup/TableActionPanel.vue';
 import AddFilesModal from '@/components/Startup/AddFilesModal.vue';
 import { ENTRIES_PER_PAGE } from '@/constants';
 import { useBindingsStore } from '@/stores/bindingsStore';
@@ -21,6 +23,8 @@ const showMode = ref<Modes>('DB');
 
 const dbPage = ref(0);
 const localPage = ref(0);
+
+const isDeleteModalVisible = ref(false);
 
 const isAddFilesVisible = ref(false);
 
@@ -130,14 +134,7 @@ const modesConfig = computed(
 const mode = computed(() => modesConfig.value[showMode.value]);
 
 const sendPending = async () => {
-  const nonSendableStatuses = [
-    Status.PROCESSING,
-    Status.ERROR_DUPLICATE,
-    Status.IN_DB,
-  ];
-  const all = bindingsStore.getAll.filter(
-    (entry) => !nonSendableStatuses.includes(entry.status),
-  );
+  const all = bindingsStore.getAllSendable;
   all.forEach((entry) => {
     bindingsStore.updateFileStatus(entry.id, Status.PROCESSING);
   });
@@ -198,13 +195,30 @@ const handleSubmit = ({ files, category }: ReturnData) => {
   bindingsStore.addFiles(files, category.trim() === '' ? undefined : category);
   showMode.value = 'LOCAL';
 };
+
+const disabledButtons = computed(() => {
+  const disabled: Buttons[] = [];
+  if (showMode.value === 'LOCAL' && bindingsStore.getAllSendable.length === 0) {
+    disabled.push('SUBMIT');
+  }
+
+  if (mode.value.data.length === 0) {
+    disabled.push('DELETE');
+  }
+  const result = [
+    ...mode.value.disabledButtons,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    ...disabled,
+  ] as const satisfies Buttons[];
+  return result;
+});
 </script>
 <template>
   <main>
     <TableActionPanel
-      :disabled-buttons="mode.disabledButtons"
+      :disabled-buttons="disabledButtons"
       @upload-click="isAddFilesVisible = true"
-      @delete="mode.deleteAll()"
+      @delete="() => (isDeleteModalVisible = true)"
       @submit="sendPending()" />
 
     <DataTable
@@ -305,6 +319,37 @@ const handleSubmit = ({ files, category }: ReturnData) => {
       @close="isAddFilesVisible = false">
       <AddFilesModal
         @submit="({ files, category }) => handleSubmit({ files, category })" />
+    </ModalComponent>
+    <ModalComponent
+      v-if="isDeleteModalVisible"
+      title="Are you sure"
+      @close="isDeleteModalVisible = false">
+      <div class="flex flex-col gap-1">
+        <span>Are you sure you want to delete every file? </span>
+        <span
+          >It'll affect
+          <b>{{ showMode === 'DB' ? 'remote' : 'local' }} entries</b>
+          only
+        </span>
+        <b>Mind there is no coming back after that</b>
+        <div class="flex flex-row gap-2 mt-4">
+          <button
+            class="bg-primary-500 text-white px-4 py-2 relative rounded-md hover:bg-primary-700 border-primary-600 border-2"
+            @click="isDeleteModalVisible = false">
+            Cancel
+          </button>
+          <button
+            class="bg-red-500 text-white px-4 py-2 relative rounded-md hover:bg-red-700 border-2 border-transparent"
+            @click="
+              () => {
+                isDeleteModalVisible = false;
+                mode.deleteAll();
+              }
+            ">
+            Confirm
+          </button>
+        </div>
+      </div>
     </ModalComponent>
   </main>
 </template>

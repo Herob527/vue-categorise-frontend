@@ -10,6 +10,7 @@ export const STATUS_COLORS: Record<`${Status}`, string> = {
   pending: 'yellow',
   processing: 'blue',
   inDatabase: 'orange',
+  errorDuplicate: 'blue',
 };
 
 export const ENTRIES_PER_PAGE = 10;

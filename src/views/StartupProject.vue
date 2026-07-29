@@ -232,7 +232,9 @@ const disabledButtons = computed(() => {
       @submit:page="mode.setPagination">
       <template #top-heading>
         <div class="flex flex-row bg-primary-600 p-2 justify-between">
-          <p class="text-2xl font-bold text-white uppercase">Summary</p>
+          <p class="text-2xl font-bold text-white uppercase">
+            Summary - {{ showMode }}
+          </p>
           <div
             class="text-white flex flex-row gap-2 items-center justify-center">
             <button

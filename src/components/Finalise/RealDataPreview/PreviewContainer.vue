@@ -53,7 +53,7 @@ const allIds = computed(
     ),
 );
 
-const allSelected = computed(() => {
+const isAllSelected = computed(() => {
   const selected = new Set(selectedCategories.value);
   return [...allIds.value].every((id) => selected.has(id));
 });
@@ -77,7 +77,7 @@ const dataStatus = computed(() => {
       <template v-if="dataStatus === 'non-empty'">
         <div class="space-x-2">
           <input
-            :checked="allSelected"
+            :checked="isAllSelected"
             type="checkbox"
             @click="
               () => {

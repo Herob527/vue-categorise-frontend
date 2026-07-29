@@ -36,7 +36,7 @@ const { mutateAsync: schedule } = useMutation({
       created_at: now,
       updated_at: now,
       archive_url: null,
-    } satisfies ExportModel;
+    } as const satisfies ExportModel;
 
     queryClient.setQueryData<ExportModel[]>(['finalize-get-all'], (old) => [
       newEntry,

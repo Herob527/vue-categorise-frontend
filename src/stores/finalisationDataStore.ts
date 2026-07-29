@@ -2,11 +2,11 @@ import type { DirectoryModel } from '@/types/generated';
 import type { DirectoryShape } from '@/types/shared';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
-function mapBackendToFrontend(data: DirectoryModel): DirectoryShape {
-  return {
+const mapBackendToFrontend = (data: DirectoryModel): DirectoryShape =>
+  ({
     dirName: data.dir_name,
     isDirectory: true,
-    categoryId: data.category_id,
+    categoryId: data.category_id as string,
     files: data.files.map((file) => {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (file.is_dir) {
@@ -14,8 +14,7 @@ function mapBackendToFrontend(data: DirectoryModel): DirectoryShape {
       }
       return { fileName: file.file_name, isDirectory: false };
     }),
-  } as DirectoryShape;
-}
+  }) satisfies DirectoryShape;
 export const useFinaliseRealPreviewStore = defineStore(
   'finalise-real-preview',
   {

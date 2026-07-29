@@ -336,12 +336,12 @@ const disabledButtons = computed(() => {
         <b>Mind there is no coming back after that</b>
         <div class="flex flex-row gap-2 mt-4">
           <button
-            class="bg-primary-500 text-white px-4 py-2 relative rounded-md hover:bg-primary-700 border-primary-600 border-2"
+            class="bg-primary-500 text-white px-4 py-2 relative rounded-md hover:bg-primary-700"
             @click="isDeleteModalVisible = false">
             Cancel
           </button>
           <button
-            class="bg-red-500 text-white px-4 py-2 relative rounded-md hover:bg-red-700 border-2 border-transparent"
+            class="bg-red-500 text-white px-4 py-2 relative rounded-md hover:bg-red-700"
             @click="
               () => {
                 isDeleteModalVisible = false;

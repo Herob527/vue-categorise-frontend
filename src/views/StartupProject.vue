@@ -247,7 +247,7 @@ const disabledButtons = computed(() => {
                 showMode = 'DB';
                 dbPage = 0;
               ">
-              Remote
+              DB
             </button>
             <button
               type="button"

@@ -2,12 +2,20 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 import { Status, type Entry } from '@/types/shared';
 import { v4 } from 'uuid';
 
+export const nonSendableStatuses = [
+  Status.PROCESSING,
+  Status.ERROR_DUPLICATE,
+  Status.IN_DB,
+];
+
 export const useBindingsStore = defineStore('bindings', {
   state: () => ({
     entries: [] as Entry[],
   }),
   getters: {
     getAll: ({ entries }) => entries,
+    getAllSendable: ({ entries }) =>
+      entries.filter((e) => !nonSendableStatuses.includes(e.status)),
     getAvailableStatuses: ({ entries }) =>
       new Set(entries.map((e) => e.status)),
     getFieldsByStatus:

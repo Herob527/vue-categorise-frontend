@@ -24,7 +24,7 @@ const storageKey = `${LOCALSTORAGE_PAGE_KEY}-transcript`;
 const page = ref(0);
 const pageSize = ref(ENTRIES_PER_PAGE);
 
-const { data, isLoading } = useQuery({
+const { data, isLoading, isError } = useQuery({
   queryKey: ['get-paginated-transcript', { page, pageSize }] as const,
   queryFn: async (params) => {
     const [, { page, pageSize }] = params.queryKey;
@@ -47,7 +47,11 @@ const handleNewPage = (newPage: number) => {
     </ActionButton>
   </div>
   <main class="flex flex-col flex-1 gap-3 px-2 pb-4 mx-auto">
-    <template v-if="!isLoading && data !== undefined && data.items.length > 0">
+    <template v-if="isLoading"> Loading </template>
+    <template v-else-if="isError"
+      >Something went wrong. Try again later</template
+    >
+    <template v-else-if="data !== undefined && data.items.length > 0">
       <TranscriptList :data="data?.items ?? []" />
       <PaginationContainer
         v-if="data !== undefined"

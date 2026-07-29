@@ -30,13 +30,13 @@ const { mutateAsync: schedule } = useMutation({
   },
   onSuccess: () => {
     const now = new Date().toISOString();
-    const newEntry: ExportModel = {
+    const newEntry = {
       id: crypto.randomUUID(),
       status: ExportStatus.NUMBER_0,
       created_at: now,
       updated_at: now,
       archive_url: null,
-    };
+    } satisfies ExportModel;
 
     queryClient.setQueryData<ExportModel[]>(['finalize-get-all'], (old) => [
       newEntry,

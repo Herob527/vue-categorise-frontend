@@ -142,7 +142,7 @@ defineEmits(['submit']);
     </div>
     <div class="flex flex-row gap-2">
       <span>{{
-        $t('status', { status: $t(`submitStatus.${submitStatus}`) })
+        t('status', { status: t(`submitStatus.${submitStatus}`) })
       }}</span>
     </div>
   </section>
